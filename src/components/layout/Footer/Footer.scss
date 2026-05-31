@@ -1,0 +1,32 @@
+@use "../../../styles/variables" as *;
+
+.footer {
+  background: $color-footer;
+  color: rgba(255,255,255,0.92);
+  padding: 34px 0;
+  margin-top: 34px;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 22px;
+    align-items: start;
+  }
+
+  &__brand strong { font-size: 1.2rem; }
+  &__brand p { margin: 8px 0 0; color: rgba(255,255,255,0.82); line-height: 1.9; }
+
+  &__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+
+    h4 { margin: 0 0 10px; font-size: 1rem; }
+    a { display: block; color: rgba(255,255,255,0.85); margin: 6px 0; }
+    a:hover { color: white; }
+  }
+}
+
+@media (max-width: 900px) {
+  .footer__inner { grid-template-columns: 1fr; }
+}

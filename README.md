@@ -1,2 +1,23 @@
-# rahnikookari-front
-this is a charity institute website
+# Rahnikookari Front
+
+وب‌سایت فرانت‌اند مؤسسه خیریه راهِ نیک، توسعه‌داده‌شده با React و Vite.
+
+## معرفی پروژه
+
+این پروژه رابط کاربری وب‌سایت «راهِ نیک» است و با هدف ارائه‌ی یک تجربه‌ی کاربری مدرن، روان و ساختاریافته برای کاربران طراحی شده است.
+
+## تکنولوژی‌ها
+
+- React
+- Vite
+- SCSS
+- React Router DOM
+
+## نحوه اجرا
+
+1. پروژه را کلون کنید:
+
+```bash
+   git clone <repository-url>
+
+```

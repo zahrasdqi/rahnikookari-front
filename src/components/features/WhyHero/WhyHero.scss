@@ -1,0 +1,82 @@
+@use "../../../styles/variables" as *;
+
+.why-hero {
+  padding: 60px 0;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef7ff 100%);
+
+  &__content {
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  &__title {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    color: $color-dark;
+    margin-bottom: 14px;
+  }
+
+  &__desc {
+    color: rgba(15, 23, 42, 0.75);
+    font-size: 1rem;
+    line-height: 1.9;
+    font-weight: 600;
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  &__card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(203, 213, 225, 0.7);
+    border-radius: $radius-lg;
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: $shadow-sm;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &__icon-placeholder {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 16px;
+    background: #d9d9d9;
+  }
+
+  &__card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: $color-dark;
+    margin-bottom: 10px;
+  }
+
+  &__card-desc {
+    color: rgba(15, 23, 42, 0.7);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 992px) {
+  .why-hero__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .why-hero__cards {
+    grid-template-columns: 1fr;
+  }
+}

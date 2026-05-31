@@ -1,0 +1,102 @@
+@use "../../../styles/variables" as *;
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 0 44px;
+  background: $hero-glows, $hero-gradient;
+  border-bottom: 1px solid rgba(53, 95, 124, 0.18);
+ 
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: soft-light;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+
+    // وسط‌چین افقی و چینش عمودی
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+   &__subtitle { // چون در JSX subtitle داری
+    margin: 0 0 18px;
+    color: rgba(15, 23, 42, 0.75);
+    font-weight: 600;
+    line-height: 1.9;
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.6);
+    font-weight: 800;
+    color: $color-footer;
+  }
+
+  &__title {
+    margin: 14px 0 10px;
+    font-size: clamp(26px, 3.2vw, 44px);
+    line-height: 1.2;
+    color: $color-dark;
+    font-weight: 950;
+    
+  }
+
+  &__desc {
+    margin: 0 0 18px;
+    color: rgba(15, 23, 42, 0.75);
+    font-weight: 600;
+    line-height: 1.9;
+  }
+
+ &__actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center; // دکمه‌ها وسط
+  }
+
+  &__visual {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+  }
+
+  &__card {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: $radius-lg;
+    padding: 16px 16px;
+    box-shadow: $shadow-sm;
+    backdrop-filter: blur(8px);
+
+    strong { display: block; color: $color-dark; font-size: 1.05rem; }
+    span { color: rgba(15, 23, 42, 0.72); font-weight: 700; }
+
+    &--main { width: min(340px, 100%); }
+    &--small { width: min(220px, 100%); }
+  }
+
+  
+}
+
+@media (max-width: 900px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__visual { order: -1; }
+}
