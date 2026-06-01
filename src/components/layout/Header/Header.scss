@@ -1,7 +1,9 @@
+@use "../../../styles/variables" as *;
 .header {
-  background: #7ca9d1; // رنگ هدر در عکس
+  background: $color-header; 
   padding: 15px 0;
   color: white;
+  font-size: 20px;
 
   &__wrapper {
     display: flex;

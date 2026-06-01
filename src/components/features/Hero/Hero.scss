@@ -5,7 +5,7 @@
   overflow: hidden;
   padding: 56px 0 44px;
   background: $hero-glows, $hero-gradient;
-  border-bottom: 1px solid rgba(53, 95, 124, 0.18);
+ 
  
   &::before {
     content: "";
@@ -20,7 +20,7 @@
     position: relative;
     z-index: 1;
 
-    // وسط‌چین افقی و چینش عمودی
+  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,7 +69,8 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
-    justify-content: center; // دکمه‌ها وسط
+    justify-content: center; 
+    
   }
 
   &__visual {

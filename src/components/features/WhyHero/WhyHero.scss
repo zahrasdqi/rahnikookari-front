@@ -2,7 +2,7 @@
 
 .why-hero {
   padding: 60px 0;
-  background: linear-gradient(180deg, #f7fbff 0%, #eef7ff 100%);
+  background: white;
 
   &__content {
     max-width: 760px;
@@ -14,7 +14,7 @@
   &__title {
     font-size: clamp(28px, 4vw, 44px);
     font-weight: 900;
-    color: $color-dark;
+    color: $color-txt;
     margin-bottom: 14px;
   }
 
@@ -32,7 +32,7 @@
   }
 
   &__card {
-    background: rgba(255, 255, 255, 0.9);
+    background:$light-blue;
     border: 1px solid rgba(203, 213, 225, 0.7);
     border-radius: $radius-lg;
     padding: 28px 22px;
