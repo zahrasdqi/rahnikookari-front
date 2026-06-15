@@ -1,3 +1,4 @@
+//front\rahnikookari-front\src\components\features\WhyHero
 import Container from "../../ui/Container/Container";
 import "./WhyHero.scss";
 

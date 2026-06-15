@@ -1,119 +1,119 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Otp.scss";
-
+import { authService } from "../../../services/auth.service";
 
 export default function Otp() {
-  const LENGTH = 4;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userEmail = location.state?.email || "کاربر عزیز";
 
-  const [code, setCode] = useState(Array(LENGTH).fill(""));
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [resendMsg, setResendMsg] = useState("");
   const inputsRef = useRef([]);
 
-  const otpValue = useMemo(() => code.join(""), [code]);
+  const otpValue = useMemo(() => otp.join(""), [otp]);
 
   useEffect(() => {
-    // فوکوس روی اولین باکس
-    inputsRef.current?.[0]?.focus?.();
+    inputsRef.current[0]?.focus();
   }, []);
 
-  function setAt(index, value) {
-    setCode((prev) => {
-      const next = [...prev];
-      next[index] = value;
-      return next;
-    });
-  }
+  const handleChange = (index, value) => {
+    if (isNaN(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value.substring(value.length - 1);
+    setOtp(newOtp);
+    if (value && index < 3) inputsRef.current[index + 1]?.focus();
+  };
 
-  function handleChange(index, e) {
-    const v = e.target.value;
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0)
+      inputsRef.current[index - 1]?.focus();
+  };
 
-    // فقط رقم
-    const digit = v.replace(/\D/g, "").slice(-1);
-    setAt(index, digit);
-
-    // برو بعدی
-    if (digit && index < LENGTH - 1) {
-      inputsRef.current[index + 1]?.focus?.();
-    }
-  }
-
-  function handleKeyDown(index, e) {
-    if (e.key === "Backspace") {
-      if (code[index]) {
-        setAt(index, "");
-        return;
-      }
-      // اگر خالی بود، برو قبلی
-      if (index > 0) {
-        inputsRef.current[index - 1]?.focus?.();
-        setAt(index - 1, "");
-      }
-    }
-
-    if (e.key === "ArrowLeft" && index > 0) {
-      inputsRef.current[index - 1]?.focus?.();
-    }
-
-    if (e.key === "ArrowRight" && index < LENGTH - 1) {
-      inputsRef.current[index + 1]?.focus?.();
-    }
-  }
-
-  function handlePaste(e) {
-    const text = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, LENGTH);
-    if (!text) return;
-
+  const handlePaste = (e) => {
     e.preventDefault();
-    const chars = text.split("");
-    setCode((prev) => {
-      const next = [...prev];
-      for (let i = 0; i < LENGTH; i++) next[i] = chars[i] || "";
-      return next;
-    });
+    const data = e.clipboardData.getData("text").trim();
+    if (!/^\d{4}$/.test(data)) return;
+    setOtp(data.split(""));
+    inputsRef.current[3]?.focus();
+  };
 
-    const nextFocus = Math.min(text.length, LENGTH - 1);
-    inputsRef.current[nextFocus]?.focus?.();
-  }
-
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (otpValue.length < 4) {
+      setError("لطفاً کد ۴ رقمی را کامل وارد کنید.");
+      return;
+    }
+    try {
+      setLoading(true);
+      setError("");
+      await authService.verifyOtp({ email: userEmail, otp: otpValue });
+      navigate("/login", { replace: true });
+    } catch (err) {
+      setError(
+        err?.response?.data?.detail?.[0]?.msg || "کد وارد شده صحیح نیست."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    // فعلاً فقط UI: بعداً اینجا API را وصل می‌کنی
-    console.log("OTP:", otpValue);
-  }
+  const handleResend = async () => {
+    try {
+      setError("");
+      setResendMsg("");
+      await authService.resendOtp({ email: userEmail });
+      setResendMsg("کد جدید ارسال شد.");
+    } catch {
+      setError("ارسال مجدد کد با خطا مواجه شد.");
+    }
+  };
 
   return (
     <div className="otp-page">
       <div className="otp-card">
-        <h1 className="otp-card__brand">راه نیک</h1>
-
-        <p className="otp-card__title">کد چهار رقمی را وارد کنید</p>
+        <p className="otp-card__label">کد otp را وارد کنید</p>
 
         <form className="otp-form" onSubmit={handleSubmit}>
-          <div className="otp-inputs" dir="ltr" onPaste={handlePaste}>
-            {code.map((val, i) => (
+          <div className="otp-inputs">
+            {otp.map((digit, index) => (
               <input
-                key={i}
-                ref={(el) => (inputsRef.current[i] = el)}
-                className="otp-input"
+                key={index}
+                ref={(el) => (inputsRef.current[index] = el)}
+                type="text"
                 inputMode="numeric"
-                autoComplete="one-time-code"
-                maxLength={1}
-                value={val}
-                onChange={(e) => handleChange(i, e)}
-                onKeyDown={(e) => handleKeyDown(i, e)}
-                aria-label={`digit-${i + 1}`}
+                maxLength="1"
+                value={digit}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={handlePaste}
+                className={`otp-input${error ? " otp-input--error" : ""}`}
               />
             ))}
           </div>
 
-          <button   className="otp-button" type="submit" disabled={otpValue.length !== LENGTH}>
-            ورود
-          </button>
+          {error && <p className="otp-form__error">{error}</p>}
+          {resendMsg && <p className="otp-form__hint">{resendMsg}</p>}
 
-          <button className="otp-resend" type="button" onClick={() => console.log("resend")}>
-            ارسال مجدد کد
+          <button
+            type="submit"
+            className="otp-button"
+            disabled={loading || otpValue.length < 4}
+          >
+            {loading ? "در حال بررسی..." : "ورود"}
           </button>
         </form>
+
+        <button
+          type="button"
+          className="otp-resend"
+          onClick={handleResend}
+        >
+          ارسال مجدد کد
+        </button>
       </div>
     </div>
   );

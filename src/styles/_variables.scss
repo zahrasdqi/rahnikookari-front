@@ -1,3 +1,5 @@
+//front\rahnikookari-front\src\styles\_variables.scss
+
 $color-header: #6ea2c8;
 $color-secondary: #17b890;
 $color-dark: #0f172a;
@@ -6,6 +8,7 @@ $color-muted: #64748b;
 $color-bg: #f8fafc;
 $color-surface: #ffffff;
 $color-border: #e2e8f0;
+$primary-color:#3c4b60;
 
 $color-footer: #355f7c;
 $color-txt: #c66f59;
@@ -16,6 +19,8 @@ $Lblue-txt: #7a8794;
 $dark-blue: #355f7c;
 $cyan: #00c0e8;
 $txt: #5c93b9;
+$text-dark: #00040e;
+$text-muted:#09090b;
 $fills: #787878;
 
 $light-blue: #eef7fc;
@@ -55,3 +60,43 @@ $hero-glows:
   radial-gradient(circle at 25% 35%, $brand-white-45, transparent 28%),
   radial-gradient(circle at 75% 35%, $brand-pink-30, transparent 30%);
 
+
+
+// ── Auth Pages ──────────────────────────────────────────
+$auth-bg:       #fff8ea;          // کارت احراز هویت
+$auth-label:    $dark-blue;       // #355f7c
+$auth-border:   $light-gray;      // #d9d9d9
+$auth-input-bg: $light-gray;      // #d9d9d9
+$auth-focus:    $mid-blue;        // #7ba7c7
+$auth-link:     $mid-blue;        // #7ba7c7
+$auth-btn-bg:   $color-btn;       // #f2b8a2
+$auth-btn-txt:  $color-txt;       // #c66f59
+$auth-btn-brd:  $color-txt;       // #c66f59
+$auth-error-bg: #fee2e2;
+$auth-error-txt:#dc2626;
+$auth-hint-bg:  rgba(26, 122, 58, 0.08);
+$auth-hint-txt: #1a7a3a;
+
+$auth-gradient: linear-gradient(
+  to bottom right,
+  #8BCFB2 15%,
+  #6FAFC4 49%,
+  #4686B4 88%
+);
+
+$auth-overlay:
+  radial-gradient(circle at top right,    rgba(255,255,255,0.65), transparent 28%),
+  radial-gradient(circle at bottom left,  rgba(255,255,255,0.40), transparent 24%);
+// ── Hero Blobs ──────────────────────────────────────────
+$blob-1-bg:   rgba(255, 255, 255, 0.22);
+$blob-2-bg:   rgba(242, 184, 162, 0.28);
+$blob-3-bg:   rgba(0, 192, 232, 0.16);
+$blob-blur:   72px;
+
+$hero-white:  #ffffff;
+$hero-title-size:    96px;
+$hero-subtitle-size: 32px;
+$hero-cta-w:  280px;
+$hero-cta-h:  70px;
+$hero-cta-r:  21px;
+$hero-cta-fs: 24px;

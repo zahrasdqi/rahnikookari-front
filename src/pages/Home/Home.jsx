@@ -1,3 +1,5 @@
+
+//C:\Users\zahra\Desktop\rahe-nik\front\rahnikookari-front\src\pages\Home\Home.jsx
 import { useState } from 'react';
 import Header from '../../components/layout/Header/Header';
 import Hero from '../../components/features/Hero/Hero';

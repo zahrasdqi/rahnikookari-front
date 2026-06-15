@@ -1,0 +1,270 @@
+@use "../../../styles/variables" as *;
+
+// ── Section ─────────────────────────────────────────────
+.campaign-slider {
+  padding: 60px 0 48px;
+  background: $color-surface;
+  overflow: hidden;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    padding: 24px 0;
+  }
+
+  // ── Track: سه کارت کنار هم ──────────────────────────
+  &__track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    direction: rtl;
+  }
+
+  // ── فلش‌ها ──────────────────────────────────────────
+  &__arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid $auth-border;
+    background: $color-surface;
+    font-size: 26px;
+    line-height: 1;
+    color: $color-dark;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+    z-index: 2;
+    position: relative;
+
+    &:hover {
+      background: $auth-label;
+      color: $color-surface;
+      border-color: $auth-label;
+    }
+
+    &--prev { margin-left: 8px; }
+    &--next { margin-right: 8px; }
+  }
+
+  // ── دکمه پایین ──────────────────────────────────────
+  &__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+
+  &__more-btn {
+    padding: 12px 40px;
+    border-radius: 999px;
+    border: none;
+    background: $auth-btn-bg;
+    color: $auth-btn-txt;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover { opacity: 0.85; }
+  }
+}
+
+// ── Card ────────────────────────────────────────────────
+.campaign-card {
+  width: 300px;
+  border-radius: 20px;
+  background: $color-surface;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  direction: rtl;
+  flex-shrink: 0;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  opacity: 0.75;
+  transform: scale(0.92);
+
+  // کارت فعال (وسط)
+  &--active {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: $shadow-md;
+    z-index: 1;
+  }
+
+  // ── تصویر بالا ────────────────────────────────────
+  &__image {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    background: $light-blue;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+      background: $light-blue;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    background: $color-surface;
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-dark;
+    box-shadow: $shadow-sm;
+  }
+
+  // ── Body ──────────────────────────────────────────
+  &__body {
+    padding: 16px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 900;
+    color: $color-dark;
+  }
+
+  &__org {
+    font-size: 13px;
+    color: $color-muted;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(15, 23, 42, 0.7);
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ── اعداد و progress ──────────────────────────────
+  &__amounts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    direction: rtl;
+  }
+
+  &__raised {
+    font-size: 15px;
+    font-weight: 800;
+    color: $color-dark;
+  }
+
+  &__goal {
+    font-size: 13px;
+    color: $color-muted;
+    font-weight: 600;
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: $auth-border;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(to left, $auth-focus, $auth-label);
+    transition: width 0.4s ease;
+  }
+
+  &__days {
+    font-size: 12px;
+    font-weight: 700;
+    color: $auth-link;
+  }
+
+  // ── دکمه‌ها ───────────────────────────────────────
+  &__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+    direction: rtl;
+  }
+
+  &__btn {
+    padding: 9px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+
+    &:active { transform: scale(0.97); }
+
+    &--donate {
+      background: $auth-btn-bg;
+      color: $auth-btn-txt;
+      border: none;
+
+      &:hover { opacity: 0.85; }
+    }
+
+    &--details {
+      background: transparent;
+      color: $color-dark;
+      border: 1.5px solid $auth-border;
+
+      &:hover {
+        background: $auth-input-bg;
+      }
+    }
+  }
+}
+
+// ── Responsive ──────────────────────────────────────────
+@media (max-width: 900px) {
+  .campaign-slider__track {
+    // فقط کارت وسط نشون بده
+    .campaign-card:not(.campaign-card--active) {
+      display: none;
+    }
+  }
+
+  .campaign-card { width: 90vw; max-width: 360px; }
+}
+
+@media (max-width: 480px) {
+  .campaign-slider {
+    padding: 40px 0 32px;
+  }
+
+  .campaign-card__body { padding: 14px 12px 16px; }
+}

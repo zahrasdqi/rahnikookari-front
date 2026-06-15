@@ -1,103 +1,357 @@
+//front\rahnikookari-front\src\components\features\Hero\Hero.scss
 @use "../../../styles/variables" as *;
 
+// ══════════════════════════════════════════════════════
+// KEYFRAMES
+// ══════════════════════════════════════════════════════
+
+// ── متن: ورود سینماتیک ────────────────────────────────
+@keyframes hero-reveal {
+  0%   { opacity: 0; transform: translateY(40px) skewY(2deg); filter: blur(8px); }
+  60%  { filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0)    skewY(0deg); }
+}
+
+// ── Blob morphing ─────────────────────────────────────
+@keyframes blob-morph-1 {
+  0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; transform: translate(0,0)       scale(1);    }
+  25%     { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; transform: translate(20px,-18px) scale(1.07); }
+  50%     { border-radius: 55% 45% 60% 40% / 45% 55% 50% 50%; transform: translate(-10px,14px) scale(0.95); }
+  75%     { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; transform: translate(14px,6px)   scale(1.03); }
+}
+
+@keyframes blob-morph-2 {
+  0%,100% { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; transform: translate(0,0)        scale(1);    }
+  33%     { border-radius: 65% 35% 45% 55% / 55% 45% 65% 35%; transform: translate(-16px,-12px) scale(1.08); }
+  66%     { border-radius: 40% 60% 55% 45% / 60% 40% 45% 55%; transform: translate(10px, 18px)  scale(0.93); }
+}
+
+@keyframes blob-morph-3 {
+  0%,100% { border-radius: 55% 45% 50% 50% / 60% 40% 55% 45%; transform: translate(0,0)       scale(1);    }
+  40%     { border-radius: 45% 55% 65% 35% / 45% 55% 40% 60%; transform: translate(12px,-20px) scale(1.1);  }
+  80%     { border-radius: 60% 40% 40% 60% / 50% 50% 65% 35%; transform: translate(-8px, 12px) scale(0.97); }
+}
+
+// ── Shimmer روی بلاب ──────────────────────────────────
+@keyframes blob-glow {
+  0%,100% { opacity: 0.5; }
+  50%     { opacity: 1;   }
+}
+
+// ── Scanline overlay ──────────────────────────────────
+@keyframes scanline-scroll {
+  0%   { background-position: 0 0;      }
+  100% { background-position: 0 120px;  }
+}
+
+// ── CTA pulse ring ────────────────────────────────────
+@keyframes cta-ring-pulse {
+  0%   { transform: scale(0.92); opacity: 0.7; }
+  60%  { transform: scale(1.18); opacity: 0;   }
+  100% { transform: scale(1.18); opacity: 0;   }
+}
+
+// ── floating particles ────────────────────────────────
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-320px) translateX(var(--px-drift));
+    opacity: 0;
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// SECTION
+// ══════════════════════════════════════════════════════
+$_easing: cubic-bezier(0.22, 1, 0.36, 1);
+
+@mixin fade-up($delay: 0s) {
+  animation: hero-reveal 0.9s $_easing $delay both;
+}
+
 .hero {
-  position: relative;
-  overflow: hidden;
-  padding: 56px 0 44px;
-  background: $hero-glows, $hero-gradient;
- 
- 
+  position:    relative;
+  overflow:    hidden;
+  min-height:  860px;
+  padding:     100px 0 44px;
+  background:  $auth-gradient;
+  display:     flex;
+  align-items: flex-start;
+
+  // ── Scanline texture ──────────────────────────────────
   &::before {
-    content: "";
+    content:  "";
     position: absolute;
-    inset: 0;
-    mix-blend-mode: soft-light;
-    opacity: 0.9;
+    inset:    0;
+    z-index:  1;
     pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent           0px,
+      transparent           3px,
+      rgba(0,0,0,0.03)      3px,
+      rgba(0,0,0,0.03)      4px
+    );
+    animation: scanline-scroll 3s linear infinite;
+    mix-blend-mode: multiply;
   }
 
+  // ── Noise / vignette overlay ──────────────────────────
+  &::after {
+    content:  "";
+    position: absolute;
+    inset:    0;
+    z-index:  2;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 50%,
+      transparent 40%,
+      rgba(0,0,0,0.18) 100%
+    );
+  }
+
+  // ── Background shapes ─────────────────────────────────
+  &__bg-shapes {
+    position: absolute;
+    inset:    0;
+    pointer-events: none;
+    z-index:  0;
+  }
+
+  // ── Blobs ─────────────────────────────────────────────
+  &__blob {
+    position:    absolute;
+    will-change: transform, border-radius;
+
+    // Blur روی pseudo تا از GPU conflict جلوگیری کنیم
+    &::after {
+      content:       "";
+      position:      absolute;
+      inset:         -25%;
+      border-radius: inherit;
+      background:    inherit;
+      filter:        blur($blob-blur);
+    }
+
+    &--1 {
+      width:      420px;
+      height:     420px;
+      background: $blob-1-bg;
+      top:        -80px;
+      left:       -100px;
+      animation:  blob-morph-1 14s ease-in-out infinite,
+                  blob-glow    7s  ease-in-out infinite;
+    }
+
+    &--2 {
+      width:      320px;
+      height:     320px;
+      background: $blob-2-bg;
+      bottom:     -60px;
+      right:      -80px;
+      animation:  blob-morph-2 18s ease-in-out -6s infinite,
+                  blob-glow    9s  ease-in-out -3s infinite;
+    }
+
+    &--3 {
+      width:      240px;
+      height:     240px;
+      background: $blob-3-bg;
+      top:        50%;
+      left:       55%;
+      animation:  blob-morph-3 22s ease-in-out -11s infinite,
+                  blob-glow    6s  ease-in-out infinite;
+    }
+  }
+
+  // ── Particles ─────────────────────────────────────────
+  &__particle {
+  position:      absolute;
+  bottom:        -10px;
+  width:         4px;
+  height:        4px;
+  border-radius: 50%;
+  background:    rgba(255, 255, 255, 0.6);
+  animation:     particle-float var(--px-dur) ease-in var(--px-delay) infinite;
+
+  @for $i from 1 through 14 {
+    &:nth-child(#{$i}) {
+      --px-drift: #{nth((20px, -15px, 30px, -25px, 10px, -30px, 25px, -10px, 35px, -20px, 15px, -35px, 28px, -18px), $i)};
+      --px-dur:   #{nth((4s, 5s, 3s, 6s, 4s, 7s, 3s, 5s, 6s, 4s, 3s, 7s, 5s, 4s), $i)};
+      --px-delay: #{nth((0s, 1s, 2s, 0.5s, 3s, 1.5s, 2.5s, 0s, 4s, 1s, 3.5s, 2s, 0.5s, 4.5s), $i)};
+      left:       #{nth((10%, 25%, 40%, 55%, 70%, 85%, 15%, 35%, 50%, 65%, 80%, 5%, 45%, 75%), $i)};
+      width:      #{nth((3px, 4px, 2px, 5px, 3px, 4px, 2px, 3px, 5px, 4px, 2px, 3px, 4px, 5px), $i)};
+      height:     #{nth((3px, 4px, 2px, 5px, 3px, 4px, 2px, 3px, 5px, 4px, 2px, 3px, 4px, 5px), $i)};
+      opacity:    #{nth((0.4, 0.6, 0.5, 0.7, 0.4, 0.8, 0.5, 0.6, 0.4, 0.7, 0.5, 0.6, 0.8, 0.4), $i)};
+    }
+  }
+}
+
+
+  // ── Inner ─────────────────────────────────────────────
   &__inner {
-    position: relative;
-    z-index: 1;
-
-  
-    display: flex;
+    position:       relative;
+    z-index:        3;
+    display:        flex;
     flex-direction: column;
-    align-items: center;
-
-    text-align: center;
-
-    
-    max-width: 760px;
-    margin-inline: auto;
+    align-items:    center;
+    text-align:     center;
+    max-width:      760px;
+    margin-inline:  auto;
   }
 
-   &__subtitle { // چون در JSX subtitle داری
-    margin: 0 0 18px;
-    color: rgba(15, 23, 42, 0.75);
-    font-weight: 600;
-    line-height: 1.9;
-  }
-
-  &__badge {
-    display: inline-block;
-    padding: 8px 12px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.55);
-    border: 1px solid rgba(255,255,255,0.6);
-    font-weight: 800;
-    color: $color-footer;
-  }
-
+  // ── Title ─────────────────────────────────────────────
   &__title {
-    margin: 14px 0 10px;
-    font-size: clamp(26px, 3.2vw, 44px);
-    line-height: 1.2;
-    color: $color-dark;
-    font-weight: 950;
-    
+    margin:      4px 0 10px;
+    font-size:   $hero-title-size;
+    font-weight: 700;
+    line-height: 1.15;
+    color:       $hero-white;
+    @include fade-up(0.1s);
+  }
+
+  // ── Subtitle ──────────────────────────────────────────
+  &__subtitle {
+    margin:      0 0 110px;
+    font-size:   $hero-subtitle-size;
+    font-weight: 500;
+    line-height: 1.7;
+    color:       $hero-white;
+    opacity:     0.9;
+    @include fade-up(0.35s);
+  }
+
+  // ── Actions ───────────────────────────────────────────
+  &__actions {
+    position:        relative;
+    display:         flex;
+    gap:             12px;
+    flex-wrap:       wrap;
+    justify-content: center;
+    @include fade-up(0.58s);
+
+    // Pulse ring پشت دکمه
+    &::before {
+      content:       "";
+      position:      absolute;
+      inset:         -12px;
+      border-radius: calc(#{$hero-cta-r} + 12px);
+      border:        2px solid rgba(255, 255, 255, 0.45);
+      animation:     cta-ring-pulse 2.4s ease-out 1.2s infinite;
+      pointer-events: none;
+    }
+  }
+
+  // ── CTA Button ────────────────────────────────────────
+  .hero__cta,
+  &__actions > button,
+  &__actions > a {
+    position:      relative;
+    width:         $hero-cta-w;
+    height:        $hero-cta-h;
+    border-radius: $hero-cta-r;
+    font-size:     $hero-cta-fs;
+    font-weight:   700;
+    overflow:      hidden;
+    z-index:       1;
+
+    // Shimmer sweep روی دکمه
+    &::after {
+      content:    "";
+      position:   absolute;
+      top:        0;
+      left:       -100%;
+      width:      60%;
+      height:     100%;
+      background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(255,255,255,0.35) 50%,
+        transparent 80%
+      );
+      animation:  btn-shimmer 3.5s ease-in-out 2s infinite;
+    }
+  }
+
+  // ── Legacy ────────────────────────────────────────────
+  &__badge {
+    display:       inline-block;
+    padding:       8px 12px;
+    border-radius: 999px;
+    background:    rgba(255, 255, 255, 0.55);
+    border:        1px solid rgba(255, 255, 255, 0.6);
+    font-weight:   800;
+    color:         $color-footer;
   }
 
   &__desc {
-    margin: 0 0 18px;
-    color: rgba(15, 23, 42, 0.75);
+    margin:      0 0 18px;
+    color:       rgba(15, 23, 42, 0.75);
     font-weight: 600;
     line-height: 1.9;
   }
 
- &__actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center; 
-    
-  }
-
   &__visual {
-    display: grid;
-    gap: 12px;
+    display:       grid;
+    gap:           12px;
     justify-items: start;
   }
 
   &__card {
-    background: rgba(255,255,255,0.55);
-    border: 1px solid rgba(255,255,255,0.65);
-    border-radius: $radius-lg;
-    padding: 16px 16px;
-    box-shadow: $shadow-sm;
+    background:      rgba(255, 255, 255, 0.55);
+    border:          1px solid rgba(255, 255, 255, 0.65);
+    border-radius:   $radius-lg;
+    padding:         16px;
+    box-shadow:      $shadow-sm;
     backdrop-filter: blur(8px);
 
     strong { display: block; color: $color-dark; font-size: 1.05rem; }
-    span { color: rgba(15, 23, 42, 0.72); font-weight: 700; }
+    span   { color: rgba(15, 23, 42, 0.72); font-weight: 700; }
 
-    &--main { width: min(340px, 100%); }
+    &--main  { width: min(340px, 100%); }
     &--small { width: min(220px, 100%); }
   }
-
-  
 }
 
+// ── Button shimmer keyframe ────────────────────────────
+@keyframes btn-shimmer {
+  0%   { left: -100%; }
+  40%,
+  100% { left:  160%; }
+}
+
+// ── Responsive ────────────────────────────────────────
 @media (max-width: 900px) {
-  .hero__inner { grid-template-columns: 1fr; }
+  .hero {
+    min-height: unset;
+    padding:    48px 0 36px;
+
+    &__title    { font-size: clamp(36px, 8vw, 72px); }
+    &__subtitle {
+      font-size:     clamp(16px, 3.5vw, 24px);
+      margin-bottom: 64px;
+    }
+
+    .hero__cta,
+    &__actions > button,
+    &__actions > a {
+      width:     min(#{$hero-cta-w}, 90vw);
+      height:    60px;
+      font-size: 20px;
+    }
+
+    &__actions::before { display: none; }
+  }
+
+  .hero__inner  { grid-template-columns: 1fr; }
   .hero__visual { order: -1; }
 }
