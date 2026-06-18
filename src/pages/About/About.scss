@@ -1,0 +1,55 @@
+@use "../../styles/variables" as *;
+
+.about-page {
+  background: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-content {
+  flex: 1;
+  padding: 40px 0;
+}
+
+.about-card {
+  background: white;
+  padding: 40px;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  line-height: 1.9;
+  direction: rtl;
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: $color-header;
+    border-bottom: 2px solid $color-btn;
+    padding-bottom: 10px;
+  }
+
+  section {
+    margin-bottom: 30px;
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: $mid-blue;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+      color: $color-text;
+      font-size: 16px;
+    }
+
+    ul {
+      padding-right: 20px;
+
+      li {
+        margin-bottom: 6px;
+      }
+    }
+  }
+}

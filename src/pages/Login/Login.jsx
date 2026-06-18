@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Login.scss";
 import { useAuth } from "../../contexts/AuthContext";
+import { dashboardPathForRole } from "../../constants/roles";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -52,8 +53,20 @@ export default function Login() {
 
     try {
       setLoading(true);
-      await login({ email: formData.email, password: formData.password });
-      const dest = location.state?.from?.pathname || "/dashboard";
+
+      // login حالا کاربرِ کامل (با role) را برمی‌گرداند
+      const me = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // مقصد بر اساس نقش کاربر
+      const roleDest = dashboardPathForRole(me?.role);
+
+      // اگر کاربر از مسیر خصوصیِ مشخصی پرت شده بود، همان را ترجیح بده،
+      // در غیر این صورت داشبورد نقش‌محور
+      const dest = location.state?.from?.pathname || roleDest;
+
       navigate(dest, { replace: true });
     } catch (err) {
       setError(

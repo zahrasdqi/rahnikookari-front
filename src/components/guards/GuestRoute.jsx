@@ -1,15 +1,16 @@
-//src/components/guards/GuestRoute.jsx
-
+// src/components/guards/GuestRoute.jsx
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { dashboardPathForRole } from "../../constants/roles";
 
 export default function GuestRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, role } = useAuth();
 
   if (loading) return <div className="auth-loading">در حال بارگذاری...</div>;
 
-  // کاربر لاگین‌کرده نباید صفحه‌ی login/register را ببیند
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) {
+    return <Navigate to={dashboardPathForRole(role)} replace />;
+  }
 
   return children;
 }

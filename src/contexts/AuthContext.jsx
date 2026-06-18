@@ -1,5 +1,4 @@
-//front\rahnikookari-front\src\contexts\AuthContext.jsx
-
+// src/contexts/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../services/auth.service";
 import { tokenStorage } from "../api/tokenStorage";
@@ -10,7 +9,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // در شروع، اگر توکن داریم کاربر را می‌گیریم
   useEffect(() => {
     const bootstrap = async () => {
       if (!tokenStorage.hasToken()) {
@@ -31,10 +29,12 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (credentials) => {
-    await authService.login(credentials); // توکن‌ها داخل سرویس ذخیره می‌شوند
+    const loginData = await authService.login(credentials); // شامل role
     const me = await authService.me();
-    setUser(me);
-    return me;
+    // اگر پروفایل نقش نداشت، از پاسخ لاگین پر می‌کنیم
+    const merged = { ...me, role: me.role ?? loginData.role ?? null };
+    setUser(merged);
+    return merged; // صفحه‌ی Login برای مسیردهی به آن نیاز دارد
   };
 
   const logout = async () => {
@@ -44,8 +44,9 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
+    role: user?.role ?? null,
     loading,
-    isAuthenticated: !!user, // ← guardها به این نیاز دارند
+    isAuthenticated: !!user,
     login,
     logout,
   };

@@ -1,83 +1,150 @@
-//front\rahnikookari-front\src\components\features\WhyHero\WhyHero.scss
+// front/rahnikookari-front/src/components/features/WhyHero/WhyHero.scss
 @use "../../../styles/variables" as *;
 
 .why-hero {
-  padding: 60px 0;
-  background: white;
+  position: relative;
+  padding: 120px 0; 
+  background: #fdfdfd;
+  overflow: hidden;
+
+  &__bg-decoration {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba($cyan, 0.08) 0%, transparent 70%);
+    filter: blur(80px);
+    z-index: 0;
+    animation: float-bg 20s infinite alternate ease-in-out;
+  }
 
   &__content {
-    max-width: 760px;
-    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto 60px;
     text-align: center;
-    margin-bottom: 36px;
   }
 
   &__title {
-    font-size: clamp(28px, 4vw, 44px);
+    font-size: clamp(32px, 5vw, 44px);
     font-weight: 900;
-    color: $color-txt;
-    margin-bottom: 14px;
+    color: $dark-blue;
+    margin-bottom: 16px;
   }
 
-  &__desc {
-    color: rgba(15, 23, 42, 0.75);
-    font-size: 1rem;
-    line-height: 1.9;
-    font-weight: 600;
+  &__subtitle {
+    color: $color-muted;
+    font-size: 1.1rem;
   }
 
   &__cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+    align-items: stretch; // اطمینان از هم‌ترازی قد کارت‌ها
   }
 
   &__card {
-    background:$light-blue;
-    border: 1px solid rgba(203, 213, 225, 0.7);
-    border-radius: $radius-lg;
-    padding: 28px 22px;
-    text-align: center;
-    box-shadow: $shadow-sm;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px); // حس شیشه‌ای ملایم
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 40px; 
+    padding: 48px 36px;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 15px 35px rgba($color-dark, 0.03);
+    position: relative;
+    overflow: hidden;
+
+    // افکت درخشش هنگام هاور
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.6), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
 
     &:hover {
-      transform: translateY(-6px);
-      box-shadow: $shadow-md;
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 30px 60px rgba($color-dark, 0.1);
+      border-color: rgba($mid-blue, 0.2);
+      
+      &::after { opacity: 1; }
+
+      .why-hero__icon-wrapper {
+        transform: scale(1.15);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
     }
+
+    // رنگ‌بندی داینامیک و درخشش (Glow)
+    &--blue:hover { 
+  background: linear-gradient(145deg, #ffffff 0%, #e2f0ff 100%);
+}
+
+&--peach:hover { 
+  background: linear-gradient(145deg, #ffffff 0%, #ffeae3 100%);
+}
+
+&--green:hover { 
+  background: linear-gradient(145deg, #ffffff 0%, #e3fff0 100%);
+}
+
   }
 
-  &__icon-placeholder {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 18px;
-    border-radius: 16px;
-    background: #d9d9d9;
+  &__icon-wrapper {
+    width: 72px;
+    height: 72px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 32px;
+    transition: all 0.5s ease;
+    
+    // پالت‌های اختصاصی
+    .why-hero__card--blue & { background: #eef6ff; color: $mid-blue; }
+    .why-hero__card--peach & { background: #fff4f0; color: #ff7e5f; }
+    .why-hero__card--green & { background: #ebfef2; color: $color-secondary; }
   }
 
   &__card-title {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: $color-dark;
-    margin-bottom: 10px;
-  }
+  font-size: 40px;
+  font-weight: 500; // medium
+  color: $dark-blue;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
 
   &__card-desc {
-    color: rgba(15, 23, 42, 0.7);
-    font-size: 0.92rem;
-    line-height: 1.8;
-    font-weight: 500;
+    color: $color-text;
+    font-size: 1rem;
+    line-height: 2.1; 
+    text-align: justify;
+    margin: 0;
   }
 }
 
-@media (max-width: 992px) {
-  .why-hero__cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+// ریسپانسیو
+@media (max-width: 1024px) {
+  .why-hero__cards { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .why-hero__cards {
-    grid-template-columns: 1fr;
-  }
+  .why-hero__cards { grid-template-columns: 1fr; }
+  .why-hero { padding: 80px 0; }
+}
+
+@keyframes float-bg {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-30px, 40px); }
 }

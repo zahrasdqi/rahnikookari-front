@@ -1,0 +1,44 @@
+// src/components/features/CharityRegister/shared/FormCard.scss
+@use "../../../../styles/variables" as *;
+
+.form-card {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  &__header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid $color-border;
+    text-align: right;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 800;
+    color: $dark-blue;
+    margin: 0 0 6px;
+  }
+
+  &__desc {
+    font-size: 13px;
+    color: $color-muted;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  &__body {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 24px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+      padding: 16px;
+      gap: 16px;
+    }
+  }
+}

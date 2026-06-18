@@ -1,10 +1,15 @@
 //front\rahnikookari-front\src\components\layout\Header\Header.scss
 @use "../../../styles/variables" as *;
+
 .header {
-  background: $color-header; 
-  padding: 15px 0;
+  background: rgba($color-header, 0.95); 
+  backdrop-filter: blur(10px); 
+  padding: 10px 0;
   color: white;
-  font-size: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: $shadow-sm;
 
   &__wrapper {
     display: flex;
@@ -12,29 +17,81 @@
     align-items: center;
   }
 
-  &__right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  &__menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
+  &__brand {
+    font-size: 22px; // کمی کوچکتر برای موبایل
+    font-weight: 800;
+    background: linear-gradient(to left, white, $color-btn);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     cursor: pointer;
+    white-space: nowrap; 
+    
+    @media (min-width: 768px) {
+      font-size: 26px;
+    }
   }
 
   &__nav {
-    display: flex;
-    gap: 20px;
-    cursor: pointer;
-    font-weight: 500;
+    display: none; // در موبایل کلا حذف شود
+    gap: 25px;
+    
+    @media (min-width: 992px) { // فقط در دسکتاپ بزرگ نمایش داده شود
+      display: flex;
+    }
+
+    &-link {
+      cursor: pointer;
+      font-size: 15px;
+      position: relative;
+      padding: 5px 0;
+      white-space: nowrap;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0;
+        height: 2px;
+        background-color: $color-btn;
+        transition: width 0.3s;
+      }
+
+      &:hover::after { width: 100%; }
+    }
   }
 
   &__left {
+    position: relative;
     display: flex;
+    align-items: center;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
     gap: 10px;
+
+    // دکمه‌های ورود و ثبت‌نام در موبایل مخفی شوند (به دراپ‌داون منتقل می‌شوند)
+    button, .ui-button { 
+      @media (max-width: 767px) {
+        display: none !important;
+      }
+    }
+  }
+
+  &__profile-trigger {
+    cursor: pointer;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-sm;
+    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.3s;
+
+    &:hover { background: rgba(255, 255, 255, 0.25); }
   }
 }

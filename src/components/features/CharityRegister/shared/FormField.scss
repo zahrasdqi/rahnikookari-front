@@ -1,0 +1,77 @@
+// src/components/features/CharityRegister/shared/FormField.scss
+@use "../../../../styles/variables" as *;
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $dark-blue;
+    text-align: right;
+  }
+
+  &__required {
+    color: #dc2626;
+  }
+
+  &__control {
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid $color-border;
+      border-radius: $radius-sm;
+      background: $color-bg;
+      font-size: 14px;
+      color: $color-text;
+      font-family: inherit;
+      direction: rtl;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: $color-muted;
+        font-size: 13px;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $mid-blue;
+        box-shadow: 0 0 0 3px rgba($mid-blue, 0.15);
+        background: $color-surface;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 12px center;
+      padding-left: 36px;
+    }
+  }
+
+  &__hint {
+    font-size: 12px;
+    color: $color-muted;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: #dc2626;
+  }
+}

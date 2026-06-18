@@ -1,0 +1,216 @@
+//*
+@import "../../../../styles/variables";
+
+.users-management {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.users-management__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+  background: $color-surface;
+  border: 1px solid $blue-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}
+
+.users-management__eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: $mid-blue;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.users-management__title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: $color-dark;
+}
+
+.users-management__subtitle {
+  margin: 0.45rem 0 0;
+  color: $color-muted;
+  line-height: 1.7;
+}
+
+.users-management__refresh {
+  border: 1px solid $blue-border;
+  background: $light-blue;
+  color: $dark-blue;
+  border-radius: $radius-md;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    border-color: $mid-blue;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+.users-management__alert {
+  border-radius: $radius-md;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+
+  &--error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #b91c1c;
+    border: 1px solid rgba(239, 68, 68, 0.18);
+  }
+
+  &--success {
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.18);
+  }
+}
+
+.users-management__state {
+  padding: 1.25rem;
+  text-align: center;
+  border: 1px dashed $blue-border;
+  border-radius: $radius-lg;
+  background: rgba(255, 255, 255, 0.7);
+  color: $color-muted;
+}
+
+.users-management__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.users-management__verifier {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: $color-surface;
+  border: 1px solid $blue-border;
+  border-radius: $radius-lg;
+  padding: 1rem;
+  box-shadow: $shadow-sm;
+}
+
+.users-management__form-header {
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: $color-dark;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: $color-muted;
+    line-height: 1.7;
+  }
+}
+
+.users-management__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    background: #fff;
+    padding: 0.85rem 0.95rem;
+    color: $color-dark;
+    outline: none;
+    transition: 0.2s ease;
+
+    &:focus {
+      border-color: $mid-blue;
+      box-shadow: 0 0 0 3px rgba(123, 167, 199, 0.15);
+    }
+  }
+}
+
+.users-management__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.users-management__primary-button,
+.users-management__secondary-button {
+  border-radius: $radius-md;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+.users-management__primary-button {
+  background: $dark-blue;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+}
+
+.users-management__secondary-button {
+  background: $light-blue;
+  color: $dark-blue;
+  border-color: $blue-border;
+
+  &:hover:not(:disabled) {
+    border-color: $mid-blue;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .users-management__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .users-management__header {
+    flex-direction: column;
+  }
+
+  .users-management__refresh {
+    width: 100%;
+  }
+
+  .users-management__form-actions {
+    flex-direction: column;
+  }
+
+  .users-management__primary-button,
+  .users-management__secondary-button {
+    width: 100%;
+  }
+}

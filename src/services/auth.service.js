@@ -1,11 +1,12 @@
-//src/services/auth.service.js
-
+// src/services/auth.service.js
 import apiClient from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 import { tokenStorage } from "../api/tokenStorage";
+import { profileService } from "./profile.service";
+import { decodeJwt } from "../api/jwt";
 
 export const authService = {
-  // Step 1: ثبت‌نام → دریافت OTP (هنوز توکن نمی‌دهد)
+  // Step 1: ثبت‌نام → دریافت OTP
   register: async ({ fullName, email, password }) => {
     const { data } = await apiClient.post(ENDPOINTS.auth.register, {
       full_name: fullName,
@@ -15,7 +16,7 @@ export const authService = {
     return data; // { success, message }
   },
 
-  // Step 2: تأیید OTP → ساخت کاربر در DB (باز هم توکن نمی‌دهد)
+  // Step 2: تأیید OTP → ساخت کاربر در DB
   verifyOtp: async ({ email, otp }) => {
     const { data } = await apiClient.post(ENDPOINTS.auth.verifyOtp, {
       email,
@@ -26,26 +27,43 @@ export const authService = {
 
   resendOtp: async ({ email }) => {
     const { data } = await apiClient.post(ENDPOINTS.auth.resendOtp, { email });
-    return data; // { success, message }
+    return data;
   },
 
-  // Step 3: ورود → دریافت توکن‌ها
+  // Step 3: ورود → توکن‌ها + نقش
   login: async ({ email, password }) => {
     const { data } = await apiClient.post(ENDPOINTS.auth.login, {
       email,
       password,
     });
-    // { access_token, refresh_token, token_type }
+    // { access_token, refresh_token, token_type, user_id, email, role }
     tokenStorage.set(data.access_token, data.refresh_token);
     return data;
   },
 
+  // دیگر /auth/me نداریم → کاربر را از JWT (نقش/شناسه) + پروفایل می‌سازیم
   me: async () => {
-    const { data } = await apiClient.get(ENDPOINTS.auth.me);
-    return data; // user object کامل
+    const token = tokenStorage.getAccess();
+    const claims = decodeJwt(token) || {};
+    const role = claims.role ?? null;
+    const userId = claims.user_id ?? claims.sub ?? null;
+
+    let profile = {};
+    try {
+      profile = await profileService.me(); // { email, full_name, last_login }
+    } catch {
+      profile = {};
+    }
+
+    return {
+      user_id: userId,
+      role,
+      email: profile.email ?? claims.email ?? null,
+      full_name: profile.full_name ?? null,
+      last_login: profile.last_login ?? null,
+    };
   },
 
-  // خروج → باید refresh_token را در body بفرستد
   logout: async () => {
     const refreshToken = tokenStorage.getRefresh();
     try {
