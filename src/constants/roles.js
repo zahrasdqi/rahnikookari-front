@@ -3,7 +3,7 @@ export const ROLES = {
   DONOR: "donor",       // کاربر عادی
   ADMIN: "admin",
   VERIFIER: "verifier",
-  CHARITY: "charity",   // ⚠️ اگر نام واقعی نقش خیریه فرق دارد همین مقدار را عوض کن
+  CHARITY: "charity",   
 };
 
 export const ROLE_DASHBOARD = {

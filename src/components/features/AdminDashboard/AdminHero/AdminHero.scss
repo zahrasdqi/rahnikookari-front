@@ -62,21 +62,50 @@
     }
   }
 
-  &__pattern {
+    &__pattern {
     position: absolute;
     left: 44px;
     top: 70px;
     display: grid;
-    grid-template-columns: repeat(2, 34px);
-    gap: 12px;
+    grid-template-columns: repeat(2, 42px); // کمی بزرگ‌تر برای شباهت بیشتر به عکس
+    gap: 10px;
 
     span {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.72);
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      backdrop-filter: blur(4px); // اضافه کردن افکت شیشه‌ای مات
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-3px) rotate(5deg);
+      }
+
+      // مربع بالا چپ (آبی روشن)
+      &:nth-child(1) {
+        background: rgba(224, 242, 254, 0.65);
+      }
+
+      // مربع بالا راست (آبی متمایل به بنفش خیلی ملایم)
+      &:nth-child(2) {
+        background: rgba(231, 240, 253, 0.7);
+        // ایجاد آن خط براق مورب که در عکس هست
+        background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(231, 240, 253, 0.7) 50%);
+      }
+
+      // مربع پایین چپ (صورتی/نارنجی بسیار ملایم - گلبهی روشن)
+      &:nth-child(3) {
+        background: rgba(254, 242, 242, 0.6);
+      }
+
+      // مربع پایین راست (سبز نعنایی روشن)
+      &:nth-child(4) {
+        background: rgba(236, 253, 245, 0.6);
+      }
     }
   }
+
 }
 
 @media (max-width: 768px) {

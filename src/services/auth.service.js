@@ -36,8 +36,29 @@ export const authService = {
       email,
       password,
     });
+
     // { access_token, refresh_token, token_type, user_id, email, role }
     tokenStorage.set(data.access_token, data.refresh_token);
+
+    return data;
+  },
+
+  // تکمیل onboarding برای verifier
+  // لینک ایمیل: /onboarding?token=...
+  // body مورد نیاز بک‌اند:
+  // {
+  //   token: "string",
+  //   new_password: "string"
+  // }
+  completeVerifierOnboarding: async ({ token, newPassword }) => {
+    const { data } = await apiClient.post(
+      ENDPOINTS.auth.verifier.completeOnboarding,
+      {
+        token,
+        new_password: newPassword,
+      }
+    );
+
     return data;
   },
 
@@ -66,6 +87,7 @@ export const authService = {
 
   logout: async () => {
     const refreshToken = tokenStorage.getRefresh();
+
     try {
       if (refreshToken) {
         await apiClient.post(ENDPOINTS.profile.logout, {

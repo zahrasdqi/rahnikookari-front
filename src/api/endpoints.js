@@ -6,7 +6,12 @@ export const ENDPOINTS = {
     resendOtp:  "/api/v1/auth/resend-otp",
     login:      "/api/v1/auth/login",
     refresh:    "/api/v1/auth/refresh",
-    meToken:    "/api/v1/auth/me-token", // فقط برای تست middleware
+    meToken:    "/api/v1/auth/me-token",
+
+    verifier: {
+      completeOnboarding: "/api/v1/auth/verifier/complete-onboarding",
+    },
+
     passwordReset: {
       start:     "/api/v1/auth/password-reset/start",
       verify:    "/api/v1/auth/password-reset/verify",
@@ -14,11 +19,13 @@ export const ENDPOINTS = {
       resendOtp: "/api/v1/auth/password-reset/resend_otp",
     },
   },
+
   profile: {
     me:             "/api/v1/profile/me",
     changePassword: "/api/v1/profile/change-password",
     logout:         "/api/v1/profile/logout",
   },
+
   admin: {
     users:      "/api/v1/admin/users",
     userById:   (id) => `/api/v1/admin/users/${id}`,
@@ -28,4 +35,13 @@ export const ENDPOINTS = {
     roles:      "/api/v1/admin/roles",
     verifiers:  "/api/v1/admin/verifiers",
   },
+
+//notif
+  notifications: {
+    list: "/api/v1/notifications",
+    readAll: "/api/v1/notifications/read-all",
+    markAsRead: (id) => `/api/v1/notifications/${id}/read`,
+  },
+
 };
+

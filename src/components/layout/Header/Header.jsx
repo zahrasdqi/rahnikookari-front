@@ -7,6 +7,7 @@ import Container from "../../ui/Container/Container";
 import Button from "../../ui/Button/Button";
 import { useAuth } from "../../../contexts/AuthContext";
 import ProfileDropdown from "./ProfileDropdown"; 
+import NotificationBell from "./NotificationBell";
 import "./Header.scss";
 
 export default function Header() {
@@ -52,9 +53,12 @@ export default function Header() {
             
             {/* ۱. نمایش دکمه‌ها بر اساس وضعیت احراز هویت */}
             {isAuthenticated ? (
+              <>
+              <NotificationBell />
               <Button variant="primary" onClick={() => navigate("/dashboard")}>
                 داشبورد
               </Button>
+            </>
             ) : (
               <>
                 <Button variant="ghost" onClick={() => navigate("/login")}>

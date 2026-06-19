@@ -1,3 +1,4 @@
+//rahnikookari-front\src\components\features\AdminDashboard\UsersManagement\UsersManagement.jsx
 import { useEffect, useMemo, useState } from "react";
 import { adminService } from "../../../../services/admin.service";
 import AdminTabs from "../AdminTabs/AdminTabs";
@@ -295,18 +296,6 @@ export default function UsersManagement() {
     }
   };
 
-  const handleCopyLink = async (link) => {
-    if (!link) return;
-
-    try {
-      await navigator.clipboard.writeText(link);
-      setSuccessMessage("لینک onboarding کپی شد.");
-      setError("");
-    } catch {
-      setError("کپی لینک انجام نشد. لطفاً دستی کپی کنید.");
-    }
-  };
-
   const handleVerifierChange = (field, value) => {
     setVerifierForm((prev) => ({
       ...prev,
@@ -415,7 +404,6 @@ export default function UsersManagement() {
                     onSuspend={handleSuspend}
                     onActivate={handleActivate}
                     onChangeRole={handleChangeRole}
-                    onCopyLink={handleCopyLink}
                   />
                 );
               })}
@@ -434,12 +422,10 @@ export default function UsersManagement() {
           onSubmit={handleCreateVerifier}
         >
           <div className="users-management__form-header">
-            <h3>ایجاد Verifier جدید</h3>
-            <p>
-              طبق Swagger، فقط `full_name` و `email` ارسال می‌شود و پسورد ارسال
-              نمی‌شود.
-            </p>
+              <span className="users-management__form-eyebrow">Verifier Access</span>
+              <h3>ایجاد Verifier جدید</h3>
           </div>
+
 
           <label className="users-management__field">
             <span>نام کامل</span>

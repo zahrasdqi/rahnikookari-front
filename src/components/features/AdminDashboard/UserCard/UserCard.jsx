@@ -1,3 +1,4 @@
+//rahnikookari-front\src\components\features\AdminDashboard\UserCard\UserCard.jsx
 import "./UserCard.scss";
 
 const UUID_PATTERN =
@@ -63,28 +64,70 @@ function isSuspended(status) {
   return value.includes("suspend") || value.includes("ban");
 }
 
+function getRoleCardClass(role, status) {
+  if (isSuspended(status)) return "user-card--suspended";
+
+  const value = String(role || "").toLowerCase();
+
+  if (value === "admin") return "user-card--admin";
+  if (value === "verifier") return "user-card--verifier";
+
+  return "user-card--regular";
+}
+
+function getRoleIcon(role, status) {
+  if (isSuspended(status)) return "⛔";
+
+  const value = String(role || "").toLowerCase();
+
+  if (value === "admin") return "🛡️";
+  if (value === "verifier") return "✓";
+
+  return "👤";
+}
+
+function getRoleTitle(role, status) {
+  if (isSuspended(status)) return "Suspended";
+
+  const value = String(role || "").toLowerCase();
+
+  if (value === "admin") return "Admin";
+  if (value === "verifier") return "Verifier";
+
+  return "User";
+}
+
 export default function UserCard({
   user = {},
   roles = [],
   onSuspend,
   onActivate,
   onChangeRole,
-  onCopyLink,
   loadingActionId,
 }) {
   const userId = getUserId(user);
   const userRole = getUserRole(user);
-  const onboardingLink = user.onboarding_link || user.onboardingLink || "";
   const isActionLoading = String(loadingActionId || "") === String(userId || "");
   const actionsDisabled = !userId || isActionLoading;
 
   return (
-    <article className="user-card">
+    <article className={`user-card ${getRoleCardClass(userRole, user.status)}`}>
+      <div className="user-card__cover">
+        <div className="user-card__role-icon" aria-hidden="true">
+          {getRoleIcon(userRole, user.status)}
+        </div>
+      </div>
+
       <div className="user-card__header">
-        <div>
+        <div className="user-card__identity">
+          <span className="user-card__role-label">
+            {getRoleTitle(userRole, user.status)}
+          </span>
+
           <h3 className="user-card__name">
             {user.full_name || user.fullName || user.username || "—"}
           </h3>
+
           <p className="user-card__email">{user.email || "—"}</p>
         </div>
 
@@ -94,54 +137,33 @@ export default function UserCard({
       </div>
 
       <div className="user-card__meta">
-        <div>
+        <div className="user-card__meta-item user-card__meta-item--wide">
           <span>شناسه</span>
           <strong>{userId || "UUID نامعتبر/ناموجود"}</strong>
         </div>
 
-        <div>
+        <div className="user-card__meta-item">
           <span>نقش</span>
           <strong>{userRole || "—"}</strong>
         </div>
 
-        <div>
+        <div className="user-card__meta-item">
           <span>تأیید شده</span>
           <strong>{user.is_verified || user.isVerified ? "بله" : "خیر"}</strong>
         </div>
 
-        <div>
+        <div className="user-card__meta-item">
           <span>آخرین ورود</span>
           <strong>{formatDate(user.last_login || user.lastLogin)}</strong>
         </div>
 
-        <div>
+        <div className="user-card__meta-item">
           <span>ایجاد شده</span>
           <strong>{formatDate(user.created_at || user.createdAt)}</strong>
         </div>
       </div>
 
-      <div className="user-card__links">
-        <div>
-          <span>Onboarding Token</span>
-          <code>{user.onboarding_token || user.onboardingToken || "—"}</code>
-        </div>
-
-        <div>
-          <span>Onboarding Link</span>
-          <code className="user-card__link">{onboardingLink || "—"}</code>
-        </div>
-      </div>
-
       <div className="user-card__actions">
-        <button
-          type="button"
-          className="user-card__button user-card__button--ghost"
-          onClick={() => onCopyLink?.(onboardingLink)}
-          disabled={!onboardingLink}
-        >
-          کپی لینک
-        </button>
-
         <select
           className="user-card__select"
           value={userRole}

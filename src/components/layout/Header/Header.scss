@@ -73,11 +73,12 @@
     gap: 10px;
 
     // دکمه‌های ورود و ثبت‌نام در موبایل مخفی شوند (به دراپ‌داون منتقل می‌شوند)
-    button, .ui-button { 
-      @media (max-width: 767px) {
-        display: none !important;
-      }
-    }
+  .ui-button { 
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
   }
 
   &__profile-trigger {

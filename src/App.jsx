@@ -6,6 +6,8 @@ import RoleRoute from "./components/guards/RoleRoute";
 import ScrollToTop from "./components/ScrollToTop";
 import { ROLES } from "./constants/roles";
 
+import Header from "./components/layout/Header/Header";
+
 // صفحات عمومی
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -13,9 +15,13 @@ import Register from "./pages/Register/Register";
 import Otp from "./pages/Auth/Otp/Otp";
 import Terms from "./pages/Terms/Terms";
 import About from "./pages/About/About";
+import Onboarding from "./pages/Onboarding/Onboarding";
 
 // صفحات خصوصی
 import CharityRegister from "./pages/CharityRegister/CharityRegister";
+import Notifications from "./pages/Notifications/Notifications";
+
+
 
 // فراموشی رمز عبور
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -29,6 +35,25 @@ import VerifierDashboard from "./pages/Dashboard/VerifierDashboard";
 import CharityDashboard from "./pages/Dashboard/CharityDashboard";
 import NotFound from "./pages/NotFound";
 
+function AppContent() {
+  const location = useLocation();
+
+  // صفحاتی که نباید هدر داشته باشند
+  const hideHeaderRoutes = [
+    "/login",
+    "/register",
+    "/otp",
+    "/forgot-password",
+    "/forgot-password/otp",
+    "/forgot-password/new",
+    "/Notifications",
+    "/Onboarding",
+  ];
+
+}
+
+  const hideHeader = hideHeaderRoutes.includes(location.pathname);
+
 export default function App() {
   return (
     <AuthProvider>
@@ -37,6 +62,7 @@ export default function App() {
         <Routes>
           {/* عمومی */}
           <Route path="/" element={<Home />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/about" element={<About />} />
 
@@ -99,6 +125,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+                      <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <Notifications />
+                </ProtectedRoute>
+              }
+            />
 
           {/* همیشه آخر */}
           <Route path="*" element={<NotFound />} />
