@@ -1,4 +1,5 @@
-//src/pages/Notifications/Notifications.scss
+// src/pages/Notifications/Notifications.scss
+
 @use "../../styles/variables" as *;
 
 .notifications-page {
@@ -120,15 +121,75 @@
     border-radius: 18px;
     background: #ffffff;
     transition: all 0.2s ease;
+    border-right: 5px solid #cbd5e1;
 
     &:hover {
       border-color: #dbe3ef;
+      border-right-color: inherit;
       transform: translateY(-1px);
     }
 
     &--unread {
       background: #fff7ed;
       border-color: #fed7aa;
+      border-right-color: #f97316;
+    }
+
+    // تایپ‌های مربوط به تایید
+    &--approve,
+    &--approved,
+    &--accept,
+    &--accepted,
+    &--verification-approved,
+    &--verification-approve {
+      border-right-color: #10b981;
+
+      &.notifications-page__card--unread {
+        background: #ecfdf5;
+        border-color: #a7f3d0;
+        border-right-color: #10b981;
+      }
+    }
+
+    // تایپ‌های مربوط به رد شدن
+    &--reject,
+    &--rejected,
+    &--decline,
+    &--declined,
+    &--verification-rejected,
+    &--verification-reject {
+      border-right-color: #ef4444;
+
+      &.notifications-page__card--unread {
+        background: #fef2f2;
+        border-color: #fecaca;
+        border-right-color: #ef4444;
+      }
+    }
+
+    // تایپ‌های سیستمی یا عمومی
+    &--system,
+    &--info,
+    &--notification {
+      border-right-color: #3b82f6;
+
+      &.notifications-page__card--unread {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        border-right-color: #3b82f6;
+      }
+    }
+
+    // هشدارها
+    &--warning,
+    &--alert {
+      border-right-color: #f59e0b;
+
+      &.notifications-page__card--unread {
+        background: #fffbeb;
+        border-color: #fde68a;
+        border-right-color: #f59e0b;
+      }
     }
 
     button {
@@ -165,14 +226,6 @@
     gap: 8px;
     margin-bottom: 8px;
 
-    span {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #ef4444;
-      flex: 0 0 auto;
-    }
-
     h2 {
       margin: 0;
       color: #111827;
@@ -180,6 +233,50 @@
       font-weight: 900;
     }
   }
+
+  &__unread-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ef4444;
+    flex: 0 0 auto;
+  }
+
+  &__type-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex: 0 0 auto;
+  }
+
+  &__card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+&__action-button {
+  border: 0;
+  border-radius: 12px;
+  padding: 9px 14px;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+&__action-button--read {
+  background: $color-btn;
+}
+
+&__action-button--profile {
+  background: #10b981;
+}
 
   @media (max-width: 900px) {
     &__panel {

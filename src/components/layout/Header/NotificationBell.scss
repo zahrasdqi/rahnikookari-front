@@ -114,16 +114,18 @@
       color: #111827;
     }
 
-    p {
-      margin: 0;
-      color: #6b7280;
-      font-size: 13px;
-      line-height: 1.7;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+      p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.7;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
 
     &--unread {
       background: #fff7ed;
@@ -149,6 +151,43 @@
       opacity: 0.9;
     }
   }
+
+  &__read-state {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+&__error {
+  margin: 0;
+  padding: 18px 8px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+&__item-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 4px;
+
+  strong {
+    margin-bottom: 0;
+  }
+}
+
+&__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ef4444;
+  flex: 0 0 auto;
+}
+
 
   @media (max-width: 767px) {
     &__popover {

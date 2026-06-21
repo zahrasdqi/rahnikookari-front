@@ -13,17 +13,22 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
   const token = tokenStorage.getAccess();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  console.log("[apiClient request]", {
+    method: config.method,
+    baseURL: config.baseURL,
+    url: config.url,
+    hasAccessToken: Boolean(token),
+    hasAuthorization: Boolean(config.headers.Authorization),
+  });
+
   return config;
 });
 
-let isRefreshing = false;
-let queue = [];
-
-const processQueue = (error, token = null) => {
-  queue.forEach((p) => (error ? p.reject(error) : p.resolve(token)));
-  queue = [];
-};
 
 apiClient.interceptors.response.use(
   (res) => res,

@@ -1,11 +1,12 @@
 // src/pages/CharityRegister/CharityRegister.jsx
 import { useState } from "react";
-import Header from "../../components/layout/Header/Header";
+
 import StepsSidebar from "../../components/features/CharityRegister/StepsSidebar/StepsSidebar";
 import BasicInfo from "../../components/features/CharityRegister/BasicInfo/BasicInfo";
 import ContactInfo from "../../components/features/CharityRegister/ContactInfo/ContactInfo";
 import FinancialInfo from "../../components/features/CharityRegister/FinancialInfo/FinancialInfo";
 import DocumentsInfo from "../../components/features/CharityRegister/DocumentsInfo/DocumentsInfo";
+import { charityVerificationService } from "../../services/charityVerification.service";
 import "./CharityRegister.scss";
 
 const STEPS = [
@@ -53,12 +54,18 @@ export default function CharityRegister() {
   const goPrev = () =>
     setCurrentStep((s) => Math.max(s - 1, 1));
 
-  const handleSubmit = async () => {
+ const handleSubmit = async () => {
+  setStatus("submitting");
+
+  try {
+    await charityVerificationService.create(formData);
     setStatus("pending");
-    // اینجا API call می‌آد
-    // try { await charityService.register(formData); setStatus('success'); }
-    // catch { setStatus('error'); }
-  };
+  } catch (error) {
+    console.error("Charity registration failed:", error);
+    setStatus("error");
+  }
+};
+
 
   const renderStep = () => {
     switch (currentStep) {
@@ -105,7 +112,7 @@ export default function CharityRegister() {
 
   return (
     <div className="charity-register-page">
-      <Header />
+      
 
       <main className="charity-register-page__main">
         {/* بنر بالای صفحه */}

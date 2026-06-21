@@ -1,9 +1,11 @@
-//src/pages/Notifications/Notifications.jsx
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { notificationService } from "../../services/notification.service";
 import "./Notifications.scss";
 
 export default function Notifications() {
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,7 +40,9 @@ export default function Notifications() {
 
       setNotifications((prev) =>
         prev.map((item) =>
-          item.id === notificationId ? updatedNotification : item
+          String(item.id) === String(notificationId)
+            ? updatedNotification
+            : item
         )
       );
     } catch (error) {
@@ -61,6 +65,10 @@ export default function Notifications() {
     }
   };
 
+  const handleGoToEditProfile = () => {
+    navigate("/charity/profile/edit");
+  };
+
   const formatDate = (dateValue) => {
     if (!dateValue) return "";
 
@@ -68,6 +76,62 @@ export default function Notifications() {
       dateStyle: "medium",
       timeStyle: "short",
     }).format(new Date(dateValue));
+  };
+
+  const getNotificationTypeClass = (type) => {
+    if (!type) return "system";
+
+    return String(type)
+      .trim()
+      .toLowerCase()
+      .replaceAll("_", "-");
+  };
+
+  const getNotificationIcon = (type) => {
+    const normalizedType = getNotificationTypeClass(type);
+
+    if (
+      normalizedType.includes("approve") ||
+      normalizedType.includes("approved") ||
+      normalizedType.includes("accept") ||
+      normalizedType.includes("accepted")
+    ) {
+      return "✅";
+    }
+
+    if (
+      normalizedType.includes("reject") ||
+      normalizedType.includes("rejected") ||
+      normalizedType.includes("decline") ||
+      normalizedType.includes("declined")
+    ) {
+      return "❌";
+    }
+
+    if (
+      normalizedType.includes("warning") ||
+      normalizedType.includes("alert")
+    ) {
+      return "⚠️";
+    }
+
+    return "🔔";
+  };
+
+  const isApproveNotification = (item) => {
+    const type = String(item?.type || "").toLowerCase();
+    const status = String(item?.status || "").toLowerCase();
+
+    return (
+      type.includes("approve") ||
+      type.includes("approved") ||
+      type.includes("accept") ||
+      type.includes("accepted") ||
+      status.includes("approve") ||
+      status.includes("approved") ||
+      status.includes("accept") ||
+      status.includes("accepted")
+    );
   };
 
   const hasUnread = notifications.some((item) => !item.is_read);
@@ -109,39 +173,65 @@ export default function Notifications() {
               در حال دریافت پیام‌ها...
             </div>
           ) : notifications.length === 0 ? (
-            <div className="notifications-page__state">
-              موردی یافت نشد
-            </div>
+            <div className="notifications-page__state">موردی یافت نشد</div>
           ) : (
             <div className="notifications-page__list">
-              {notifications.map((item) => (
-                <article
-                  key={item.id}
-                  className={`notifications-page__card ${
-                    item.is_read ? "" : "notifications-page__card--unread"
-                  }`}
-                >
-                  <div className="notifications-page__card-main">
-                    <div className="notifications-page__card-title">
-                      {!item.is_read && <span />}
-                      <h2>{item.title}</h2>
+              {notifications.map((item) => {
+                const notificationTypeClass = getNotificationTypeClass(
+                  item.type
+                );
+
+                return (
+                  <article
+                    key={item.id}
+                    className={`notifications-page__card ${
+                      item.is_read ? "" : "notifications-page__card--unread"
+                    } notifications-page__card--${notificationTypeClass}`}
+                  >
+                    <div className="notifications-page__card-main">
+                      <div className="notifications-page__card-title">
+                        {!item.is_read && (
+                          <span className="notifications-page__unread-dot" />
+                        )}
+
+                        <span className="notifications-page__type-icon">
+                          {getNotificationIcon(item.type)}
+                        </span>
+
+                        <h2>{item.title}</h2>
+                      </div>
+
+                      <p>{item.message}</p>
+
+                      <time>{formatDate(item.created_at)}</time>
                     </div>
 
-                    <p>{item.message}</p>
+                    <div className="notifications-page__card-actions">
 
-                    <time>{formatDate(item.created_at)}</time>
-                  </div>
+                      {isApproveNotification(item) && (
+                        <button
+                          type="button"
+                          className="notifications-page__action-button notifications-page__action-button--profile"
+                          onClick={handleGoToEditProfile}
+                        >
+                          ویرایش نمایه
+                        </button>
+                      )}
 
-                  {!item.is_read && (
-                    <button
-                      type="button"
-                      onClick={() => handleMarkAsRead(item.id)}
-                    >
-                      خواندم
-                    </button>
-                  )}
-                </article>
-              ))}
+                      {!item.is_read && (
+                        <button
+                          type="button"
+                          className="notifications-page__action-button notifications-page__action-button--read"
+                          onClick={() => handleMarkAsRead(item.id)}
+                        >
+                          خواندم
+                        </button>
+                      )}
+
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </section>

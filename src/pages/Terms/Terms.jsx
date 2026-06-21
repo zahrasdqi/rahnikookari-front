@@ -1,4 +1,3 @@
-import Header from "../../components/layout/Header/Header";
 import Footer from "../../components/layout/Footer/Footer";
 import Container from "../../components/ui/Container/Container";
 import "./Terms.scss";
@@ -6,8 +5,7 @@ import "./Terms.scss";
 export default function Terms() {
   return (
     <div className="terms-page">
-      <Header />
-      
+           
       <main className="terms-content">
         <Container>
           <div className="terms-card">

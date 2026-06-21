@@ -1,4 +1,3 @@
-
 // src/api/jwt.js
 export function decodeJwt(token) {
   if (!token || typeof token !== "string") return null;

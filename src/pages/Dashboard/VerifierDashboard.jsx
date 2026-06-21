@@ -1,97 +1,161 @@
-import React, { useMemo, useState } from "react";
+//src\pages\Dashboard\VerifierDashboard.jsx
+import React, { useEffect, useMemo, useState } from "react";
 import VerifierHero from "../../components/features/VerifierDashboard/VerifierHero/VerifierHero";
+import { verifierService } from "../../services/verifier.service";
+import ReviewDetails from "../../components/features/VerifierDashboard/ReviewDetails/ReviewDetails";
 import "./VerifierDashboard.scss";
 
-const MOCK_DATA = {
-  cases: [
-    {
-      id: 1,
-      title: "مؤسسه خیریه امید فردا",
-      location: "تهران، تهران",
-      category: "درمان و سلامت",
-      regNo: "۱۰۳۴۵",
-      docs: 3,
-      status: "در انتظار",
-      statusClass: "pending",
-    },
-    {
-      id: 2,
-      title: "جمعیت نیک‌اندیشان مهر",
-      location: "اصفهان، کاشان",
-      category: "آموزش و پرورش",
-      regNo: "۳۳۱۹",
-      docs: 3,
-      status: "رد شده",
-      statusClass: "rejected",
-    },
-    {
-      id: 3,
-      title: "گروه امداد نیک‌یاران",
-      location: "کرمان، جیرفت",
-      category: "بلایای طبیعی و امداد",
-      regNo: "۵۲۰۱۲",
-      docs: 3,
-      status: "در حال بررسی",
-      statusClass: "processing",
-    },
-    {
-      id: 4,
-      title: "مؤسسه آفتاب مهربانی",
-      location: "فارس، شیراز",
-      category: "امنیت غذایی",
-      regNo: "۳۲۸۸۱",
-      docs: 3,
-      status: "تأیید شده",
-      statusClass: "approved",
-    },
-  ],
-  history: [
-    {
-      id: 1,
-      title: "درخواست اصلاح ثبت شد",
-      desc: "برای جمعیت نیک‌اندیشان مهر، ارسال مجدد مجوز فعالیت درخواست شد.",
-      date: "۱۴۰۳/۰۹/۱۲",
-    },
-    {
-      id: 2,
-      title: "مؤسسه تأیید شد",
-      desc: "پرونده مؤسسه آفتاب مهربانی پس از تکمیل چک‌لیست تأیید شد.",
-      date: "۱۴۰۳/۰۹/۱۱",
-    },
-    {
-      id: 3,
-      title: "پرونده دریافت شد",
-      desc: "پرونده گروه امداد نیک‌یاران برای بررسی به شما اختصاص داده شد.",
-      date: "۱۴۰۳/۰۹/۱۰",
-    },
-  ],
+const STATUS_LABELS = {
+  pending: "در انتظار بررسی",
+  approved: "تأیید شده",
+  rejected: "رد شده",
+};
+
+const STATUS_CLASSES = {
+  pending: "pending",
+  approved: "approved",
+  rejected: "rejected",
+};
+
+const formatDate = (dateValue) => {
+  if (!dateValue) return "-";
+
+  return new Intl.DateTimeFormat("fa-IR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(dateValue));
 };
 
 const VerifierDashboard = () => {
   const [activeTab, setActiveTab] = useState("summary");
 
+  const [dashboardData, setDashboardData] = useState({
+    stats: {
+      total: 0,
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+    },
+    items: [],
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [isDetailLoading, setIsDetailLoading] = useState(false);
+  const [isActionLoading, setIsActionLoading] = useState(false);
+
+  const fetchDashboard = async () => {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+
+      const data = await verifierService.getDashboard({
+        limit: 100,
+        offset: 0,
+      });
+
+      setDashboardData({
+        stats: data?.stats || {
+          total: 0,
+          pending: 0,
+          approved: 0,
+          rejected: 0,
+        },
+        items: Array.isArray(data?.items) ? data.items : [],
+      });
+    } catch (error) {
+      setErrorMessage("دریافت اطلاعات داشبورد اعتبارسنج با خطا مواجه شد.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboard();
+  }, []);
+
+  const handleOpenReview = async (id) => {
+    try {
+      setIsDetailLoading(true);
+
+      const detail = await verifierService.getRequestDetail(id);
+
+      setSelectedRequest(detail);
+    } catch {
+      alert("دریافت جزئیات پرونده با خطا مواجه شد.");
+    } finally {
+      setIsDetailLoading(false);
+    }
+  };
+
+  const handleApprove = async () => {
+    if (!selectedRequest) return;
+
+    const confirm = window.confirm(
+      "آیا از تأیید و فعال‌سازی این موسسه اطمینان دارید؟"
+    );
+
+    if (!confirm) return;
+
+    try {
+      setIsActionLoading(true);
+
+      await verifierService.approveRequest(selectedRequest.id);
+
+      alert("پرونده با موفقیت تأیید شد.");
+
+      setSelectedRequest(null);
+      fetchDashboard();
+    } catch {
+      alert("خطا در تأیید پرونده.");
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleReject = async (reason) => {
+    if (!selectedRequest) return;
+
+    const confirm = window.confirm("آیا از رد این پرونده مطمئن هستید؟");
+
+    if (!confirm) return;
+
+    try {
+      setIsActionLoading(true);
+
+      await verifierService.rejectRequest(selectedRequest.id, reason);
+
+      alert("پرونده رد شد.");
+
+      setSelectedRequest(null);
+      fetchDashboard();
+    } catch {
+      alert("خطا در رد پرونده.");
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
   const stats = useMemo(() => {
-    const pendingCount = MOCK_DATA.cases.filter(
-      (item) => item.statusClass === "pending"
-    ).length;
-
-    const rejectedCount = MOCK_DATA.cases.filter(
-      (item) => item.statusClass === "rejected"
-    ).length;
-
-    const approvedCount = MOCK_DATA.cases.filter(
-      (item) => item.statusClass === "approved"
-    ).length;
-
-    const todayCount = 1;
+    const apiStats = dashboardData.stats || {};
 
     return {
-      pendingCount,
-      rejectedCount,
-      approvedCount,
-      todayCount,
+      totalCount: apiStats.total || 0,
+      pendingCount: apiStats.pending || 0,
+      rejectedCount: apiStats.rejected || 0,
+      approvedCount: apiStats.approved || 0,
     };
-  }, []);
+  }, [dashboardData.stats]);
+
+  const historyItems = useMemo(
+    () =>
+      dashboardData.items.filter((item) =>
+        ["approved", "rejected"].includes(item.status)
+      ),
+    [dashboardData.items]
+  );
 
   const heroContent = useMemo(() => {
     switch (activeTab) {
@@ -160,161 +224,176 @@ const VerifierDashboard = () => {
           </div>
         </div>
 
-        {activeTab === "summary" && (
-          <div className="view-fade-in summary-tab-layout">
-            <div className="stats-row-grid">
-              <div className="mini-stat-card">
-                <div className="card-dot blue"></div>
-                <div className="stat-value">{stats.pendingCount}</div>
-                <div className="stat-label">در انتظار بررسی</div>
-              </div>
-
-              <div className="mini-stat-card">
-                <div className="card-dot orange"></div>
-                <div className="stat-value">{stats.rejectedCount}</div>
-                <div className="stat-label">رد شده</div>
-              </div>
-
-              <div className="mini-stat-card">
-                <div className="card-dot green"></div>
-                <div className="stat-value">{stats.approvedCount}</div>
-                <div className="stat-label">تأیید شده</div>
-              </div>
-
-              <div className="mini-stat-card">
-                <div className="card-dot light-blue"></div>
-                <div className="stat-value">{stats.todayCount}</div>
-                <div className="stat-label">پرونده امروز</div>
-              </div>
-            </div>
-
-            <div className="summary-bottom-grid">
-              <div className="white-panel-card">
-                <div className="panel-header">
-                  <div className="header-top-flex">
-                    <h4>پرونده‌های اولویت‌دار</h4>
-                    <button type="button" className="seeall-btn">
-                      مشاهده همه
-                    </button>
-                  </div>
-                  <p>این موارد بهتر است زودتر بررسی شوند.</p>
-                </div>
-
-                <div className="panel-list">
-                  {MOCK_DATA.cases.slice(0, 3).map((item) => (
-                    <div key={item.id} className="panel-item">
-                      <span>{item.title}</span>
-                      <button type="button" className="mini-btn">
-                        بررسی
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="white-panel-card">
-                <div className="panel-header">
-                  <h4>راهنمای بررسی</h4>
-                  <p>مراحل گام‌به‌گام برای نتیجه اعتبارسنجی:</p>
-                </div>
-
-                <div className="guide-list">
-                  <div className="guide-step">
-                    <div className="step-dot"></div>
-                    <span>اطلاعات هویتی را بررسی کنید</span>
-                  </div>
-
-                  <div className="guide-step">
-                    <div className="step-dot"></div>
-                    <span>مدارک را با اساسنامه تطبیق دهید</span>
-                  </div>
-
-                  <div className="guide-step">
-                    <div className="step-dot"></div>
-                    <span>نسخه نهایی را ثبت کنید</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        {errorMessage && (
+          <div className="verifier-dashboard-alert">{errorMessage}</div>
         )}
 
-        {activeTab === "my-cases" && (
-          <div className="view-fade-in my-cases-tab-layout">
-            <div className="cases-cards-grid">
-              {MOCK_DATA.cases.map((item) => (
-                <div key={item.id} className="case-item-card">
-                  <div className="card-gradient-top">
-                    <div className="floating-white-square"></div>
+        {isLoading ? (
+          <div className="cases-cards-grid">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="case-item-card skeleton-card"></div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {activeTab === "summary" && (
+              <div className="view-fade-in summary-tab-layout">
+                <div className="stats-row-grid">
+                  <div className="mini-stat-card">
+                    <div className="card-dot light-blue"></div>
+                    <div className="stat-value">{stats.totalCount}</div>
+                    <div className="stat-label">کل پرونده‌ها</div>
                   </div>
 
-                  <div className="card-main-body">
-                    <div className="body-header">
-                      <span className={`badge-status ${item.statusClass}`}>
-                        {item.status}
-                      </span>
+                  <div className="mini-stat-card">
+                    <div className="card-dot blue"></div>
+                    <div className="stat-value">{stats.pendingCount}</div>
+                    <div className="stat-label">در انتظار بررسی</div>
+                  </div>
 
-                      <h3>{item.title}</h3>
-                    </div>
+                  <div className="mini-stat-card">
+                    <div className="card-dot orange"></div>
+                    <div className="stat-value">{stats.rejectedCount}</div>
+                    <div className="stat-label">رد شده</div>
+                  </div>
 
-                    <div className="case-meta-list">
-                      <div className="meta-row">
-                        <span className="meta-label">موقعیت:</span>
-                        <span className="meta-value">{item.location}</span>
-                      </div>
-
-                      <div className="meta-row">
-                        <span className="meta-label">حوزه فعالیت:</span>
-                        <span className="meta-value">{item.category}</span>
-                      </div>
-
-                      <div className="meta-row">
-                        <span className="meta-label">شماره ثبت:</span>
-                        <span className="meta-value">{item.regNo}</span>
-                      </div>
-
-                      <div className="meta-row">
-                        <span className="meta-label">تعداد مدارک:</span>
-                        <span className="meta-value">{item.docs}</span>
-                      </div>
-                    </div>
-
-                    <div className="body-buttons">
-                      <button type="button" className="btn-view">
-                        مشاهده
-                      </button>
-                      <button type="button" className="btn-check">
-                        بررسی پرونده
-                      </button>
-                    </div>
+                  <div className="mini-stat-card">
+                    <div className="card-dot green"></div>
+                    <div className="stat-value">{stats.approvedCount}</div>
+                    <div className="stat-label">تأیید شده</div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === "history" && (
-          <div className="view-fade-in history-tab-layout">
-            <div className="history-white-container">
-              <div className="history-list">
-                {MOCK_DATA.history.map((item) => (
-                  <div key={item.id} className="history-row-card">
-                    <div className="history-content">
-                      <h5>{item.title}</h5>
-                      <p>{item.desc}</p>
-                    </div>
-
-                    <div className="history-date-tag">
-                      <span>{item.date}</span>
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
-          </div>
+            )}
+
+            {activeTab === "my-cases" && (
+              <div className="view-fade-in my-cases-tab-layout">
+                {dashboardData.items.length === 0 ? (
+                  <div className="verifier-dashboard-state">
+                    پرونده‌ای برای نمایش وجود ندارد.
+                  </div>
+                ) : (
+                  <div className="cases-cards-grid">
+                    {dashboardData.items.map((item) => (
+                      <div key={item.id} className="case-item-card">
+                        <div className="card-gradient-top">
+                          <div className="floating-white-square"></div>
+                        </div>
+
+                        <div className="card-main-body">
+                          <div className="body-header">
+                            <span
+                              className={`badge-status ${
+                                STATUS_CLASSES[item.status] || "pending"
+                              }`}
+                            >
+                              {STATUS_LABELS[item.status] || item.status}
+                            </span>
+
+                            <h3>{item.charity_name || "بدون نام"}</h3>
+                          </div>
+
+                          <div className="case-meta-list">
+                            <div className="meta-row">
+                              <span className="meta-label">شناسه پرونده:</span>
+                              <span className="meta-value">
+                                {String(item.id).slice(0, 8)}
+                              </span>
+                            </div>
+
+                            <div className="meta-row">
+                              <span className="meta-label">تعداد مدارک:</span>
+                              <span className="meta-value">
+                                {item.documents_count ?? 0}
+                              </span>
+                            </div>
+
+                            <div className="meta-row">
+                              <span className="meta-label">درصد تکمیل:</span>
+                              <span className="meta-value">
+                                {item.checklist_percent ?? 0}٪
+                              </span>
+                            </div>
+
+                            <div className="meta-row">
+                              <span className="meta-label">تاریخ ثبت:</span>
+                              <span className="meta-value">
+                                {formatDate(item.created_at)}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="body-buttons">
+                            <button type="button" className="btn-view">
+                              مشاهده
+                            </button>
+
+                            <button
+                              type="button"
+                              className="btn-check"
+                              onClick={() => handleOpenReview(item.id)}
+                              disabled={isDetailLoading}
+                            >
+                              {isDetailLoading
+                                ? "در حال دریافت..."
+                                : "بررسی پرونده"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === "history" && (
+              <div className="view-fade-in history-tab-layout">
+                <div className="history-white-container">
+                  {historyItems.length === 0 ? (
+                    <div className="verifier-dashboard-state">
+                      هنوز تاریخچه‌ای برای نمایش وجود ندارد.
+                    </div>
+                  ) : (
+                    <div className="history-list">
+                      {historyItems.map((item) => (
+                        <div key={item.id} className="history-row-card">
+                          <div className="history-content">
+                            <h5>
+                              {item.status === "approved"
+                                ? "پرونده تأیید شد"
+                                : "پرونده رد شد"}
+                            </h5>
+                            <p>
+                              پرونده {item.charity_name || "بدون نام"} با وضعیت{" "}
+                              {STATUS_LABELS[item.status] || item.status} ثبت
+                              شده است.
+                            </p>
+                          </div>
+
+                          <div className="history-date-tag">
+                            <span>{formatDate(item.updated_at)}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
+
+      {selectedRequest && (
+        <ReviewDetails
+          data={selectedRequest}
+          onClose={() => setSelectedRequest(null)}
+          onApprove={handleApprove}
+          onReject={handleReject}
+          isSubmitting={isActionLoading}
+        />
+      )}
     </div>
   );
 };

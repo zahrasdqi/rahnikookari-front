@@ -1,4 +1,3 @@
-import Header from "../../components/layout/Header/Header";
 import Footer from "../../components/layout/Footer/Footer";
 import Container from "../../components/ui/Container/Container";
 import "./About.scss";
@@ -6,7 +5,6 @@ import "./About.scss";
 export default function About() {
   return (
     <div className="about-page">
-      <Header />
 
       <main className="about-content">
         <Container>

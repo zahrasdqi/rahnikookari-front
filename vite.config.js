@@ -11,10 +11,18 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // هر چیزی که با /api شروع شه → به Gateway فوروارد می‌شه
       "/api": {
         target: "http://localhost:80",
         changeOrigin: true,
+        secure: false,
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq, req) => {
+            console.log("[vite proxy]", req.method, req.url);
+          });
+          proxy.on("proxyRes", (proxyRes, req) => {
+            console.log("[vite proxy response]", proxyRes.statusCode, req.url);
+          });
+        },
       },
     },
   },
