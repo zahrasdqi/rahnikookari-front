@@ -1,3 +1,4 @@
+//src\services\profile.service.js
 import { apiClient } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 
@@ -10,4 +11,15 @@ export const profileService = {
   
   // خروج از حساب 
   logout: () => apiClient.post(ENDPOINTS.profile.logout),
+
+  // دریافت لیست کمک‌های مالی کاربر
+  getMyDonations: async (params) => {
+  const response = await apiClient.get(
+    ENDPOINTS.campaigns.donations.myList,
+    { params }
+  );
+
+  return response.data; // چون خود API آرایه میده
+},
+
 };

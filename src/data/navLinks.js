@@ -1,3 +1,4 @@
+//src\data\navLinks.js
 export const navLinks = [
   { name: 'پویش‌ها', path: '/campaigns' },
   { name: 'موسسات', path: '/institutions' },

@@ -5,6 +5,9 @@ import GuestRoute from "./components/guards/GuestRoute";
 import RoleRoute from "./components/guards/RoleRoute";
 import ScrollToTop from "./components/ScrollToTop";
 import { ROLES } from "./constants/roles";
+import ApprovedCharityRoute from "./components/guards/ApprovedCharityRoute";
+import { Link } from "react-router-dom";
+
 
 import Header from "./components/layout/Header/Header";
 
@@ -16,6 +19,11 @@ import Otp from "./pages/Auth/Otp/Otp";
 import Terms from "./pages/Terms/Terms";
 import About from "./pages/About/About";
 import Onboarding from "./pages/Onboarding/Onboarding";
+import Institutions from './pages/Institutions/Institutions';
+import InstitutionDetail from './pages/Institutions/InstitutionDetail';
+import Campaigns from "./pages/Campaigns/Campaigns";
+import CampaignDetail from "./pages/CampaignDetail/CampaignDetail";
+import PaymentResult from "./pages/PaymentResult/PaymentResult";
 
 // صفحات خصوصی
 import CharityRegister from "./pages/CharityRegister/CharityRegister";
@@ -32,6 +40,7 @@ import DonorDashboard from "./pages/Dashboard/DonorDashboard";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import VerifierDashboard from "./pages/Dashboard/VerifierDashboard";
 import CharityDashboard from "./pages/Dashboard/CharityDashboard";
+
 
 import NotFound from "./pages/NotFound";
 
@@ -64,6 +73,11 @@ function AppContent() {
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/about" element={<About />} />
+        <Route path="/institutions" element={<Institutions />} />
+        <Route path="/institutions/:slug" element={<InstitutionDetail />} /> 
+        <Route path="/campaigns" element={<Campaigns />} />
+        <Route path="/campaigns/:id" element={<CampaignDetail />} />
+        <Route path="/payment-result" element={<PaymentResult />} />
 
         {/* فقط مهمان */}
         <Route
@@ -129,24 +143,26 @@ function AppContent() {
         />
 
           {/* داشبورد سازمان خیریه */}
-  <Route
-    path="/charity"
-    element={
-      <ProtectedRoute>
-        <CharityDashboard />
-      </ProtectedRoute>
-    }
-  />
+          <Route
+          path="/charity"
+          element={
+            <ApprovedCharityRoute>
+              <CharityDashboard />
+            </ApprovedCharityRoute>
+          }
+        />
 
   {/* ویرایش نمایه خیریه */}
-  <Route
-    path="/charity/profile/edit"
+      <Route
+    path="/charity/profile/edit/:profileId"
     element={
       <ProtectedRoute>
         <CharityProfileEdit />
       </ProtectedRoute>
     }
   />
+
+
 
 
           {/* مسیری که فقط نیاز به لاگین دارد بدون قید نقش */}

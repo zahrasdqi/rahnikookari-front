@@ -1,0 +1,226 @@
+// src/components/features/CharityDashboard/CampaignManagement/CreateCampaignModal/CreateCampaignModal.scss
+.create-campaign-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+
+  &__content {
+    background: #fff;
+    border-radius: 28px;
+    width: min(680px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25);
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 28px 32px;
+    border-bottom: 1px solid #e2e8f0;
+
+    h3 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 900;
+      color: #1e293b;
+    }
+  }
+
+  &__api-hint {
+    margin: 0;
+    font-size: 12px;
+    color: #94a3b8;
+    font-family: "Courier New", monospace;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  &__close {
+    background: #f1f5f9;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #64748b;
+
+    &:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+  }
+
+  &__form {
+    padding: 32px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+
+    button {
+      flex: 1;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+
+      &:hover:not(:disabled) {
+        background: #e2e8f0;
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #77b4cf 0%, #4ade80 100%);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(119, 180, 207, 0.3);
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(119, 180, 207, 0.4);
+      }
+    }
+  }
+
+  .form-field {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+
+      .required {
+        color: #ef4444;
+      }
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14px;
+      transition: all 0.2s;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+        border-color: #77b4cf;
+        box-shadow: 0 0 0 3px rgba(119, 180, 207, 0.1);
+      }
+
+      &.error {
+        border-color: #ef4444;
+      }
+
+      &::placeholder {
+        color: #94a3b8;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .error-text {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #ef4444;
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-error-box {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .create-campaign-modal {
+    &__header,
+    &__form {
+      padding: 24px 20px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    &__actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

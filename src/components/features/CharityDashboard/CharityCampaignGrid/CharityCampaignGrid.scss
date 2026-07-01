@@ -1,0 +1,49 @@
+// src/components/features/CharityDashboard/CharityCampaignGrid/CharityCampaignGrid.scss
+
+.charity-campaign-grid {
+  // ── ۳ ستون با گپ ۱۸ پیکسل طبق درخواست ──
+  display: grid;
+  grid-template-columns: repeat(3, 378px); // عرض دقیق کارت
+  gap: 18px;
+  justify-content: center; // گرید رو وسط می‌چینه اگه جا داشت
+  padding-bottom: 40px;
+
+  // وضعیت خالی
+  &__empty {
+    grid-column: span 3;
+    padding: 60px 40px;
+    background: #f8fafc;
+    border-radius: 24px;
+    border: 2px dashed #e2e8f0;
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+// ── تبلت: ۲ ستون ──
+@media (max-width: 960px) {
+  .charity-campaign-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    &__empty {
+      grid-column: span 2;
+    }
+  }
+}
+
+// ── موبایل: ۱ ستون ──
+@media (max-width: 560px) {
+  .charity-campaign-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+
+    &__empty {
+      grid-column: span 1;
+    }
+  }
+}

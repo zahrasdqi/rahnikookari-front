@@ -22,7 +22,7 @@ export default function Home() {
 
       <Footer />
       
-      {/* اون بخش ProfileDrawer که اینجا بود کاملاً حذف شد */}
+     
     </div>
   );
 }

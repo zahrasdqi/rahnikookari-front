@@ -1,3 +1,4 @@
+//src\components\features\VerifierDashboard\VerifierHero\VerifierHero.jsx
 import React from 'react';
 import './VerifierHero.scss';
 

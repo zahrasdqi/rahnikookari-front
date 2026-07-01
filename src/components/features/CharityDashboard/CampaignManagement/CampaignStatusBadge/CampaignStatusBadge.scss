@@ -1,0 +1,57 @@
+// src/components/features/CharityDashboard/CampaignManagement/CampaignStatusBadge/CampaignStatusBadge.scss
+.campaign-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  &__icon {
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  &--active {
+    background: #dcfce7;
+    color: #15803d;
+
+    .campaign-status-badge__icon {
+      color: #16a34a;
+    }
+  }
+
+  &--completed {
+    background: #dbeafe;
+    color: #1e40af;
+
+    .campaign-status-badge__icon {
+      color: #3b82f6;
+    }
+  }
+
+  &--pending {
+    background: #fef3c7;
+    color: #92400e;
+
+    .campaign-status-badge__icon {
+      color: #f59e0b;
+    }
+  }
+  &--rejected {
+    background-color: #FEE2E2; // قرمز روشن
+    color: #DC2626;
+    border-color: #FECACA;
+  }
+
+  &--cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+
+    .campaign-status-badge__icon {
+      color: #ef4444;
+    }
+  }
+}

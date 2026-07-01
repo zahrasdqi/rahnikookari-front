@@ -1,357 +1,232 @@
-//front\rahnikookari-front\src\components\features\Hero\Hero.scss
 @use "../../../styles/variables" as *;
 
-// ══════════════════════════════════════════════════════
-// KEYFRAMES
-// ══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// KEYFRAMES 
+// ═══════════════════════════════════════
 
-// ── متن: ورود سینماتیک ────────────────────────────────
 @keyframes hero-reveal {
-  0%   { opacity: 0; transform: translateY(40px) skewY(2deg); filter: blur(8px); }
-  60%  { filter: blur(0); }
-  100% { opacity: 1; transform: translateY(0)    skewY(0deg); }
+  0%   { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-// ── Blob morphing ─────────────────────────────────────
+@keyframes badge-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
 @keyframes blob-morph-1 {
-  0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; transform: translate(0,0)       scale(1);    }
-  25%     { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; transform: translate(20px,-18px) scale(1.07); }
-  50%     { border-radius: 55% 45% 60% 40% / 45% 55% 50% 50%; transform: translate(-10px,14px) scale(0.95); }
-  75%     { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; transform: translate(14px,6px)   scale(1.03); }
+  0%, 100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; transform: translate(0,0); }
+  50% { border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%; transform: translate(20px, -20px); }
 }
 
-@keyframes blob-morph-2 {
-  0%,100% { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; transform: translate(0,0)        scale(1);    }
-  33%     { border-radius: 65% 35% 45% 55% / 55% 45% 65% 35%; transform: translate(-16px,-12px) scale(1.08); }
-  66%     { border-radius: 40% 60% 55% 45% / 60% 40% 45% 55%; transform: translate(10px, 18px)  scale(0.93); }
-}
-
-@keyframes blob-morph-3 {
-  0%,100% { border-radius: 55% 45% 50% 50% / 60% 40% 55% 45%; transform: translate(0,0)       scale(1);    }
-  40%     { border-radius: 45% 55% 65% 35% / 45% 55% 40% 60%; transform: translate(12px,-20px) scale(1.1);  }
-  80%     { border-radius: 60% 40% 40% 60% / 50% 50% 65% 35%; transform: translate(-8px, 12px) scale(0.97); }
-}
-
-// ── Shimmer روی بلاب ──────────────────────────────────
-@keyframes blob-glow {
-  0%,100% { opacity: 0.5; }
-  50%     { opacity: 1;   }
-}
-
-// ── Scanline overlay ──────────────────────────────────
-@keyframes scanline-scroll {
-  0%   { background-position: 0 0;      }
-  100% { background-position: 0 120px;  }
-}
-
-// ── CTA pulse ring ────────────────────────────────────
-@keyframes cta-ring-pulse {
-  0%   { transform: scale(0.92); opacity: 0.7; }
-  60%  { transform: scale(1.18); opacity: 0;   }
-  100% { transform: scale(1.18); opacity: 0;   }
-}
-
-// ── floating particles ────────────────────────────────
 @keyframes particle-float {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-320px) translateX(var(--px-drift));
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translateY(-300px) scale(0.5); opacity: 0; }
 }
 
-// ══════════════════════════════════════════════════════
-// SECTION
-// ══════════════════════════════════════════════════════
-$_easing: cubic-bezier(0.22, 1, 0.36, 1);
-
-@mixin fade-up($delay: 0s) {
-  animation: hero-reveal 0.9s $_easing $delay both;
-}
+// ═══════════════════════════════════════
+// HERO STYLES
+// ═══════════════════════════════════════
 
 .hero {
-  position:    relative;
-  overflow:    hidden;
-  min-height:  860px;
-  padding:     100px 0 44px;
-  background:  $auth-gradient;
-  display:     flex;
-  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 110px 0 120px;
 
-  // ── Scanline texture ──────────────────────────────────
-  &::before {
-    content:  "";
-    position: absolute;
-    inset:    0;
-    z-index:  1;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent           0px,
-      transparent           3px,
-      rgba(0,0,0,0.03)      3px,
-      rgba(0,0,0,0.03)      4px
-    );
-    animation: scanline-scroll 3s linear infinite;
-    mix-blend-mode: multiply;
-  }
 
-  // ── Noise / vignette overlay ──────────────────────────
-  &::after {
-    content:  "";
-    position: absolute;
-    inset:    0;
-    z-index:  2;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse 80% 60% at 50% 50%,
-      transparent 40%,
-      rgba(0,0,0,0.18) 100%
-    );
-  }
 
-  // ── Background shapes ─────────────────────────────────
+  background: 
+  linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 130px), // سایه نرم زیر هدر
+radial-gradient(circle at 0% 0%, rgba(255, 220, 235, 0.35) 0%, rgba(210, 230, 255, 0.28) 40%, transparent 75%), // گوشه چپ بالا
+radial-gradient(circle at 40% 35%, rgba(185, 220, 255, 0.28) 0%, transparent 65%), // آبی آسمانی
+radial-gradient(circle at 70% 65%, rgba(255, 190, 215, 0.30) 0%, transparent 65%), // صورتی پودری
+radial-gradient(circle at 90% 10%, rgba(20, 40, 90, 0.12) 0%, transparent 55%), // سورمه‌ای خیلی نرم برای عمق
+$auth-gradient;
+
+
+
+
+
   &__bg-shapes {
     position: absolute;
-    inset:    0;
-    pointer-events: none;
-    z-index:  0;
+    inset: 0;
+    z-index: 1;
   }
 
-  // ── Blobs ─────────────────────────────────────────────
   &__blob {
-    position:    absolute;
-    will-change: transform, border-radius;
+    position: absolute;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: blob-morph-1 15s infinite alternate ease-in-out;
 
-    // Blur روی pseudo تا از GPU conflict جلوگیری کنیم
-    &::after {
-      content:       "";
-      position:      absolute;
-      inset:         -25%;
-      border-radius: inherit;
-      background:    inherit;
-      filter:        blur($blob-blur);
-    }
-
-    &--1 {
-      width:      420px;
-      height:     420px;
-      background: $blob-1-bg;
-      top:        -80px;
-      left:       -100px;
-      animation:  blob-morph-1 14s ease-in-out infinite,
-                  blob-glow    7s  ease-in-out infinite;
-    }
-
-    &--2 {
-      width:      320px;
-      height:     320px;
-      background: $blob-2-bg;
-      bottom:     -60px;
-      right:      -80px;
-      animation:  blob-morph-2 18s ease-in-out -6s infinite,
-                  blob-glow    9s  ease-in-out -3s infinite;
-    }
-
-    &--3 {
-      width:      240px;
-      height:     240px;
-      background: $blob-3-bg;
-      top:        50%;
-      left:       55%;
-      animation:  blob-morph-3 22s ease-in-out -11s infinite,
-                  blob-glow    6s  ease-in-out infinite;
-    }
+    &--1 { width: 400px; height: 400px; background: $blob-1-bg; top: -100px; left: -100px; }
+    &--2 { width: 350px; height: 350px; background: $blob-2-bg; bottom: -50px; right: -50px; animation-delay: -5s; }
+    &--3 { width: 250px; height: 250px; background: $blob-3-bg; top: 40%; left: 60%; animation-delay: -2s; }
   }
 
-  // ── Particles ─────────────────────────────────────────
-  &__particle {
-  position:      absolute;
-  bottom:        -10px;
-  width:         4px;
-  height:        4px;
-  border-radius: 50%;
-  background:    rgba(255, 255, 255, 0.6);
-  animation:     particle-float var(--px-dur) ease-in var(--px-delay) infinite;
-
-  @for $i from 1 through 14 {
-    &:nth-child(#{$i}) {
-      --px-drift: #{nth((20px, -15px, 30px, -25px, 10px, -30px, 25px, -10px, 35px, -20px, 15px, -35px, 28px, -18px), $i)};
-      --px-dur:   #{nth((4s, 5s, 3s, 6s, 4s, 7s, 3s, 5s, 6s, 4s, 3s, 7s, 5s, 4s), $i)};
-      --px-delay: #{nth((0s, 1s, 2s, 0.5s, 3s, 1.5s, 2.5s, 0s, 4s, 1s, 3.5s, 2s, 0.5s, 4.5s), $i)};
-      left:       #{nth((10%, 25%, 40%, 55%, 70%, 85%, 15%, 35%, 50%, 65%, 80%, 5%, 45%, 75%), $i)};
-      width:      #{nth((3px, 4px, 2px, 5px, 3px, 4px, 2px, 3px, 5px, 4px, 2px, 3px, 4px, 5px), $i)};
-      height:     #{nth((3px, 4px, 2px, 5px, 3px, 4px, 2px, 3px, 5px, 4px, 2px, 3px, 4px, 5px), $i)};
-      opacity:    #{nth((0.4, 0.6, 0.5, 0.7, 0.4, 0.8, 0.5, 0.6, 0.4, 0.7, 0.5, 0.6, 0.8, 0.4), $i)};
-    }
-  }
-}
-
-
-  // ── Inner ─────────────────────────────────────────────
   &__inner {
-    position:       relative;
-    z-index:        3;
-    display:        flex;
+    position: relative;
+    z-index: 10;
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
     flex-direction: column;
-    align-items:    center;
-    text-align:     center;
-    max-width:      760px;
-    margin-inline:  auto;
+    align-items: center;
+    text-align: center;
   }
 
-  // ── Title ─────────────────────────────────────────────
-  &__title {
-    margin:      4px 0 10px;
-    font-size:   $hero-title-size;
-    font-weight: 700;
-    line-height: 1.15;
-    color:       $hero-white;
-    @include fade-up(0.1s);
-  }
-
-  // ── Subtitle ──────────────────────────────────────────
-  &__subtitle {
-    margin:      0 0 110px;
-    font-size:   $hero-subtitle-size;
-    font-weight: 500;
-    line-height: 1.7;
-    color:       $hero-white;
-    opacity:     0.9;
-    @include fade-up(0.35s);
-  }
-
-  // ── Actions ───────────────────────────────────────────
-  &__actions {
-    position:        relative;
-    display:         flex;
-    gap:             12px;
-    flex-wrap:       wrap;
-    justify-content: center;
-    @include fade-up(0.58s);
-
-    // Pulse ring پشت دکمه
-    &::before {
-      content:       "";
-      position:      absolute;
-      inset:         -12px;
-      border-radius: calc(#{$hero-cta-r} + 12px);
-      border:        2px solid rgba(255, 255, 255, 0.45);
-      animation:     cta-ring-pulse 2.4s ease-out 1.2s infinite;
-      pointer-events: none;
-    }
-  }
-
-  // ── CTA Button ────────────────────────────────────────
-  .hero__cta,
-  &__actions > button,
-  &__actions > a {
-    position:      relative;
-    width:         $hero-cta-w;
-    height:        $hero-cta-h;
-    border-radius: $hero-cta-r;
-    font-size:     $hero-cta-fs;
-    font-weight:   700;
-    overflow:      hidden;
-    z-index:       1;
-
-    // Shimmer sweep روی دکمه
-    &::after {
-      content:    "";
-      position:   absolute;
-      top:        0;
-      left:       -100%;
-      width:      60%;
-      height:     100%;
-      background: linear-gradient(
-        105deg,
-        transparent 20%,
-        rgba(255,255,255,0.35) 50%,
-        transparent 80%
-      );
-      animation:  btn-shimmer 3.5s ease-in-out 2s infinite;
-    }
-  }
-
-  // ── Legacy ────────────────────────────────────────────
+  // نشان بالای تیتر
   &__badge {
-    display:       inline-block;
-    padding:       8px 12px;
-    border-radius: 999px;
-    background:    rgba(255, 255, 255, 0.55);
-    border:        1px solid rgba(255, 255, 255, 0.6);
-    font-weight:   800;
-    color:         $color-footer;
-  }
-
-  &__desc {
-    margin:      0 0 18px;
-    color:       rgba(15, 23, 42, 0.75);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 10px 24px;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9rem;
     font-weight: 600;
-    line-height: 1.9;
+    margin-bottom: 32px;
+    animation: hero-reveal 0.8s ease-out both, badge-pulse 3s infinite;
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      background: $cyan;
+      border-radius: 50%;
+      box-shadow: 0 0 10px $cyan;
+    }
   }
 
-  &__visual {
-    display:       grid;
-    gap:           12px;
-    justify-items: start;
+  &__title {
+    font-size: clamp(32px, 6vw, 68px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+    animation: hero-reveal 0.8s ease-out 0.2s both;
+
+    .hero__highlight {
+      background: linear-gradient(180deg, #fff 30%, rgba($cyan, 0.6) 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+    }
   }
 
-  &__card {
-    background:      rgba(255, 255, 255, 0.55);
-    border:          1px solid rgba(255, 255, 255, 0.65);
-    border-radius:   $radius-lg;
-    padding:         16px;
-    box-shadow:      $shadow-sm;
-    backdrop-filter: blur(8px);
+  &__subtitle {
+    font-size: clamp(16px, 2vw, 20px);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+    max-width: 65ch;
+    margin-bottom: 56px;
+    animation: hero-reveal 0.8s ease-out 0.4s both;
+  }
 
-    strong { display: block; color: $color-dark; font-size: 1.05rem; }
-    span   { color: rgba(15, 23, 42, 0.72); font-weight: 700; }
+  &__actions {
+    display: flex;
+    gap: 20px;
+    animation: hero-reveal 0.8s ease-out 0.6s both;
+  }
 
-    &--main  { width: min(340px, 100%); }
-    &--small { width: min(220px, 100%); }
+  &__cta {
+  min-width: clamp(260px, 28vw, 420px);
+  height: clamp(58px, 5vw, 72px);
+
+  padding: 0 clamp(32px, 4vw, 48px) !important;
+
+  font-size: clamp(1.05rem, 1.2vw, 1.2rem) !important;
+  font-weight: 800 !important;
+
+  border-radius: 20px !important;
+
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.2);
+  transition: all 0.35s ease !important;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.28);
   }
 }
 
-// ── Button shimmer keyframe ────────────────────────────
-@keyframes btn-shimmer {
-  0%   { left: -100%; }
-  40%,
-  100% { left:  160%; }
+
+  &__secondary-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0 32px;
+    height: clamp(52px, 6vw, 64px);
+    border-radius: 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: white;
+      transform: translateY(-5px);
+    }
+  }
+
+  &__particle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particle-float 5s infinite ease-in;
+    
+    @for $i from 1 through 14 {
+      &:nth-child(#{$i}) {
+        left: random(100) * 1%;
+        width: random(4) + 2 + px;
+        height: auto;
+        aspect-ratio: 1;
+        animation-duration: (random(3000) + 3000) + ms;
+        animation-delay: (random(5000)) + ms;
+      }
+    }
+  }
+
+  &__footer-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(to top, #fdfdfd, transparent);
+    z-index: 5;
+  }
 }
 
-// ── Responsive ────────────────────────────────────────
-@media (max-width: 900px) {
+// Mobile Responsive
+@media (max-width: 768px) {
   .hero {
-    min-height: unset;
-    padding:    48px 0 36px;
+    padding: 120px 0 80px;
+    min-height: auto;
 
-    &__title    { font-size: clamp(36px, 8vw, 72px); }
-    &__subtitle {
-      font-size:     clamp(16px, 3.5vw, 24px);
-      margin-bottom: 64px;
+    &__actions {
+      flex-direction: column;
+      width: 100%;
+      gap: 15px;
+
+      button, .hero__cta {
+        width: 100% !important;
+      }
     }
 
-    .hero__cta,
-    &__actions > button,
-    &__actions > a {
-      width:     min(#{$hero-cta-w}, 90vw);
-      height:    60px;
-      font-size: 20px;
+    &__title {
+      br { display: none; }
     }
-
-    &__actions::before { display: none; }
   }
-
-  .hero__inner  { grid-template-columns: 1fr; }
-  .hero__visual { order: -1; }
 }

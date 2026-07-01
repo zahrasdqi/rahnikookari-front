@@ -1,29 +1,31 @@
-//src\pages\Dashboard\VerifierDashboard.jsx
+// src/pages/Dashboard/VerifierDashboard.jsx
+
 import React, { useEffect, useMemo, useState } from "react";
 import VerifierHero from "../../components/features/VerifierDashboard/VerifierHero/VerifierHero";
 import { verifierService } from "../../services/verifier.service";
 import ReviewDetails from "../../components/features/VerifierDashboard/ReviewDetails/ReviewDetails";
+import ProfileReviewDetails from "../../components/features/VerifierDashboard/ReviewDetails/ProfileReviewDetails";
+import CampaignReviewDetails from "../../components/features/VerifierDashboard/ReviewDetails/CampaignReviewDetails";
 import "./VerifierDashboard.scss";
 
 const STATUS_LABELS = {
   pending: "در انتظار بررسی",
   approved: "تأیید شده",
   rejected: "رد شده",
+  draft: "پیش‌نویس",
+  active: "فعال",
+  suspended: "معلق",
+  completed: "تکمیل شده",
 };
 
 const STATUS_CLASSES = {
   pending: "pending",
   approved: "approved",
   rejected: "rejected",
-};
-
-const formatDate = (dateValue) => {
-  if (!dateValue) return "-";
-
-  return new Intl.DateTimeFormat("fa-IR", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(dateValue));
+  draft: "pending",
+  active: "approved",
+  suspended: "rejected",
+  completed: "approved",
 };
 
 const VerifierDashboard = () => {
@@ -39,10 +41,18 @@ const VerifierDashboard = () => {
     items: [],
   });
 
+  const [pendingProfiles, setPendingProfiles] = useState([]);
+  const [pendingCampaigns, setPendingCampaigns] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
+  const [isProfilesLoading, setIsProfilesLoading] = useState(false);
+  const [isCampaignsLoading, setIsCampaignsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [isActionLoading, setIsActionLoading] = useState(false);
 
@@ -51,24 +61,43 @@ const VerifierDashboard = () => {
       setIsLoading(true);
       setErrorMessage("");
 
-      const data = await verifierService.getDashboard({
-        limit: 100,
-        offset: 0,
-      });
-
+      const data = await verifierService.getDashboard();
       setDashboardData({
-        stats: data?.stats || {
-          total: 0,
-          pending: 0,
-          approved: 0,
-          rejected: 0,
-        },
-        items: Array.isArray(data?.items) ? data.items : [],
+        stats: data?.stats || dashboardData.stats,
+        items: data?.items || [],
       });
     } catch (error) {
-      setErrorMessage("دریافت اطلاعات داشبورد اعتبارسنج با خطا مواجه شد.");
+      setErrorMessage("بارگذاری داشبورد با خطا مواجه شد.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchPendingProfiles = async () => {
+    try {
+      setIsProfilesLoading(true);
+      setErrorMessage("");
+
+      const data = await verifierService.getPendingProfiles();
+      setPendingProfiles(Array.isArray(data) ? data : data?.items || []);
+    } catch (error) {
+      setErrorMessage("بارگذاری نمایه‌های در انتظار با خطا مواجه شد.");
+    } finally {
+      setIsProfilesLoading(false);
+    }
+  };
+
+  const fetchPendingCampaigns = async () => {
+    try {
+      setIsCampaignsLoading(true);
+      setErrorMessage("");
+
+      const data = await verifierService.getPendingCampaigns();
+      setPendingCampaigns(Array.isArray(data) ? data : data?.items || []);
+    } catch (error) {
+      setErrorMessage("بارگذاری کمپین‌های در انتظار با خطا مواجه شد.");
+    } finally {
+      setIsCampaignsLoading(false);
     }
   };
 
@@ -76,124 +105,157 @@ const VerifierDashboard = () => {
     fetchDashboard();
   }, []);
 
+  useEffect(() => {
+    if (activeTab === "review-profiles" && pendingProfiles.length === 0) {
+      fetchPendingProfiles();
+    }
+    if (activeTab === "review-campaigns" && pendingCampaigns.length === 0) {
+      fetchPendingCampaigns();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const stats = useMemo(() => {
+    return dashboardData.stats || {
+      total: 0,
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+    };
+  }, [dashboardData.stats]);
+
   const handleOpenReview = async (id) => {
     try {
       setIsDetailLoading(true);
-
       const detail = await verifierService.getRequestDetail(id);
-
       setSelectedRequest(detail);
-    } catch {
-      alert("دریافت جزئیات پرونده با خطا مواجه شد.");
     } finally {
       setIsDetailLoading(false);
     }
   };
 
-  const handleApprove = async () => {
-    if (!selectedRequest) return;
-
-    const confirm = window.confirm(
-      "آیا از تأیید و فعال‌سازی این موسسه اطمینان دارید؟"
-    );
-
-    if (!confirm) return;
+  const handleRejectRequest = async (reason) => {
+    if (!selectedRequest?.id) return;
 
     try {
       setIsActionLoading(true);
-
-      await verifierService.approveRequest(selectedRequest.id);
-
-      alert("پرونده با موفقیت تأیید شد.");
-
-      setSelectedRequest(null);
-      fetchDashboard();
-    } catch {
-      alert("خطا در تأیید پرونده.");
-    } finally {
-      setIsActionLoading(false);
-    }
-  };
-
-  const handleReject = async (reason) => {
-    if (!selectedRequest) return;
-
-    const confirm = window.confirm("آیا از رد این پرونده مطمئن هستید؟");
-
-    if (!confirm) return;
-
-    try {
-      setIsActionLoading(true);
-
       await verifierService.rejectRequest(selectedRequest.id, reason);
-
-      alert("پرونده رد شد.");
-
       setSelectedRequest(null);
-      fetchDashboard();
-    } catch {
-      alert("خطا در رد پرونده.");
+      await fetchDashboard();
     } finally {
       setIsActionLoading(false);
     }
   };
 
-  const stats = useMemo(() => {
-    const apiStats = dashboardData.stats || {};
+  const handleApproveRequest = async () => {
+    if (!selectedRequest?.id) return;
 
-    return {
-      totalCount: apiStats.total || 0,
-      pendingCount: apiStats.pending || 0,
-      rejectedCount: apiStats.rejected || 0,
-      approvedCount: apiStats.approved || 0,
-    };
-  }, [dashboardData.stats]);
-
-  const historyItems = useMemo(
-    () =>
-      dashboardData.items.filter((item) =>
-        ["approved", "rejected"].includes(item.status)
-      ),
-    [dashboardData.items]
-  );
-
-  const heroContent = useMemo(() => {
-    switch (activeTab) {
-      case "summary":
-        return {
-          title: "بررسی و اعتبارسنجی موسسات خیریه",
-          description:
-            "در این صفحه فقط پرونده‌هایی نمایش داده می‌شوند که ادمین برای بررسی به شما اختصاص داده است.",
-        };
-
-      case "my-cases":
-        return {
-          title: "پرونده‌های من",
-          description:
-            "در این صفحه پرونده‌های مؤسسه‌هایی که به شما اختصاص داده شده نمایش داده می‌شود.",
-        };
-
-      case "history":
-        return {
-          title: "تاریخچه تصمیم‌های اعتبارسنج",
-          description:
-            "اینجا نتیجه بررسی پرونده‌ها و اقدام‌های قبلی نمایش داده می‌شود.",
-        };
-
-      default:
-        return {
-          title: "داشبورد اعتبارسنج",
-          description: "",
-        };
+    try {
+      setIsActionLoading(true);
+      await verifierService.approveRequest(selectedRequest.id);
+      setSelectedRequest(null);
+      await fetchDashboard();
+    } catch (error) {
+      console.error("Approve request failed:", error);
+      alert("خطا در تایید پرونده. لطفاً دوباره تلاش کنید.");
+    } finally {
+      setIsActionLoading(false);
     }
-  }, [activeTab]);
+  };
+
+  const handleOpenProfileReview = (profile) => {
+    setSelectedProfile(profile);
+  };
+
+  const handleApproveProfile = async () => {
+    if (!selectedProfile?.id) {
+      console.error("No selected profile id found:", selectedProfile);
+      return;
+    }
+
+    try {
+      setIsActionLoading(true);
+
+      console.log("Approving charity profile:", {
+        id: selectedProfile.id,
+        profile: selectedProfile,
+      });
+
+      await verifierService.approveProfile(selectedProfile.id);
+
+      setSelectedProfile(null);
+      await fetchPendingProfiles();
+      await fetchDashboard();
+    } catch (error) {
+      console.error("Approve profile failed:", {
+        status: error?.response?.status,
+        data: error?.response?.data,
+        message: error?.message,
+        selectedProfile,
+      });
+
+      alert(
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          "خطا در تأیید نمایه. لطفاً لاگ سرور را بررسی کنید."
+      );
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleRejectProfile = async (reason) => {
+    if (!selectedProfile?.id) return;
+
+    try {
+      setIsActionLoading(true);
+      await verifierService.rejectProfile(selectedProfile.id, reason);
+      setSelectedProfile(null);
+      await fetchPendingProfiles();
+      await fetchDashboard();
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleOpenCampaignReview = (campaign) => {
+    setSelectedCampaign(campaign);
+  };
+
+  const handleApproveCampaign = async () => {
+    if (!selectedCampaign?.id) return;
+
+    try {
+      setIsActionLoading(true);
+      await verifierService.approveCampaign(selectedCampaign.id);
+      setSelectedCampaign(null);
+      await fetchPendingCampaigns();
+      await fetchDashboard();
+    } catch (error) {
+      console.error("Approve campaign failed:", error);
+      alert("خطا در تأیید کمپین. لطفاً دوباره تلاش کنید.");
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleRejectCampaign = async (reason) => {
+    if (!selectedCampaign?.id) return;
+
+    try {
+      setIsActionLoading(true);
+      await verifierService.rejectCampaign(selectedCampaign.id, reason);
+      setSelectedCampaign(null);
+      await fetchPendingCampaigns();
+      await fetchDashboard();
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
 
   return (
     <div className="verifier-main-page">
-      <VerifierHero
-        title={heroContent.title}
-        description={heroContent.description}
-      />
+      <VerifierHero />
 
       <div className="dashboard-content-container">
         <div className="tab-navigation-bar">
@@ -216,6 +278,22 @@ const VerifierDashboard = () => {
 
             <button
               type="button"
+              className={activeTab === "review-profiles" ? "active" : ""}
+              onClick={() => setActiveTab("review-profiles")}
+            >
+              بررسی نمایه‌ها
+            </button>
+
+            <button
+              type="button"
+              className={activeTab === "review-campaigns" ? "active" : ""}
+              onClick={() => setActiveTab("review-campaigns")}
+            >
+              بررسی کمپین‌ها
+            </button>
+
+            <button
+              type="button"
               className={activeTab === "history" ? "active" : ""}
               onClick={() => setActiveTab("history")}
             >
@@ -224,164 +302,208 @@ const VerifierDashboard = () => {
           </div>
         </div>
 
-        {errorMessage && (
-          <div className="verifier-dashboard-alert">{errorMessage}</div>
+        {errorMessage && <div className="verifier-dashboard-state">{errorMessage}</div>}
+
+        {activeTab === "summary" && (
+          <div className="view-fade-in summary-tab-layout">
+            <div className="stats-row-grid">
+              <div className="mini-stat-card">
+                <div className="card-dot light-blue"></div>
+                <div className="stat-value">{stats.totalCount ?? stats.total ?? 0}</div>
+                <div className="stat-label">کل پرونده‌ها</div>
+              </div>
+
+              <div className="mini-stat-card">
+                <div className="card-dot orange"></div>
+                <div className="stat-value">{stats.pendingCount ?? stats.pending ?? 0}</div>
+                <div className="stat-label">پرونده‌ها در انتظار</div>
+              </div>
+
+              <div className="mini-stat-card">
+                <div className="card-dot green"></div>
+                <div className="stat-value">{stats.approvedCount ?? stats.approved ?? 0}</div>
+                <div className="stat-label">تأیید شده</div>
+              </div>
+
+              <div className="mini-stat-card">
+                <div className="card-dot red"></div>
+                <div className="stat-value">{stats.rejectedCount ?? stats.rejected ?? 0}</div>
+                <div className="stat-label">رد شده</div>
+              </div>
+
+              <div className="mini-stat-card">
+                <div className="card-dot purple"></div>
+                <div className="stat-value">{pendingProfiles.length}</div>
+                <div className="stat-label">نمایه‌های در انتظار</div>
+              </div>
+
+              <div className="mini-stat-card">
+                <div className="card-dot blue"></div>
+                <div className="stat-value">{pendingCampaigns.length}</div>
+                <div className="stat-label">کمپین‌های در انتظار</div>
+              </div>
+            </div>
+          </div>
         )}
 
-        {isLoading ? (
-          <div className="cases-cards-grid">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="case-item-card skeleton-card"></div>
-            ))}
-          </div>
-        ) : (
-          <>
-            {activeTab === "summary" && (
-              <div className="view-fade-in summary-tab-layout">
-                <div className="stats-row-grid">
-                  <div className="mini-stat-card">
-                    <div className="card-dot light-blue"></div>
-                    <div className="stat-value">{stats.totalCount}</div>
-                    <div className="stat-label">کل پرونده‌ها</div>
-                  </div>
+        {activeTab === "my-cases" && (
+          <div className="view-fade-in my-cases-tab-layout">
+            {isLoading ? (
+              <div className="verifier-dashboard-state">در حال بارگذاری...</div>
+            ) : dashboardData.items.length === 0 ? (
+              <div className="verifier-dashboard-state">پرونده‌ای برای نمایش وجود ندارد.</div>
+            ) : (
+              <div className="cases-cards-grid">
+                {dashboardData.items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="case-item-card"
+                    onClick={() => handleOpenReview(item.id)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="card-gradient-top">
+                      <div className="floating-white-square"></div>
+                    </div>
 
-                  <div className="mini-stat-card">
-                    <div className="card-dot blue"></div>
-                    <div className="stat-value">{stats.pendingCount}</div>
-                    <div className="stat-label">در انتظار بررسی</div>
-                  </div>
+                    <div className="card-main-body">
+                      <div className="body-header">
+                        <span className={`badge-status ${STATUS_CLASSES[item.status] || "pending"}`}>
+                          {STATUS_LABELS[item.status] || item.status}
+                        </span>
 
-                  <div className="mini-stat-card">
-                    <div className="card-dot orange"></div>
-                    <div className="stat-value">{stats.rejectedCount}</div>
-                    <div className="stat-label">رد شده</div>
-                  </div>
+                        <h3>{item.charity_name || "بدون نام"}</h3>
+                      </div>
 
-                  <div className="mini-stat-card">
-                    <div className="card-dot green"></div>
-                    <div className="stat-value">{stats.approvedCount}</div>
-                    <div className="stat-label">تأیید شده</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "my-cases" && (
-              <div className="view-fade-in my-cases-tab-layout">
-                {dashboardData.items.length === 0 ? (
-                  <div className="verifier-dashboard-state">
-                    پرونده‌ای برای نمایش وجود ندارد.
-                  </div>
-                ) : (
-                  <div className="cases-cards-grid">
-                    {dashboardData.items.map((item) => (
-                      <div key={item.id} className="case-item-card">
-                        <div className="card-gradient-top">
-                          <div className="floating-white-square"></div>
+                      <div className="case-meta-list">
+                        <div className="meta-row">
+                          <span className="meta-label">شناسه پرونده:</span>
+                          <span className="meta-value">{String(item.id).slice(0, 8)}</span>
                         </div>
 
-                        <div className="card-main-body">
-                          <div className="body-header">
-                            <span
-                              className={`badge-status ${
-                                STATUS_CLASSES[item.status] || "pending"
-                              }`}
-                            >
-                              {STATUS_LABELS[item.status] || item.status}
-                            </span>
-
-                            <h3>{item.charity_name || "بدون نام"}</h3>
-                          </div>
-
-                          <div className="case-meta-list">
-                            <div className="meta-row">
-                              <span className="meta-label">شناسه پرونده:</span>
-                              <span className="meta-value">
-                                {String(item.id).slice(0, 8)}
-                              </span>
-                            </div>
-
-                            <div className="meta-row">
-                              <span className="meta-label">تعداد مدارک:</span>
-                              <span className="meta-value">
-                                {item.documents_count ?? 0}
-                              </span>
-                            </div>
-
-                            <div className="meta-row">
-                              <span className="meta-label">درصد تکمیل:</span>
-                              <span className="meta-value">
-                                {item.checklist_percent ?? 0}٪
-                              </span>
-                            </div>
-
-                            <div className="meta-row">
-                              <span className="meta-label">تاریخ ثبت:</span>
-                              <span className="meta-value">
-                                {formatDate(item.created_at)}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="body-buttons">
-                            <button type="button" className="btn-view">
-                              مشاهده
-                            </button>
-
-                            <button
-                              type="button"
-                              className="btn-check"
-                              onClick={() => handleOpenReview(item.id)}
-                              disabled={isDetailLoading}
-                            >
-                              {isDetailLoading
-                                ? "در حال دریافت..."
-                                : "بررسی پرونده"}
-                            </button>
-                          </div>
+                        <div className="meta-row">
+                          <span className="meta-label">تعداد مدارک:</span>
+                          <span className="meta-value">{item.documents_count ?? 0}</span>
                         </div>
                       </div>
-                    ))}
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
             )}
+          </div>
+        )}
 
-            {activeTab === "history" && (
-              <div className="view-fade-in history-tab-layout">
-                <div className="history-white-container">
-                  {historyItems.length === 0 ? (
-                    <div className="verifier-dashboard-state">
-                      هنوز تاریخچه‌ای برای نمایش وجود ندارد.
+        {activeTab === "review-profiles" && (
+          <div className="view-fade-in my-cases-tab-layout">
+            {isProfilesLoading ? (
+              <div className="verifier-dashboard-state">در حال بارگذاری نمایه‌ها...</div>
+            ) : pendingProfiles.length === 0 ? (
+              <div className="verifier-dashboard-state">نمایه‌ای برای بررسی وجود ندارد.</div>
+            ) : (
+              <div className="cases-cards-grid">
+                {pendingProfiles.map((profile) => (
+                  <div
+                    key={profile.id}
+                    className="case-item-card"
+                    onClick={() => handleOpenProfileReview(profile)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="card-gradient-top">
+                      <div className="floating-white-square"></div>
                     </div>
-                  ) : (
-                    <div className="history-list">
-                      {historyItems.map((item) => (
-                        <div key={item.id} className="history-row-card">
-                          <div className="history-content">
-                            <h5>
-                              {item.status === "approved"
-                                ? "پرونده تأیید شد"
-                                : "پرونده رد شد"}
-                            </h5>
-                            <p>
-                              پرونده {item.charity_name || "بدون نام"} با وضعیت{" "}
-                              {STATUS_LABELS[item.status] || item.status} ثبت
-                              شده است.
-                            </p>
-                          </div>
 
-                          <div className="history-date-tag">
-                            <span>{formatDate(item.updated_at)}</span>
-                          </div>
+                    <div className="card-main-body">
+                      <div className="body-header">
+                        <span className="badge-status pending">در انتظار بررسی</span>
+                        <h3>{profile.charity_name || profile.name || "بدون نام"}</h3>
+                      </div>
+
+                      <div className="case-meta-list">
+                        <div className="meta-row">
+                          <span className="meta-label">شماره تماس:</span>
+                          <span className="meta-value">{profile.phone || profile.phone_number || "-"}</span>
                         </div>
-                      ))}
+
+                        <div className="meta-row">
+                          <span className="meta-label">موقعیت:</span>
+                          <span className="meta-value">{profile.city || profile.province || "-"}</span>
+                        </div>
+
+                        <div className="meta-row">
+                          <span className="meta-label">توضیح کوتاه:</span>
+                          <span className="meta-value">{profile.short_description || profile.description || "-"}</span>
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ))}
               </div>
             )}
-          </>
+          </div>
+        )}
+
+        {activeTab === "review-campaigns" && (
+          <div className="view-fade-in my-cases-tab-layout">
+            {isCampaignsLoading ? (
+              <div className="verifier-dashboard-state">در حال بارگذاری کمپین‌ها...</div>
+            ) : pendingCampaigns.length === 0 ? (
+              <div className="verifier-dashboard-state">کمپینی برای بررسی وجود ندارد.</div>
+            ) : (
+              <div className="cases-cards-grid">
+                {pendingCampaigns.map((campaign) => (
+                  <div
+                    key={campaign.id}
+                    className="case-item-card"
+                    onClick={() => handleOpenCampaignReview(campaign)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="card-gradient-top">
+                      <div className="floating-white-square"></div>
+                    </div>
+
+                    <div className="card-main-body">
+                      <div className="body-header">
+                        <span className={`badge-status ${STATUS_CLASSES[campaign.status] || "pending"}`}>
+                          {STATUS_LABELS[campaign.status] || campaign.status}
+                        </span>
+                        <h3>{campaign.title || "بدون عنوان"}</h3>
+                      </div>
+
+                      <div className="case-meta-list">
+                        <div className="meta-row">
+                          <span className="meta-label">دسته‌بندی:</span>
+                          <span className="meta-value">{campaign.category || "-"}</span>
+                        </div>
+
+                        <div className="meta-row">
+                          <span className="meta-label">مبلغ هدف:</span>
+                          <span className="meta-value">
+                            {campaign.target_amount ? `${campaign.target_amount.toLocaleString()} تومان` : "-"}
+                          </span>
+                        </div>
+
+                        <div className="meta-row">
+                          <span className="meta-label">تاریخ پایان:</span>
+                          <span className="meta-value">{campaign.end_date || "-"}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "history" && (
+          <div className="view-fade-in">
+            <div className="verifier-dashboard-state">
+              تاریخچه بررسی هنوز پیاده‌سازی نشده یا از API جداگانه می‌آید.
+            </div>
+          </div>
         )}
       </div>
 
@@ -389,8 +511,28 @@ const VerifierDashboard = () => {
         <ReviewDetails
           data={selectedRequest}
           onClose={() => setSelectedRequest(null)}
-          onApprove={handleApprove}
-          onReject={handleReject}
+          onApprove={handleApproveRequest}
+          onReject={handleRejectRequest}
+          isSubmitting={isActionLoading}
+        />
+      )}
+
+      {selectedProfile && (
+        <ProfileReviewDetails
+          data={selectedProfile}
+          onClose={() => setSelectedProfile(null)}
+          onApprove={handleApproveProfile}
+          onReject={handleRejectProfile}
+          isSubmitting={isActionLoading}
+        />
+      )}
+
+      {selectedCampaign && (
+        <CampaignReviewDetails
+          data={selectedCampaign}
+          onClose={() => setSelectedCampaign(null)}
+          onApprove={handleApproveCampaign}
+          onReject={handleRejectCampaign}
           isSubmitting={isActionLoading}
         />
       )}

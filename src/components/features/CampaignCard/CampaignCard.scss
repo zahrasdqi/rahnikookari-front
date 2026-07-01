@@ -1,0 +1,190 @@
+//src\components\features\CampaignCard\CampaignCard.scss
+@use "../../../styles/variables" as *;
+
+.campaign-card {
+  width: 360px;
+  min-height: 555px;
+  border-radius: 20px;
+  background: $color-surface;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  direction: rtl;
+  flex-shrink: 0;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, opacity 0.35s ease;
+  display: flex;
+  flex-direction: column;
+
+  &--active {
+    box-shadow: $shadow-md;
+    z-index: 1;
+  }
+
+  &__image {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    background: $light-blue;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+
+  &__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: $color-surface;
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-dark;
+    box-shadow: $shadow-sm;
+  }
+
+  &__body {
+    padding: 18px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 900;
+    color: $color-dark;
+    line-height: 1.8;
+  }
+
+  &__org {
+    font-size: 13px;
+    color: $color-muted;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(15, 23, 42, 0.72);
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 130px;
+  }
+
+  &__amounts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    direction: rtl;
+    margin-top: auto;
+  }
+
+  &__raised {
+    font-size: 15px;
+    font-weight: 800;
+    color: $color-dark;
+  }
+
+  &__goal {
+    font-size: 13px;
+    color: $color-muted;
+    font-weight: 600;
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 7px;
+    border-radius: 999px;
+    background: $auth-border;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(to left, $auth-focus, $auth-label);
+    transition: width 0.4s ease;
+  }
+
+  &__days {
+    font-size: 12px;
+    font-weight: 700;
+    color: $auth-link;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 6px;
+    direction: rtl;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &--donate {
+      background: $auth-btn-bg;
+      color: $auth-btn-txt;
+      border: none;
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+
+    &--details {
+      background: transparent;
+      color: $color-dark;
+      border: 1.5px solid $auth-border;
+
+      &:hover {
+        background: $auth-input-bg;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .campaign-card {
+    width: min(100%, 360px);
+    min-height: auto;
+  }
+
+  .campaign-card__desc {
+    min-height: auto;
+  }
+}

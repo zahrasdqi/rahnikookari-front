@@ -1,0 +1,187 @@
+// src/components/features/CharityDashboard/SkillNeedManagement/CreateSkillNeedModal/CreateSkillNeedModal.scss
+
+@import "../../../../../styles/variables";
+@import "../../../../../styles/mixins";
+
+.create-skill-need-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+
+  &__content {
+    background: white;
+    border-radius: 20px;
+    max-width: 650px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.75rem 2rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  &__close {
+    @include button-base;
+    font-size: 1.5rem;
+    color: #999;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  &__error {
+    margin: 1.5rem 2rem 0;
+    padding: 1rem;
+    background: #fee;
+    border: 1px solid #fcc;
+    border-radius: 8px;
+    color: #c33;
+    text-align: center;
+  }
+
+  &__form {
+    padding: 2rem;
+  }
+
+  &__field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.875rem;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      font-family: inherit;
+    }
+  }
+
+  &__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      cursor: pointer;
+    }
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+
+    @include respond-to(mobile) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &__btn {
+    @include button-base;
+    padding: 0.875rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 120px;
+
+    @include respond-to(mobile) {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &--primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.35);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    &--secondary {
+      background: #f5f5f5;
+      color: var(--text-secondary);
+      border: 1.5px solid #ddd;
+
+      &:hover:not(:disabled) {
+        background: #ececec;
+        border-color: #ccc;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

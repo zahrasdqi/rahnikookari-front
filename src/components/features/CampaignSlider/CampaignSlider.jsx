@@ -1,136 +1,116 @@
-//front\rahnikookari-front\src\components\features\CampaignSlider\CampaignSlider.jsx
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import CampaignCard from '../CampaignCard/CampaignCard';
 import './CampaignSlider.scss';
 
-// داده موک - وقتی بکند آماده شد جایگزین API call میشه
 const MOCK_CAMPAIGNS = [
   {
     id: 1,
-    category: 'دسته بندی',
+    category: 'دسته‌بندی',
     image: null,
-    title: 'عنوان',
+    title: 'عنوان پویش',
     org: 'نام موسسه',
-    description: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ',
+    description:
+      'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. این متن برای نمایش نمونه کارت پویش در اسلایدر صفحه اصلی استفاده می‌شود.',
     raised: 100000,
     goal: 1000000,
     daysLeft: 10,
   },
   {
     id: 2,
-    category: 'دسته بندی',
+    category: 'دسته‌بندی',
     image: null,
-    title: 'عنوان',
-    org: 'نام موسسه',
-    description: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ',
-    raised: 100000,
-    goal: 1000000,
-    daysLeft: 10,
+    title: 'پویش حمایت از کودکان',
+    org: 'موسسه راه نیک',
+    description:
+      'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. این متن صرفاً برای تست ساختار کارت قرار داده شده است.',
+    raised: 250000,
+    goal: 1200000,
+    daysLeft: 8,
   },
   {
     id: 3,
-    category: 'دسته بندی',
+    category: 'درمانی',
     image: null,
-    title: 'عنوان',
-    org: 'نام موسسه',
-    description: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ',
-    raised: 100000,
-    goal: 1000000,
-    daysLeft: 10,
-  },
-  {
-    id: 4,
-    category: 'دسته بندی',
-    image: null,
-    title: 'عنوان',
-    org: 'نام موسسه',
-    description: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است.',
+    title: 'پویش تأمین هزینه درمان',
+    org: 'بنیاد مهر',
+    description:
+      'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ. اگر بک‌اند آماده شد این داده‌ها را با API واقعی جایگزین کن.',
     raised: 700000,
     goal: 1000000,
     daysLeft: 5,
   },
+  {
+    id: 4,
+    category: 'آموزشی',
+    image: null,
+    title: 'پویش تهیه لوازم آموزشی',
+    org: 'خانه امید',
+    description:
+      'این متن نمونه است تا ظاهر اسلایدر و کارت‌ها در صفحه اصلی به‌درستی دیده شود.',
+    raised: 350000,
+    goal: 900000,
+    daysLeft: 12,
+  },
 ];
 
-function formatNumber(n) {
-  return n.toLocaleString('fa-IR');
-}
+export default function CampaignSlider({ campaigns = MOCK_CAMPAIGNS }) {
+  const safeCampaigns = Array.isArray(campaigns) ? campaigns : [];
+  const [activeIndex, setActiveIndex] = useState(0);
 
-function CampaignCard({ item, isCenter }) {
-  const progress = Math.min((item.raised / item.goal) * 100, 100);
+  if (!safeCampaigns.length) return null;
 
-  return (
-    <div className={`campaign-card${isCenter ? ' campaign-card--active' : ''}`}>
-      {/* تصویر بالا */}
-      <div className="campaign-card__image">
-        {item.image
-          ? <img src={item.image} alt={item.title} />
-          : <div className="campaign-card__image-placeholder" />}
-        <span className="campaign-card__badge">{item.category}</span>
-      </div>
+  const prev = () => {
+    setActiveIndex((prevIndex) =>
+      (prevIndex - 1 + safeCampaigns.length) % safeCampaigns.length
+    );
+  };
 
-      {/* محتوا */}
-      <div className="campaign-card__body">
-        <div className="campaign-card__meta">
-          <span className="campaign-card__title">{item.title}</span>
-          <span className="campaign-card__org">{item.org}</span>
-        </div>
+  const next = () => {
+    setActiveIndex((prevIndex) =>
+      (prevIndex + 1) % safeCampaigns.length
+    );
+  };
 
-        <p className="campaign-card__desc">{item.description}</p>
+  const getVisibleCampaigns = () => {
+    const len = safeCampaigns.length;
 
-        {/* اعداد */}
-        <div className="campaign-card__amounts">
-          <span className="campaign-card__raised">{formatNumber(item.raised)}</span>
-          <span className="campaign-card__goal">از {formatNumber(item.goal)}</span>
-        </div>
+    if (len === 1) {
+      return [
+        { campaign: safeCampaigns[0], isCenter: true },
+      ];
+    }
 
-        {/* progress bar */}
-        <div className="campaign-card__progress-track">
-          <div
-            className="campaign-card__progress-fill"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+    if (len === 2) {
+      return safeCampaigns.map((campaign, index) => ({
+        campaign,
+        isCenter: index === activeIndex,
+      }));
+    }
 
-        <span className="campaign-card__days">{item.daysLeft} روز مانده</span>
-
-        {/* دکمه‌ها */}
-        <div className="campaign-card__actions">
-          <button className="campaign-card__btn campaign-card__btn--donate">
-            کمک مالی
-          </button>
-          <button className="campaign-card__btn campaign-card__btn--details">
-            مشاهده جزئیات
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function CampaignSlider() {
-  const [activeIndex, setActiveIndex] = useState(1);
-  const campaigns = MOCK_CAMPAIGNS;
-
-  const prev = () =>
-    setActiveIndex(i => (i - 1 + campaigns.length) % campaigns.length);
-  const next = () =>
-    setActiveIndex(i => (i + 1) % campaigns.length);
-
-  // نمایش سه کارت: قبلی، فعال، بعدی
-  const getVisible = () => {
-    const len = campaigns.length;
     return [
-      campaigns[(activeIndex - 1 + len) % len],
-      campaigns[activeIndex],
-      campaigns[(activeIndex + 1) % len],
+      {
+        campaign: safeCampaigns[(activeIndex - 1 + len) % len],
+        isCenter: false,
+      },
+      {
+        campaign: safeCampaigns[activeIndex],
+        isCenter: true,
+      },
+      {
+        campaign: safeCampaigns[(activeIndex + 1) % len],
+        isCenter: false,
+      },
     ];
   };
 
-  const visible = getVisible();
+  const visibleCampaigns = getVisibleCampaigns();
 
   return (
     <section className="campaign-slider">
       <div className="campaign-slider__inner">
         <button
+          type="button"
           className="campaign-slider__arrow campaign-slider__arrow--prev"
           onClick={prev}
           aria-label="قبلی"
@@ -139,16 +119,17 @@ export default function CampaignSlider() {
         </button>
 
         <div className="campaign-slider__track">
-          {visible.map((item, idx) => (
+          {visibleCampaigns.map(({ campaign, isCenter }) => (
             <CampaignCard
-              key={item.id}
-              item={item}
-              isCenter={idx === 1}
+              key={campaign.id}
+              campaign={campaign}
+              isCenter={isCenter}
             />
           ))}
         </div>
 
         <button
+          type="button"
           className="campaign-slider__arrow campaign-slider__arrow--next"
           onClick={next}
           aria-label="بعدی"
@@ -158,7 +139,9 @@ export default function CampaignSlider() {
       </div>
 
       <div className="campaign-slider__more">
-        <button className="campaign-slider__more-btn">جزئیات بیشتر</button>
+        <Link to="/campaigns" className="campaign-slider__more-btn">
+          مشاهده همه پویش‌ها
+        </Link>
       </div>
     </section>
   );

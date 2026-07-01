@@ -1,32 +1,180 @@
 @use "../../../styles/variables" as *;
 
 .footer {
-  background: $color-footer;
-  color: rgba(255,255,255,0.92);
-  padding: 34px 0;
-  margin-top: 34px;
+  position: relative;
+  background: 
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 30%),
+    linear-gradient(135deg, #12304a 0%, #183d5c 45%, #0f2740 100%);
+  color: rgba(255, 255, 255, 0.92);
+  margin-top: 80px;
+  overflow: hidden;
 
   &__inner {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 22px;
-    align-items: start;
+    position: relative;
+    z-index: 1;
+    padding: 60px 0 30px;
+    
+    
+    @media (max-width: 1200px) {
+      padding-inline: 24px;
+    }
   }
 
-  &__brand strong { font-size: 1.2rem; }
-  &__brand p { margin: 8px 0 0; color: rgba(255,255,255,0.82); line-height: 1.9; }
+  &__top {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    gap: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__brand {
+    max-width: 380px;
+    p {
+      margin: 20px 0 0;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.9;
+      font-size: 0.95rem;
+      text-align: justify;
+    }
+  }
+
+    &__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    strong {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+
+      
+      background: linear-gradient(135deg, #ffffff, $color-btn);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      
+      
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      
+      // برای مرورگرهایی که پشتیبانی نمی‌کنند، یک رنگ جایگزین
+      color: #ffffff; 
+    }
+  }
+
 
   &__cols {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
 
-    h4 { margin: 0 0 10px; font-size: 1rem; }
-    a { display: block; color: rgba(255,255,255,0.85); margin: 6px 0; }
-    a:hover { color: white; }
+  &__col {
+    h4 {
+      margin: 0 0 24px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+  }
+
+  &__links, &__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    a, span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: all 0.25s ease;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        opacity: 0.6;
+        transition: opacity 0.25s ease;
+      }
+
+      &:hover {
+        color: #8fd3ff;
+        transform: translateX(-5px);
+        svg {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &__info {
+    cursor: default;
+    &:hover {
+      transform: none !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+  }
+
+  &__bottom {
+    padding-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+    }
+  }
+
+  &__bottom-links {
+    display: flex;
+    gap: 20px;
+    a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 0.85rem;
+      &:hover { color: #ffffff; }
+    }
   }
 }
 
-@media (max-width: 900px) {
-  .footer__inner { grid-template-columns: 1fr; }
+// 📱 Responsiveness
+@media (max-width: 1024px) {
+  .footer {
+    &__top {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    &__brand { max-width: 100%; }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    &__cols {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+    &__bottom {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    &__cols {
+      grid-template-columns: 1fr;
+    }
+    &__inner {
+      padding-inline: 20px; // فاصله از کناره‌ها در کوچک‌ترین حالت
+    }
+  }
 }

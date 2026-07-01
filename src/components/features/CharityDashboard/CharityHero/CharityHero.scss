@@ -1,0 +1,243 @@
+/* src/components/features/CharityDashboard/CharityHero/CharityHero.scss */
+
+.charity-hero {
+  // برای اطمینان از اعمال درست RTL در تمام شرایط سیستم
+  direction: rtl !important;
+  text-align: right !important;
+  
+  width: min(1280px, calc(100% - 32px));
+  margin: 24px auto 0;
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 16px 40px rgba(53, 86, 114, 0.1),
+    0 0 24px rgba(180, 205, 225, 0.08);
+  border: 1px solid rgba(202, 218, 232, 0.35);
+
+  /* ۱. نوار آبی بالایی */
+  &__banner {
+    position: relative;
+    height: 190px;
+    background: linear-gradient(180deg, #8ea2f6 0%, #98adfb 100%);
+    display: flex;
+    align-items: flex-end; /* عنوان را به لبه پایینی نوار آبی نزدیک‌تر می‌کند */
+    padding: 24px 32px;
+  }
+
+  /* آواتار شناور (مربع سفید رنگ سمت راست) */
+  &__avatar {
+    position: absolute;
+    right: 32px;
+    bottom: -36px; /* نصف در بخش آبی، نصف در بخش سفید برای افکت overlap شناور */
+    width: 112px;
+    height: 112px;
+    background: #fff;
+    border-radius: 24px;
+    border: 6px solid rgba(255, 255, 255, 0.98);
+    box-shadow: 0 12px 28px rgba(31, 55, 77, 0.15);
+    overflow: hidden;
+    z-index: 10;
+
+    img,
+    span {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    img {
+      object-fit: cover;
+    }
+
+    span {
+      background: linear-gradient(145deg, #ffffff, #edf3f8);
+    }
+  }
+
+  /* کانتینر عنوان در بخش آبی */
+  &__title-container {
+    width: 100%;
+    // فاصله از راست = حاشیه آواتار (32px) + عرض آواتار (112px) + فاصله بین آواتار و متن (32px) = 176px
+    padding-right: 144px; 
+    padding-bottom: 4px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 900;
+    color: #244d62;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  /* ۲. نوار سفید پایینی */
+  &__body {
+    background: #ffffff;
+    // فاصله از راست روی 176px تنظیم شده تا توضیحات و تگ‌ها دقیقاً با اسم موسسه هم‌تراز عمودی شوند!
+    padding: 20px 176px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.85;
+    font-weight: 600;
+    color: rgba(43, 85, 106, 0.8);
+    text-align: right;
+    max-width: 720px;
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    // در جهت RTL، مقدار flex-start آیتم‌ها را کاملاً در سمت راست می‌چیند!
+    justify-content: flex-start; 
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(244, 249, 252, 0.95);
+      color: #4c6d80;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid rgba(205, 220, 230, 0.8);
+      white-space: nowrap;
+    }
+
+    span:last-child {
+      background: rgba(255, 246, 224, 0.95);
+      color: #9c7b33;
+      border-color: rgba(239, 209, 145, 0.7);
+    }
+  }
+}
+
+/* واکنش‌گرایی کامپوننت برای تبلت و موبایل */
+@media (max-width: 992px) {
+  .charity-hero {
+    width: min(100%, calc(100% - 24px));
+
+    &__banner {
+      height: 170px;
+      padding: 20px 24px;
+    }
+
+    &__avatar {
+      right: 24px;
+      width: 96px;
+      height: 96px;
+      bottom: -30px;
+      border-radius: 20px;
+    }
+
+    &__title-container {
+      padding-right: 144px; // 24px + 96px + 24px
+    }
+
+    &__title {
+      font-size: 22px;
+    }
+
+    &__body {
+      padding: 16px 144px 20px 24px;
+    }
+
+    &__description {
+      font-size: 12.5px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .charity-hero {
+    border-radius: 20px;
+
+    &__banner {
+      height: 150px;
+      padding: 16px 20px;
+    }
+
+    &__avatar {
+      right: 20px;
+      width: 84px;
+      height: 84px;
+      bottom: -24px;
+      border-radius: 16px;
+      border-width: 4px;
+    }
+
+    &__title-container {
+      padding-right: 120px; // 20px + 84px + 16px
+    }
+
+    &__title {
+      font-size: 19px;
+    }
+
+    &__body {
+      padding: 14px 120px 18px 20px;
+    }
+
+    &__description {
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .charity-hero {
+    width: calc(100% - 16px);
+    border-radius: 16px;
+
+    &__banner {
+      height: 110px;
+      padding: 12px 16px;
+    }
+
+    &__avatar {
+      right: 16px;
+      width: 64px;
+      height: 64px;
+      bottom: -20px;
+      border-radius: 12px;
+      border-width: 3px;
+    }
+
+    &__title-container {
+      padding-right: 92px; // 16px + 64px + 12px
+    }
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__body {
+      padding: 12px 92px 14px 16px;
+      gap: 8px;
+    }
+
+    &__description {
+      font-size: 11px;
+    }
+
+    &__badges {
+      gap: 6px;
+      span {
+        min-height: 28px;
+        padding: 4px 10px;
+        font-size: 10.5px;
+      }
+    }
+  }
+}

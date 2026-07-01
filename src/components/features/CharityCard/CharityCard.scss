@@ -1,0 +1,147 @@
+.charity-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  &__cover {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    top: 120px;
+    right: 24px;
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    background: white;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+  &__content {
+    padding: 52px 24px 24px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    background: #f0f4ff;
+    color: #4f46e5;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  &__location {
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '📍';
+    }
+  }
+
+  &__description {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #4f46e5;
+    color: white;
+
+    &:hover {
+      background: #4338ca;
+    }
+
+    &--secondary {
+      background: transparent;
+      color: #4f46e5;
+      border: 1.5px solid #4f46e5;
+
+      &:hover {
+        background: #f0f4ff;
+      }
+    }
+  }
+}

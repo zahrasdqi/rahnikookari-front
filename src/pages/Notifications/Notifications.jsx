@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { notificationService } from "../../services/notification.service";
+import { charityProfileService } from "../../services/charityProfile.service";
 import "./Notifications.scss";
 
 export default function Notifications() {
@@ -8,6 +9,7 @@ export default function Notifications() {
 
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNavigatingToProfile, setIsNavigatingToProfile] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchNotifications = async () => {
@@ -15,13 +17,29 @@ export default function Notifications() {
       setIsLoading(true);
       setErrorMessage("");
 
+      console.log("[Notifications] Fetching notifications...");
+
       const data = await notificationService.getMyNotifications({
         skip: 0,
         limit: 50,
       });
 
-      setNotifications(Array.isArray(data) ? data : []);
+      console.log("[Notifications] Raw API response:", data);
+
+      const normalizedNotifications = Array.isArray(data) ? data : [];
+
+      console.log(
+        "[Notifications] Normalized notifications:",
+        normalizedNotifications
+      );
+
+      normalizedNotifications.forEach((item, index) => {
+        console.log(`[Notifications] Item ${index}:`, item);
+      });
+
+      setNotifications(normalizedNotifications);
     } catch (error) {
+      console.error("[Notifications] Fetch notifications error:", error);
       setErrorMessage("دریافت پیام‌ها با خطا مواجه شد.");
     } finally {
       setIsLoading(false);
@@ -34,8 +52,15 @@ export default function Notifications() {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
+      console.log("[Notifications] Mark as read clicked:", notificationId);
+
       const updatedNotification = await notificationService.markAsRead(
         notificationId
+      );
+
+      console.log(
+        "[Notifications] Mark as read API response:",
+        updatedNotification
       );
 
       setNotifications((prev) =>
@@ -46,13 +71,18 @@ export default function Notifications() {
         )
       );
     } catch (error) {
+      console.error("[Notifications] Mark as read error:", error);
       setErrorMessage("خوانده شدن پیام ثبت نشد.");
     }
   };
 
   const handleMarkAllAsRead = async () => {
     try {
+      console.log("[Notifications] Mark all as read clicked");
+
       await notificationService.markAllAsRead();
+
+      console.log("[Notifications] Mark all as read completed");
 
       setNotifications((prev) =>
         prev.map((item) => ({
@@ -61,13 +91,44 @@ export default function Notifications() {
         }))
       );
     } catch (error) {
+      console.error("[Notifications] Mark all as read error:", error);
       setErrorMessage("خوانده شدن همه پیام‌ها ثبت نشد.");
     }
   };
 
-  const handleGoToEditProfile = () => {
-    navigate("/charity/profile/edit");
-  };
+  
+  const handleGoToEditProfile = async () => {
+  try {
+    setErrorMessage("");
+    setIsNavigatingToProfile(true);
+
+    console.log("[Notifications] Fetching charity profile...");
+
+    const data = await charityProfileService.getMyProfile();
+
+    console.log("[Notifications] /charity/profile/me response:", data);
+
+    if (!data?.has_profile || !data?.profile?.id) {
+      setErrorMessage(
+        "پروفایل شما هنوز ساخته نشده است. ابتدا باید درخواست احراز خیریه شما تأیید شود."
+      );
+      return;
+    }
+
+    const profileId = data.profile.id;
+
+    navigate(`/charity/profile/edit/${profileId}`);
+
+  } catch (error) {
+    console.error("[Notifications] Navigate error:", error);
+
+    setErrorMessage(
+      "ورود به صفحه تکمیل پروفایل با خطا مواجه شد."
+    );
+  } finally {
+    setIsNavigatingToProfile(false);
+  }
+};
 
   const formatDate = (dateValue) => {
     if (!dateValue) return "";
@@ -121,8 +182,22 @@ export default function Notifications() {
   const isApproveNotification = (item) => {
     const type = String(item?.type || "").toLowerCase();
     const status = String(item?.status || "").toLowerCase();
+    const title = String(item?.title || "").toLowerCase();
+    const message = String(item?.message || "").toLowerCase();
 
-    return (
+    const isRejected =
+      type.includes("reject") ||
+      type.includes("rejected") ||
+      type.includes("decline") ||
+      type.includes("declined") ||
+      status.includes("reject") ||
+      status.includes("rejected") ||
+      status.includes("decline") ||
+      status.includes("declined") ||
+      title.includes("رد شد") ||
+      message.includes("رد شد");
+
+    const isApproved =
       type.includes("approve") ||
       type.includes("approved") ||
       type.includes("accept") ||
@@ -130,8 +205,25 @@ export default function Notifications() {
       status.includes("approve") ||
       status.includes("approved") ||
       status.includes("accept") ||
-      status.includes("accepted")
-    );
+      status.includes("accepted") ||
+      title.includes("تأیید") ||
+      title.includes("تایید") ||
+      message.includes("تأیید") ||
+      message.includes("تایید");
+
+    const result = isApproved && !isRejected;
+
+    console.log("[Notifications] Approve notification check:", {
+      notificationId: item?.id,
+      type: item?.type,
+      status: item?.status,
+      title: item?.title,
+      isApproved,
+      isRejected,
+      result,
+    });
+
+    return result;
   };
 
   const hasUnread = notifications.some((item) => !item.is_read);
@@ -181,6 +273,16 @@ export default function Notifications() {
                   item.type
                 );
 
+                const shouldShowEditProfileButton =
+                  isApproveNotification(item);
+
+                console.log("[Notifications] Render notification card:", {
+                  notificationId: item.id,
+                  notificationTypeClass,
+                  shouldShowEditProfileButton,
+                  item,
+                });
+
                 return (
                   <article
                     key={item.id}
@@ -207,14 +309,16 @@ export default function Notifications() {
                     </div>
 
                     <div className="notifications-page__card-actions">
-
-                      {isApproveNotification(item) && (
+                      {shouldShowEditProfileButton && (
                         <button
                           type="button"
                           className="notifications-page__action-button notifications-page__action-button--profile"
                           onClick={handleGoToEditProfile}
+                          disabled={isNavigatingToProfile}
                         >
-                          ویرایش نمایه
+                          {isNavigatingToProfile
+                            ? "در حال ورود..."
+                            : "تکمیل پروفایل"}
                         </button>
                       )}
 
@@ -227,7 +331,6 @@ export default function Notifications() {
                           خواندم
                         </button>
                       )}
-
                     </div>
                   </article>
                 );

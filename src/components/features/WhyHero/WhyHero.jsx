@@ -1,4 +1,3 @@
-// front/rahnikookari-front/src/components/features/WhyHero/WhyHero.jsx
 import Container from "../../ui/Container/Container";
 import { FiShield, FiTarget, FiLink } from "react-icons/fi";
 import "./WhyHero.scss";
@@ -41,8 +40,10 @@ export default function WhyHero() {
               <div className="why-hero__icon-wrapper">
                 {item.icon}
               </div>
-              <h3 className="why-hero__card-title">{item.title}</h3>
-              <p className="why-hero__card-desc">{item.desc}</p>
+              <div className="why-hero__card-body">
+                <h3 className="why-hero__card-title">{item.title}</h3>
+                <p className="why-hero__card-desc">{item.desc}</p>
+              </div>
             </article>
           ))}
         </div>

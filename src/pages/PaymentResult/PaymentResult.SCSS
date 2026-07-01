@@ -1,0 +1,139 @@
+//src/pages/PaymentResult/PaymentResult.scss
+// src/pages/PaymentResult/PaymentResult.scss
+@import "../../styles/variables";
+
+.payment-result-page {
+  min-height: 100vh;
+  background: $color-bg;
+  padding: 60px 0;
+  direction: rtl;
+}
+
+.payment-result-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  padding: 40px 32px;
+  text-align: center;
+
+  &.success {
+    border-top: 6px solid $mid-blue;
+  }
+
+  &.failed {
+    border-top: 6px solid #e74c3c;
+  }
+}
+
+.payment-result-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.payment-result-title {
+  font-size: 30px;
+  font-weight: 900;
+  color: $color-dark;
+  margin-bottom: 12px;
+}
+
+.payment-result-subtitle {
+  font-size: 16px;
+  line-height: 1.9;
+  color: $color-text;
+  margin-bottom: 24px;
+}
+
+.payment-result-meta {
+  background: #f8fbff;
+  border: 1px solid $blue-border;
+  border-radius: $radius-md;
+  padding: 18px;
+  margin-bottom: 24px;
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid $color-border;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    span {
+      color: $color-muted;
+      font-weight: 600;
+    }
+
+    strong {
+      color: $color-dark;
+      font-weight: 800;
+    }
+  }
+}
+
+.payment-result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    padding: 14px 18px;
+    border-radius: $radius-md;
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.2s ease;
+  }
+
+  .btn-primary {
+    background: $auth-btn-bg;
+    color: $auth-btn-txt;
+    border: 1px solid $auth-btn-brd;
+
+    &:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.96);
+    }
+  }
+
+  .btn-secondary {
+    background: white;
+    color: $color-header;
+    border: 1px solid $blue-border;
+
+    &:hover {
+      background: #f8fbff;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .payment-result-card {
+    padding: 28px 20px;
+  }
+
+  .payment-result-title {
+    font-size: 24px;
+  }
+
+  .payment-result-meta .meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .payment-result-actions {
+    .btn {
+      width: 100%;
+    }
+  }
+}

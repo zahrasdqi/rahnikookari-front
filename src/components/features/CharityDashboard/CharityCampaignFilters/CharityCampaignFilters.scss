@@ -1,0 +1,35 @@
+//src\components\features\CharityDashboard\CharityCampaignFilters\CharityCampaignFilters.scss
+.charity-campaign-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center; // فیلترها دقیقاً در مرکز افقی
+  gap: 16px;
+  margin: 48px 0 32px; // فاصله ۴۸ پیکسلی از بالا (Charity Hero) و ۳۲ پیکسلی از پایین
+
+  &__item {
+    height: 42px; // کمی بلندتر برای کلیک راحت‌تر
+    padding: 0 24px;
+    border: 1px solid #eef2f6;
+    border-radius: 999px;
+    background: #fff;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+
+    &:hover {
+      background: #f8fafc;
+      color: #64748b;
+      transform: translateY(-2px);
+    }
+
+    &.is-active {
+      background: #77b4cf; 
+      color: #fff;
+      border-color: #77b4cf;
+      box-shadow: 0 10px 20px rgba(119, 180, 207, 0.25);
+    }
+  }
+}

@@ -1,3 +1,4 @@
+//src\components\features\VerifierDashboard\VerifierStats\VerifierStats.jsx
 import React from 'react';
 import './VerifierStats.scss';
 
