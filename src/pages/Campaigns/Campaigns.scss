@@ -5,17 +5,7 @@
 .campaigns-page {
   direction: rtl;
   padding: 40px 0 80px;
-  background: radial-gradient(
-      circle at 80% 20%,
-      rgba($brand-pink-light, 0.18),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 20% 80%,
-      rgba($brand-blue-light, 0.15),
-      transparent 50%
-    ),
-    linear-gradient(180deg, $color-bg 0%, #ffffff 100%);
+ 
   min-height: 100vh;
 }
 
@@ -32,6 +22,7 @@
   
 
   background: linear-gradient(100deg, #b3d9ff 0%, #d9f0ff 100%);
+  min-height: 240px;
 
   
   
@@ -123,34 +114,15 @@
   .grid-icon-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 14px;
-    border-radius: 20px;
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 1;
 
-    &:hover {
-      transform: scale(1.08) rotate(5deg);
-    }
-
-    .grid-dot {
-      width: 24px;
-      height: 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
-
-      &:hover {
-        transform: scale(1.15);
-      }
-
-      &.dot-1 { background-color: #ffffff; }
-&.dot-2 { background-color: #eaf6ff; }   // آبی خیلی ملایم
-&.dot-3 { background-color: #ffe9de; }   // هلویی ملایم
-&.dot-4 { background-color: #0f2a44; }   // سرمه‌ای
-
+    span {
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
     }
   }
 

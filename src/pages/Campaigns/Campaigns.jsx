@@ -140,7 +140,7 @@ export default function Campaigns() {
   return (
     <div className="campaigns-page">
       <Container>
-        {/* بنر اختصاصی و فوق‌العاده شیک بالای صفحه الهام گرفته از تصویر ارسالی */}
+        
         <div className="campaigns-portal-banner">
           <div className="banner-body">
             <div className="banner-badge">
@@ -152,8 +152,7 @@ export default function Campaigns() {
               لیست و مدیریت کارزارهای فعال نیکوکاری، پایش شفاف مبالغ اهدایی و بستری امن برای اتصال مهربانی‌ها به نیازها.
             </p>
           </div>
-          
-          {/* بخش آیکون ۴تایی منحصربه‌فرد در سمت چپ (راست در ساختار RTL) */}
+
           <div className="banner-graphic">
             <div className="grid-icon-container">
               <span className="grid-dot dot-1"></span>
@@ -164,7 +163,7 @@ export default function Campaigns() {
           </div>
         </div>
 
-        {/* بخش کنترل‌های جستجو و فیلترها (به صورت هدر هوشمند و شیشه‌ای) */}
+
         <div className="campaigns-header">
           <div className="main-search-controls">
             <div className="search-input-wrapper">

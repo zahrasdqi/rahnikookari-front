@@ -307,42 +307,82 @@ const VerifierDashboard = () => {
         {activeTab === "summary" && (
           <div className="view-fade-in summary-tab-layout">
             <div className="stats-row-grid">
-              <div className="mini-stat-card">
-                <div className="card-dot light-blue"></div>
-                <div className="stat-value">{stats.totalCount ?? stats.total ?? 0}</div>
-                <div className="stat-label">کل پرونده‌ها</div>
-              </div>
 
-              <div className="mini-stat-card">
-                <div className="card-dot orange"></div>
-                <div className="stat-value">{stats.pendingCount ?? stats.pending ?? 0}</div>
-                <div className="stat-label">پرونده‌ها در انتظار</div>
-              </div>
+  <div className="mini-stat-card">
+    <div className="card-dot light-blue"></div>
 
-              <div className="mini-stat-card">
-                <div className="card-dot green"></div>
-                <div className="stat-value">{stats.approvedCount ?? stats.approved ?? 0}</div>
-                <div className="stat-label">تأیید شده</div>
-              </div>
+    <div className="stat-value">
+      {stats.totalCount ?? stats.total ?? 0}
+    </div>
 
-              <div className="mini-stat-card">
-                <div className="card-dot red"></div>
-                <div className="stat-value">{stats.rejectedCount ?? stats.rejected ?? 0}</div>
-                <div className="stat-label">رد شده</div>
-              </div>
+    <div className="stat-label">
+      کل پرونده‌ها
+    </div>
+  </div>
 
-              <div className="mini-stat-card">
-                <div className="card-dot purple"></div>
-                <div className="stat-value">{pendingProfiles.length}</div>
-                <div className="stat-label">نمایه‌های در انتظار</div>
-              </div>
+  <div className="mini-stat-card">
+    <div className="card-dot orange"></div>
 
-              <div className="mini-stat-card">
-                <div className="card-dot blue"></div>
-                <div className="stat-value">{pendingCampaigns.length}</div>
-                <div className="stat-label">کمپین‌های در انتظار</div>
-              </div>
-            </div>
+    <div className="stat-value">
+      {stats.pendingCount ?? stats.pending ?? 0}
+    </div>
+
+    <div className="stat-label">
+      پرونده‌ها در انتظار
+    </div>
+  </div>
+
+  <div className="mini-stat-card">
+    <div className="card-dot green"></div>
+
+    <div className="stat-value">
+      {stats.approvedCount ?? stats.approved ?? 0}
+    </div>
+
+    <div className="stat-label">
+      تأیید شده
+    </div>
+  </div>
+
+  <div className="mini-stat-card">
+    <div className="card-dot red"></div>
+
+    <div className="stat-value">
+      {stats.rejectedCount ?? stats.rejected ?? 0}
+    </div>
+
+    <div className="stat-label">
+      رد شده
+    </div>
+  </div>
+
+  {/* ردیف دوم */}
+  <div className="mini-stat-card mini-stat-card--half">
+    <div className="card-dot purple"></div>
+
+    <div className="stat-value">
+      {pendingProfiles.length}
+    </div>
+
+    <div className="stat-label">
+      نمایه‌های در انتظار
+    </div>
+  </div>
+
+  <div className="mini-stat-card mini-stat-card--half">
+    <div className="card-dot blue"></div>
+
+    <div className="stat-value">
+      {pendingCampaigns.length}
+    </div>
+
+    <div className="stat-label">
+      کمپین‌های در انتظار
+    </div>
+  </div>
+
+</div>
+
           </div>
         )}
 

@@ -115,14 +115,30 @@ export default function Institutions() {
   return (
     <div className="institutions-page">
       <Container>
-        {/* Header با سرچ */}
-        <div className="institutions-header">
-          <div className="header-content">
-            <h1>موسسات خیریه</h1>
-            <p>با حمایت از موسسات خیریه، در تحقق آرزوهای نیازمندان سهیم شوید</p>
+
+  
+        <div className="institutions-hero">
+          <div className="institutions-hero__content">
+            <span className="institutions-hero__badge">
+              موسسات خیریه
+            </span>
+            <h1>حمایت از موسسات خیریه</h1>
+            <p>
+              با حمایت از موسسات خیریه، در تحقق آرزوهای نیازمندان سهیم شوید
+            </p>
           </div>
 
-          {/* سرچ بار اصلی */}
+          <div className="institutions-hero__icon-grid">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        {/* HEADER */}
+        <div className="institutions-header">
+
           <div className="main-search">
             <div className="search-input-wrapper">
               <Search className="search-icon" size={20} />
@@ -142,7 +158,7 @@ export default function Institutions() {
                 </button>
               )}
             </div>
-            
+
             <button
               className={`filters-toggle ${showFilters ? 'active' : ''}`}
               onClick={() => setShowFilters(!showFilters)}
@@ -154,102 +170,7 @@ export default function Institutions() {
           </div>
         </div>
 
-        {/* پنل فیلترها */}
-        {showFilters && (
-          <div className="filters-panel">
-            <div className="filters-grid">
-              {/* فیلتر زمینه فعالیت */}
-              <div className="filter-group">
-                <label>زمینه فعالیت</label>
-                <select
-                  value={filters.activity_field}
-                  onChange={(e) => handleFilterChange('activity_field', e.target.value)}
-                  className="filter-select"
-                >
-                  {ACTIVITY_FIELDS.map(field => (
-                    <option key={field.value} value={field.value}>
-                      {field.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* فیلتر استان با جستجو */}
-              <div className="filter-group" ref={provinceRef}>
-                <label>استان</label>
-                <div className="province-dropdown">
-                  <button
-                    className="province-trigger"
-                    onClick={() => setProvinceDropdownOpen(!provinceDropdownOpen)}
-                  >
-                    <span>{filters.province || 'همه استان‌ها'}</span>
-                    <ChevronDown size={16} className={provinceDropdownOpen ? 'rotated' : ''} />
-                  </button>
-
-                  {provinceDropdownOpen && (
-                    <div className="province-menu">
-                      <div className="province-search">
-                        <Search size={16} />
-                        <input
-                          type="text"
-                          placeholder="جستجوی استان..."
-                          value={provinceSearch}
-                          onChange={(e) => setProvinceSearch(e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                      <div className="province-list">
-                        <button
-                          className={`province-item ${!filters.province ? 'active' : ''}`}
-                          onClick={() => handleProvinceSelect('')}
-                        >
-                          همه استان‌ها
-                        </button>
-                        {filteredProvinces.map(province => (
-                          <button
-                            key={province}
-                            className={`province-item ${filters.province === province ? 'active' : ''}`}
-                            onClick={() => handleProvinceSelect(province)}
-                          >
-                            {province}
-                          </button>
-                        ))}
-                        {filteredProvinces.length === 0 && (
-                          <div className="no-results">استانی پیدا نشد</div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* فیلتر مرتب‌سازی */}
-              <div className="filter-group">
-                <label>مرتب‌سازی</label>
-                <select
-                  value={filters.ordering}
-                  onChange={(e) => handleFilterChange('ordering', e.target.value)}
-                  className="filter-select"
-                >
-                  {SORT_OPTIONS.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {hasActiveFilters && (
-              <button className="clear-filters" onClick={clearFilters}>
-                <X size={16} />
-                پاک کردن فیلترها
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* نتایج */}
+        
         <div className="institutions-content">
           {loading ? (
             <div className="loading">در حال بارگذاری...</div>
@@ -275,6 +196,7 @@ export default function Institutions() {
             </div>
           )}
         </div>
+
       </Container>
     </div>
   );

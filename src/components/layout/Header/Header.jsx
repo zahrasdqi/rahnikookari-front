@@ -1,5 +1,3 @@
-//front\rahnikookari-front\src\components\layout\Header\Header.jsx
-
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { navLinks } from "../../../data/navLinks";
@@ -8,6 +6,7 @@ import Button from "../../ui/Button/Button";
 import { useAuth } from "../../../contexts/AuthContext";
 import ProfileDropdown from "./ProfileDropdown"; 
 import NotificationBell from "./NotificationBell";
+import { LogIn, UserPlus, LayoutDashboard } from "lucide-react"; // ایمپورت آیکون‌های لوساید
 import "./Header.scss";
 
 export default function Header() {
@@ -51,26 +50,46 @@ export default function Header() {
         <div className="header__left" ref={dropdownRef}>
           <div className="header__actions">
             
-            {/* ۱. نمایش دکمه‌ها بر اساس وضعیت احراز هویت */}
+            {/* نمایش دکمه‌ها بر اساس وضعیت احراز هویت */}
             {isAuthenticated ? (
               <>
-              <NotificationBell />
-              <Button variant="primary" onClick={() => navigate("/dashboard")}>
-                داشبورد
-              </Button>
-            </>
+                <NotificationBell />
+                
+                {/* دکمه داشبورد در دسکتاپ متنی و در موبایل آیکون می‌شود */}
+                <Button 
+                  variant="primary" 
+                  className="header__action-btn header__action-btn--dashboard"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  <span className="btn-text">داشبورد</span>
+                  <span className="btn-icon"><LayoutDashboard size={20} /></span>
+                </Button>
+              </>
             ) : (
               <>
-                <Button variant="ghost" onClick={() => navigate("/login")}>
-                  ورود
+                {/* دکمه ورود در دسکتاپ متنی و در موبایل آیکون می‌شود */}
+                <Button 
+                  variant="ghost" 
+                  className="header__action-btn header__action-btn--login"
+                  onClick={() => navigate("/login")}
+                >
+                  <span className="btn-text">ورود</span>
+                  <span className="btn-icon"><LogIn size={20} /></span>
                 </Button>
-                <Button variant="primary" onClick={() => navigate("/register")}>
-                  ثبت‌نام
+
+                {/* دکمه ثبت‌نام در دسکتاپ متنی و در موبایل آیکون می‌شود */}
+                <Button 
+                  variant="primary" 
+                  className="header__action-btn header__action-btn--register"
+                  onClick={() => navigate("/register")}
+                >
+                  <span className="btn-text">ثبت‌نام</span>
+                  <span className="btn-icon"><UserPlus size={20} /></span>
                 </Button>
               </>
             )}
 
-            {/* ۲. منوی همبرگری (همیشه نمایش داده می‌شود) */}
+            {/* منوی همبرگری (همیشه نمایش داده می‌شود) */}
             <div 
               className="header__profile-trigger" 
               onClick={() => setOpenDropdown(!openDropdown)}
@@ -78,7 +97,7 @@ export default function Header() {
               ☰
             </div>
 
-            {/* ۳. دراپ‌داون منو */}
+            {/* دراپ‌داون منو */}
             {openDropdown && <ProfileDropdown closeMenu={() => setOpenDropdown(false)} />}
           </div>
         </div>

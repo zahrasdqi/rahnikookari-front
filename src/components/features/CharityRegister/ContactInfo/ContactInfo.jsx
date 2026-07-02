@@ -97,7 +97,7 @@ export default function ContactInfo({ data, onChange, onNext, onPrev }) {
 
         <FormField label="آدرس کامل" required fullWidth error={errors.address}>
           <textarea
-            placeholder="آدرس دفتر مرکزی مؤسسه را وارد کنید..."
+            placeholder="آدرس دفتر مرکزی مؤسسه را حداقل در یک جمله وارد کنید..."
             value={data.address}
             onChange={(e) => onChange({ address: e.target.value })}
           />

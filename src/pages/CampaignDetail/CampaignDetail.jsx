@@ -47,6 +47,7 @@ export default function CampaignDetail() {
     const fetchCampaign = async () => {
       try {
         const data = await campaignService.getPublicCampaignById(id);
+        
         setCampaign(data);
       } catch (err) {
         console.error("Error:", err);

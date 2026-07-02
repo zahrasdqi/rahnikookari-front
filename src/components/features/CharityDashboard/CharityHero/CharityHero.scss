@@ -1,7 +1,7 @@
 /* src/components/features/CharityDashboard/CharityHero/CharityHero.scss */
 
 .charity-hero {
-  // برای اطمینان از اعمال درست RTL در تمام شرایط سیستم
+  
   direction: rtl !important;
   text-align: right !important;
   
@@ -20,7 +20,12 @@
   &__banner {
     position: relative;
     height: 190px;
-    background: linear-gradient(180deg, #8ea2f6 0%, #98adfb 100%);
+    background: linear-gradient(
+        135deg,
+        #ffd8cc,
+        #dceeff,
+        #8fb7e8
+      );
     display: flex;
     align-items: flex-end; /* عنوان را به لبه پایینی نوار آبی نزدیک‌تر می‌کند */
     padding: 24px 32px;

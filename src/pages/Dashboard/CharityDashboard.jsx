@@ -11,6 +11,7 @@ import CharityCampaignGrid from "../../components/features/CharityDashboard/Char
 import CampaignManagement from "../../components/features/CharityDashboard/CampaignManagement/CampaignManagement";
 import SkillNeedManagement from "../../components/features/CharityDashboard/SkillNeedManagement/SkillNeedManagement";
 import ReportManagement from "../../components/features/CharityDashboard/ReportManagement/ReportManagement";
+import InstitutionProfileTab from "../../components/features/CharityDashboard/InstitutionProfileTab/InstitutionProfileTab";
 
 import "./CharityDashboard.scss";
 
@@ -206,15 +207,10 @@ export default function CharityDashboard() {
           </div>
         )}
         {activeTab === "profile" && (
-          <div className="charity-dashboard__placeholder">
-            <p>بخش نمایه به زودی اضافه می‌شود.</p>
-          </div>
-        )}
-        {activeTab === "transactions" && (
-          <div className="charity-dashboard__placeholder">
-            <p>بخش تراکنش‌ها به زودی اضافه می‌شود.</p>
-          </div>
-        )}
+  <InstitutionProfileTab charity={dashboardData.charity} />
+)}
+        
+
         {activeTab === "reports" && (
           <ReportManagement />
         )}

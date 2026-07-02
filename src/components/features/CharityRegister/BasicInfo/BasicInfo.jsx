@@ -106,7 +106,7 @@ export default function BasicInfo({ data, onChange, onNext }) {
           hint={`${data.description.length}/500 کاراکتر`}
         >
           <textarea
-            placeholder="درباره مأموریت، سابقه و هدف مؤسسه توضیح دهید..."
+            placeholder="درباره مأموریت، سابقه و هدف مؤسسه حداقل در یک جمله توضیح دهید..."
             value={data.description}
             onChange={(e) => onChange({ description: e.target.value })}
             maxLength={500}

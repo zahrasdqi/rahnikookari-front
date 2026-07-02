@@ -7,11 +7,12 @@ function formatFaNumber(value) {
 }
 
 const STATS_CONFIG = [
-  { key: "active", label: "پویش فعال", icon: "📌" },
-  { key: "completed", label: "پویش تکمیل شده", icon: "✅" },
-  { key: "donation_total", label: "مجموع کمک‌های دریافتی", icon: "💳" },
-  { key: "supporters", label: "نیکوکار مشارکت‌کننده", icon: "👥" },
+  { key: "active", label: "پویش فعال", icon: "fa-bullseye" },
+  { key: "completed", label: "پویش تکمیل شده", icon: "fa-circle-check" },
+  { key: "donation_total", label: "مجموع کمک‌های دریافتی", icon: "fa-hand-holding-heart" },
+  { key: "supporters", label: "نیکوکار مشارکت‌کننده", icon: "fa-users" },
 ];
+
 
 export default function CharityStats({ stats }) {
   return (
@@ -20,7 +21,8 @@ export default function CharityStats({ stats }) {
         <article key={item.key} className="charity-stats__card">
           {/* باکس آیکون ۴۴*۴۴ با تغییر رنگ در هاور */}
           <div className="charity-stats__icon-box">
-            <span className="charity-stats__icon">{item.icon}</span>
+            <i className={`charity-stats__icon fa-solid ${item.icon}`}></i>
+
           </div>
 
           {/* محتوا: کاملاً راست‌چین و تفکیک‌شده */}
