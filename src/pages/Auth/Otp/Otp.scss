@@ -5,120 +5,187 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  flex-direction: column;
+  gap: 24px;
   padding: 24px;
   direction: rtl;
-  background: $hero-glows, $hero-gradient;
-
-  //background: linear-gradient(120deg, #5b93c7 0%, #66b3b2 45%, #8bc7a4 100%);
+  background: $auth-gradient;
 }
 
 .otp-card {
-  
-  
-  
-  
- 
+  width: 424px;
+  height: 628px;
+  background: $auth-bg;
+  border-radius: $radius-lg;        // 20px → اگه 35 می‌خوای: 35px
+  padding: 41px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  box-sizing: border-box;
+  box-shadow: $shadow-md;
+}
+
+.otp-card__label {
+  font-size: 20px;
+  font-weight: 700;
+  color: $auth-label;
+  margin: 0;
   text-align: center;
-  
- width: 100%;
-  max-width: 440px;
-  padding: 82px 28px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 24px 60px rgba(99, 102, 241, 0.18);
-  position: relative;
-  z-index: 1;
-
-
-
-  &__brand {
-   position: absolute; // از جریان فلکس خارج می‌شود
-    top: -50px;        // فاصله از بالای کارت (باید بر اساس نیاز تنظیم کنی)
-    left: 50%;         // انتقال به وسط افقی والد
-    transform: translateX(-50%); // اصلاح مرکزیت (چون نقطه ثقل از چپ است)
-    
-    margin: 0;
-    font-size: 24px;   // کمی بزرگتر برای جلوه بیشتر
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 8px 30px rgba(2, 10, 28, 0.28);
-    white-space: nowrap; // جلوگیری از شکستن خط
-  }
- 
-
- 
-  &__title {
-    margin: 10px 0 16px;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(15, 23, 42, 0.75);
-  }
 }
 
 .otp-form {
-  display: grid;
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
 }
 
 .otp-inputs {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
+  direction: ltr;
 }
 
 .otp-input {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.65);
-  background: rgba(148, 163, 184, 0.18);
-  outline: none;
-
+  width: 60px;
+  height: 70px;
   text-align: center;
-  font-size: 18px;
-  font-weight: 800;
-  color: rgba(15, 23, 42, 0.85);
-
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-size: 24px;
+  font-weight: 700;
+  border: none;
+  border-radius: $radius-md;        // 14px
+  background: $auth-input-bg;
+  color: $auth-label;               // $dark-blue
+  outline: none;
+  transition: box-shadow 0.2s;
 
   &:focus {
-    border-color: rgba(59, 130, 246, 0.9);
-    background: rgba(59, 130, 246, 0.08);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 0 2px $auth-focus;
+  }
+
+  &--error {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.7) !important;
   }
 }
 
 .otp-button {
-  height: 44px;
-  border: 0;
-  border-radius: 12px;
-  background: $color-btn;
-  color: $color-txt;
-  font-weight: 900;
+  width: 176px;
+  height: 57px;
+  padding: 0;
+  background: $auth-btn-bg;
+  color: $auth-btn-txt;
+  font-size: 24px;
+  font-weight: 700;
+  border: 1.5px solid $auth-btn-brd;
+  border-radius: 21px;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.2s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
+  transition: opacity 0.2s;
 
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    opacity: 0.88;
   }
 }
 
+.otp-form__error {
+  color: $auth-error-txt;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  background: $auth-error-bg;
+  border-radius: $radius-sm;
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.otp-form__hint {
+  color: $auth-hint-txt;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  background: $auth-hint-bg;
+  border-radius: $radius-sm;
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
 .otp-resend {
-  border: 0;
-  background: transparent;
-  color: rgba(15, 23, 42, 0.55);
+  background: none;
+  border: none;
+  color: $auth-link;
+  font-size: 20px;
   font-weight: 700;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  padding: 6px 0 0;
+  padding: 0;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+// ── Responsive ──────────────────────────────────────────
+@media (max-width: 460px) {
+  .otp-card {
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    border-radius: 24px;
+    padding: 28px 20px;
+    gap: 20px;
+  }
+
+  .otp-card__label { font-size: 17px; }
+
+  .otp-input {
+    width: 50px;
+    height: 60px;
+    font-size: 20px;
+    border-radius: 14px;
+  }
+
+  .otp-inputs { gap: 14px; }
+
+  .otp-button {
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 17px;
+  }
+
+  .otp-resend { font-size: 16px; }
+
+  .otp-form__error,
+  .otp-form__hint {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .otp-input {
+    width: 44px;
+    height: 54px;
+    font-size: 18px;
+  }
+
+  .otp-inputs { gap: 10px; }
+
+  .otp-button {
+    width: 135px;
+    height: 46px;
+    font-size: 18px;
+  }
 }

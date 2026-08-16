@@ -1,0 +1,392 @@
+// src/pages/Campaigns/Campaigns.scss
+
+@use '../../styles/variables' as *;
+
+.campaigns-page {
+  direction: rtl;
+  padding: 40px 0 80px;
+ 
+  min-height: 100vh;
+}
+
+
+.campaigns-portal-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 36px 48px;
+  border-radius: $radius-lg + 6px; // گوشه‌های فوق‌العاده نرم حدود ۲۶ پیکسل
+  position: relative;
+  overflow: hidden;
+  
+
+  background: linear-gradient(100deg, #b3d9ff 0%, #d9f0ff 100%);
+  min-height: 240px;
+
+  
+  
+ 
+  box-shadow:
+  0 18px 40px rgba(15, 42, 68, 0.08),
+  inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .banner-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    z-index: 2;
+    max-width: 75%;
+  }
+
+
+  .banner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background-color: $dark-blue; // دایره‌ی تیره
+      border-radius: 50%;
+    }
+
+    .badge-text {
+      font-size: 11px;
+      font-weight: 800;
+      color: $dark-blue;
+      letter-spacing: -0.01em;
+    }
+  }
+
+ 
+  .banner-title {
+    font-size: 34px;
+    font-weight: 900;
+    color: $dark-blue;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  }
+
+  // زیرنویس و توضیحات بنر
+  .banner-desc {
+    font-size: 14px;
+    color: rgba($dark-blue, 0.85);
+    margin: 0;
+    line-height: 1.85;
+    font-weight: 600;
+  }
+
+  // بخش آیکون دکوراتیو ۴تایی
+  .banner-graphic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  // پیاده‌سازی آیکون با چهار مربع منحنی زیبا با افکت هاور سه‌بعدی
+  .grid-icon-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 1;
+
+    span {
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+    }
+  }
+
+  // ریسپانسیو بنر برای موبایل
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 28px;
+    
+    .banner-body {
+      max-width: 100%;
+    }
+    
+    .banner-graphic {
+      align-self: flex-end;
+    }
+  }
+}
+
+// ── استایل بدنه فیلتر و جستجو ──
+.campaigns-header {
+  margin-bottom: 35px;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba($brand-pink-light, 0.18);
+  box-shadow: 0 16px 40px rgba(53, 95, 124, 0.04);
+}
+
+.main-search-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    position: absolute;
+    right: 18px;
+    color: $color-muted;
+    z-index: 1;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 56px;
+    border-radius: 16px;
+    border: 2px solid rgba($brand-pink-light, 0.35);
+    padding: 0 54px 0 45px;
+    font-size: 14px;
+    color: $primary-color;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(53, 95, 124, 0.03);
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: #a0b2c8;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba($brand-pink-light, 0.75);
+      box-shadow: 0 0 0 4px rgba($brand-pink-light, 0.15), 0 8px 24px rgba(53, 95, 124, 0.06);
+    }
+  }
+
+  .clear-search-button {
+    position: absolute;
+    left: 14px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba($brand-pink-light, 0.15);
+    cursor: pointer;
+    color: darken($brand-pink-light, 20%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 2;
+
+    &:hover {
+      background: rgba($brand-pink-light, 0.25);
+      color: darken($brand-pink-light, 10%);
+    }
+  }
+}
+
+.filters-toggle-button {
+  height: 56px;
+  padding: 0 24px;
+  border-radius: 16px;
+  border: 2px solid rgba($brand-pink-light, 0.35);
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf7 100%);
+  color: $primary-color;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(53, 95, 124, 0.03);
+
+  svg {
+    margin-left: 4px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba($brand-pink-light, 0.6);
+    box-shadow: 0 12px 28px rgba(53, 95, 124, 0.07);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, $brand-pink-light 0%, #e68b9c 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 12px 28px rgba($brand-pink-light, 0.25);
+  }
+}
+
+.filters-panel {
+  margin-top: 18px;
+  padding: 20px 20px 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba($brand-pink-light, 0.2);
+  box-shadow: 0 12px 32px rgba(53, 95, 124, 0.06);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 13px;
+    color: $primary-color;
+    font-weight: 800;
+  }
+
+  .filter-select {
+    height: 46px;
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid rgba($brand-pink-light, 0.35);
+    padding: 0 14px;
+    font-size: 13px;
+    color: $primary-color;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: rgba($brand-pink-light, 0.6);
+      box-shadow: 0 0 0 4px rgba($brand-pink-light, 0.12);
+    }
+
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233c4b60' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 12px center;
+    background-size: 18px;
+    padding-left: 36px;
+  }
+}
+
+.clear-filters-button {
+  margin-top: 18px;
+  border: none;
+  background: transparent;
+  color: darken($brand-pink-light, 10%);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($brand-pink-light, 0.1);
+    color: darken($brand-pink-light, 20%);
+  }
+}
+
+// ── نمایش کارت‌ها ──
+.campaigns-content {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 16px;
+  color: $color-muted;
+  font-weight: 700;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.no-results-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: $color-muted;
+  font-size: 15px;
+  line-height: 1.8;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  border: 2px dashed rgba($brand-pink-light, 0.35);
+  margin-top: 30px;
+
+  p {
+    margin: 0 0 8px 0;
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

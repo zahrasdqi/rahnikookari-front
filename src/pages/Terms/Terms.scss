@@ -1,0 +1,58 @@
+@use "../../styles/variables" as *;
+
+.terms-page {
+  background-color: #f8fafc; // یک خاکستری خیلی روشن برای پس‌زمینه
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .terms-content {
+    flex: 1;
+    padding: 40px 0;
+  }
+
+  .terms-card {
+    background: white;
+    padding: 40px;
+    border-radius: $radius-md;
+    box-shadow: $shadow-sm;
+    line-height: 1.8; // فاصله خطوط برای خوانایی بیشتر متن طولانی
+    direction: rtl;
+
+    h1 {
+      color: $color-header;
+      font-size: 28px;
+      margin-bottom: 30px;
+      border-bottom: 2px solid $color-btn;
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    section {
+      margin-bottom: 30px;
+
+      h2 {
+        color: $mid-blue;
+        font-size: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+
+        &::before {
+          content: "";
+          width: 8px;
+          height: 8px;
+          background-color: $color-btn;
+          margin-left: 10px;
+          border-radius: 50%;
+        }
+      }
+
+      p {
+        color: $color-text;
+        font-size: 16px;
+        text-align: justify;
+      }
+    }
+  }
+}

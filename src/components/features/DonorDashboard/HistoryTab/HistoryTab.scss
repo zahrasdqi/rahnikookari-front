@@ -1,0 +1,356 @@
+@import "../../../../styles/variables";
+
+.history-tab {
+  padding: 2rem;
+  color: $color-text;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+
+    border-bottom: 2px solid rgba($primary-color, 0.15);
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin: 0;
+  }
+
+  &__stats {
+    display: flex;
+    gap: 1.5rem;
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+
+      font-size: .9rem;
+      color: $color-muted;
+
+      i {
+        color: $primary-color;
+      }
+    }
+  }
+
+  /* ===== GRID LAYOUT ===== */
+
+  &__list {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 1.5rem;
+  }
+
+  &__loading,
+  &__error,
+  &__empty {
+    padding: 3rem 2rem;
+
+    text-align: center;
+
+    background: $color-surface;
+
+    border: 1px solid $color-border;
+
+    border-radius: $radius-md;
+
+    box-shadow: $shadow-sm;
+
+    grid-column: 1 / -1;
+  }
+
+  &__load-more {
+    text-align: center;
+
+    margin-top: 2rem;
+
+    padding-top: 2rem;
+
+    border-top: 1px solid $color-border;
+
+    grid-column: 1 / -1;
+  }
+}
+
+/* ========================
+   DONATION CARD
+======================== */
+
+.donation-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+
+  border: 1px solid rgba($primary-color, .08);
+
+  border-radius: 14px;
+
+  padding: 1.4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: all .25s ease;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.04),
+    0 14px 36px rgba(0,0,0,.05);
+
+  &:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba($primary-color, .25);
+
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.06),
+      0 24px 48px rgba(0,0,0,.08);
+  }
+
+  &__header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+
+    padding-bottom: .8rem;
+
+    border-bottom: 1px solid rgba($primary-color,.1);
+  }
+
+  &__title {
+    font-size: 1.05rem;
+
+    font-weight: 700;
+
+    color: $color-dark;
+
+    line-height: 1.5;
+  }
+
+  &__charity {
+    font-size: .85rem;
+
+    color: $color-muted;
+  }
+
+  &__body {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+  }
+
+  &__info {
+    padding: .9rem;
+
+    border-radius: 10px;
+
+    background: linear-gradient(180deg,#ffffff,#f5f9ff);
+
+    border: 1px solid rgba($primary-color,.08);
+
+    .info-item {
+      display: flex;
+
+      align-items: center;
+
+      gap: .5rem;
+
+      font-size: .9rem;
+
+      line-height: 1.6;
+
+      i {
+        color: $primary-color;
+      }
+
+      strong {
+        color: $color-dark;
+      }
+    }
+  }
+
+  &__actions {
+    margin-top: 1rem;
+
+    display: flex;
+
+    justify-content: flex-end;
+  }
+}
+
+/* ========================
+   STATUS BADGE
+======================== */
+
+.status-badge {
+  padding: .3rem .75rem;
+
+  border-radius: 999px;
+
+  font-size: .75rem;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  &--success {
+    background: rgba(70,200,120,.15);
+    color: #2e7d32;
+    border: 1px solid rgba(70,200,120,.3);
+  }
+
+  &--warning {
+    background: rgba($color-btn,.25);
+    color: $color-txt;
+    border: 1px solid rgba($color-btn,.4);
+  }
+
+  &--danger {
+    background: rgba(220,60,60,.12);
+    color: #c62828;
+    border: 1px solid rgba(220,60,60,.28);
+  }
+}
+
+/* ========================
+   TABLET
+======================== */
+
+@media (max-width: 1024px) {
+
+  .history-tab {
+
+    padding: 1.5rem;
+
+  }
+
+  .history-tab__list {
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 1rem;
+
+  }
+
+}
+
+/* ========================
+   MOBILE
+======================== */
+
+@media (max-width: 768px) {
+
+  .history-tab {
+
+    padding: 1rem;
+
+    &__header {
+
+      flex-direction: column;
+
+      align-items: flex-start;
+
+      gap: 1rem;
+
+    }
+
+    &__stats {
+
+      flex-wrap: wrap;
+
+      gap: .6rem;
+
+    }
+
+    &__title {
+
+      font-size: 1.3rem;
+
+    }
+
+  }
+
+  /* هنوز دو ستونه */
+
+  .history-tab__list {
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: .8rem;
+
+  }
+
+  .donation-card {
+
+    padding: .9rem;
+
+    border-radius: 12px;
+
+  }
+
+  .donation-card__header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: .4rem;
+
+  }
+
+  .donation-card__title {
+
+    font-size: .9rem;
+
+  }
+
+  .donation-card__charity {
+
+    font-size: .75rem;
+
+  }
+
+  .donation-card__info {
+
+    padding: .65rem;
+
+  }
+
+  .donation-card__info .info-item {
+
+    font-size: .75rem;
+
+    flex-wrap: wrap;
+
+  }
+
+}
+
+/* ========================
+   SMALL MOBILE
+======================== */
+
+@media (max-width: 480px) {
+
+  .history-tab__list {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}

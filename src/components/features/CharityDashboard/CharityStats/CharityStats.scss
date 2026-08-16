@@ -1,0 +1,145 @@
+.charity-stats {
+  direction: rtl;
+  width: min(1280px, calc(100% - 32px));
+  margin: 32px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  &__card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px; 
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    align-items: flex-end; // تراز عمودی و افقی کل محتوا به سمت راست کارت
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.05);
+    overflow: hidden;
+    cursor: pointer;
+
+    // انیمیشن نرم و مهندسی‌شده برای هاور کارت
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s ease, 
+                box-shadow 0.4s ease;
+
+    &:hover {
+      transform: translateY(-8px); // کارت به نرمی به سمت بالا لیفت می‌شود
+      border-color: rgba(45, 91, 114, 0.3); // مرزها کمی آبی‌تر و مشخص‌تر می‌شوند
+      // سایه نئونی آبی‌رنگ که حس عمق و زنده بودن به کارت می‌دهد
+      box-shadow: 0 20px 38px rgba(45, 91, 114, 0.12);
+    }
+  }
+
+  /* همان مربع ۴۴*۴۴ با رنگ دقیق درخواستی تو */
+  &__icon-box {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background-color: #EAF5FB; // رنگ دلخواه تو دلبر
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    
+    // انیمیشن نرم برای آیکون
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.3s ease;
+
+    /* افکت دایره‌ای محو پشت باکس */
+    &::before {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(234, 245, 251, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+      top: -20px;
+      right: -20px;
+      z-index: -1;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  /* تعاملات جزئی‌تر و جذاب‌تر هنگام هاور روی کارت */
+  &__card:hover &__icon-box {
+    transform: scale(1.08); // بزرگ شدن ملایم باکس آیکون
+    background-color: #D3EBF8; // آبی‌تر شدن پس‌زمینه آیکون در زمان هاور
+  }
+
+  &__card:hover &__icon-box::before {
+    transform: scale(1.15); // بزرگ‌تر شدن هاله محو آبی دور آیکون
+  }
+
+  &__icon {
+  font-size: 18px;
+  color: #2D5B72;
+  transition: transform .25s ease, color .25s ease;
+}
+
+&__card:hover &__icon {
+  transform: scale(1.1);
+  color: #1a4256;
+}
+
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; // اطمینان از راست‌چین بودن ۱۰۰٪ المان‌ها در فاکس
+    gap: 4px;
+  }
+
+  &__value {
+    color: #2D5B72; 
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: right; // راست‌چین کردن متنِ عدد
+    transition: color 0.3s ease;
+  }
+
+  // عدد هم با هاور کردن کارت کمی عمیق‌تر و آبی‌تر می‌شود
+  &__card:hover &__value {
+    color: #1a4256;
+  }
+
+  &__label {
+    color: #A0AEC0; 
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right; // راست‌چین کردن متنِ لیبل
+  }
+}
+
+/* واکنش‌گرایی برای موبایل و تبلت */
+@media (max-width: 1100px) {
+  .charity-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .charity-stats {
+    grid-template-columns: 1fr;
+    &__card {
+      min-height: 120px;
+      padding: 18px;
+    }
+    &__icon-box {
+      width: 40px;
+      height: 40px;
+      top: 15px;
+      right: 15px;
+    }
+    &__value {
+      font-size: 22px;
+    }
+  }
+}

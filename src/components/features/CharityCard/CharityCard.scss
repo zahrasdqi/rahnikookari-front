@@ -1,0 +1,239 @@
+.charity-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  border: 1px solid #e8edf3;
+
+  box-shadow: 
+    0 4px 14px rgba(0,0,0,0.06),
+    0 10px 28px rgba(0,0,0,0.05);
+
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+      0 14px 30px rgba(30,58,95,0.12),
+      0 22px 48px rgba(0,0,0,0.08);
+  }
+
+  /* ---------- cover ---------- */
+
+  &__cover {
+    width: 100%;
+    height: 170px;
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+      135deg,
+      #ffd8cc,
+      #dceeff,
+      #8fb7e8
+    );
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .35s ease;
+    }
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+
+      background: linear-gradient(
+        135deg,
+        #ffd8cc,
+        #dceeff,
+        #8fb7e8
+      );
+    }
+  }
+
+  &:hover &__cover img {
+    transform: scale(1.05);
+  }
+
+  /* ---------- logo ---------- */
+
+  &__logo {
+    position: absolute;
+
+    top: 120px;
+    right: 22px;
+
+    width: 82px;
+    height: 82px;
+
+    border-radius: 18px;
+    overflow: hidden;
+
+    background: white;
+
+    border: 5px solid white;
+
+    box-shadow:
+      0 6px 14px rgba(0,0,0,0.12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-placeholder {
+      width: 100%;
+      height: 100%;
+
+      background: linear-gradient(
+        135deg,
+        #ffb7a5,
+        #8fb7e8
+      );
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 32px;
+      font-weight: 700;
+      color: white;
+    }
+  }
+
+  /* ---------- content ---------- */
+
+  &__content {
+    padding: 58px 22px 22px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-bottom: 12px;
+
+    color: #1e3a5f;
+  }
+
+  /* ---------- meta ---------- */
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 14px;
+  }
+
+  &__badge {
+    background: #dceeff;
+
+    color: #1e3a5f;
+
+    padding: 4px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__location {
+    color: #6b7c93;
+
+    font-size: 13px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    &::before {
+      content: "📍";
+    }
+  }
+
+  /* ---------- description ---------- */
+
+  &__description {
+    color: #475569;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin-bottom: 18px;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+  }
+
+  /* ---------- footer ---------- */
+
+  &__footer {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* ---------- buttons ---------- */
+
+  &__btn {
+    flex: 1;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+
+    background: linear-gradient(
+      135deg,
+      #ffb7a5,
+      #8fb7e8
+    );
+
+    color: #1e3a5f;
+
+    &:hover {
+      transform: translateY(-1px);
+
+      box-shadow: 0 6px 14px rgba(30,58,95,0.25);
+    }
+
+    &--secondary {
+      background: transparent;
+
+      color: #1e3a5f;
+
+      border: 1.5px solid #8fb7e8;
+
+      &:hover {
+        background: #dceeff;
+      }
+    }
+  }
+}

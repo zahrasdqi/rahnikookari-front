@@ -1,9 +1,24 @@
 @use "../../../styles/variables" as *;
+
 .header {
-  background: $color-header; 
-  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba($color-header, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  padding: 12px 0;
   color: white;
-  font-size: 20px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.08),
+    inset 0 -1px 0 rgba(255,255,255,0.04);
+
+  transition: all .3s ease;
 
   &__wrapper {
     display: flex;
@@ -11,29 +26,183 @@
     align-items: center;
   }
 
-  &__right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  /* ---------- Brand ---------- */
+
+  &__brand {
+    font-size: 24px;
+    font-weight: 900;
+
+    background: linear-gradient(
+      135deg,
+      #ffffff,
+      $color-btn
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    transition: transform .2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (min-width: 768px) {
+      font-size: 28px;
+    }
   }
 
-  &__menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-  }
+  /* ---------- Navigation ---------- */
 
   &__nav {
-    display: flex;
-    gap: 20px;
-    cursor: pointer;
-    font-weight: 500;
+    display: none;
+    gap: 28px;
+
+    @media (min-width: 992px) {
+      display: flex;
+    }
+
+    &-link {
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+
+      position: relative;
+      padding: 6px 0;
+
+      opacity: .9;
+      transition: all .25s ease;
+
+      &:hover {
+        opacity: 1;
+        color: $color-btn;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        right: 0;
+
+        width: 0;
+        height: 2px;
+
+        background: linear-gradient(
+          90deg,
+          $color-btn,
+          lighten($color-btn, 10%)
+        );
+
+        border-radius: 2px;
+        transition: width .3s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
   }
 
+  /* ---------- Left Side ---------- */
+
   &__left {
+    position: relative;
     display: flex;
-    gap: 10px;
+    align-items: center;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ---------- Responsive Action Buttons ---------- */
+
+  &__action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .25s ease;
+    
+    
+    .btn-text {
+      display: none;
+      @media (min-width: 768px) {
+        display: inline;
+      }
+    }
+
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 768px) {
+        display: none;
+      }
+    }
+
+    // استایل دکمه‌ها روی سایز موبایل (وقتی آیکون هستند)
+    @media (max-width: 767px) {
+      width: 42px;
+      height: 42px;
+      padding: 0 !important;
+      border-radius: $radius-sm !important;
+      min-width: unset !important;
+    }
+  }
+
+  /* ---------- CTA Button Customizations ---------- */
+
+  .btn--primary {
+    background: linear-gradient(
+      135deg,
+      $color-btn,
+      lighten($color-btn, 8%)
+    );
+    border: none;
+    box-shadow: 0 6px 14px rgba($color-btn, 0.35);
+
+    &:hover {
+
+      box-shadow: 0 10px 20px rgba($color-btn, 0.45);
+    }
+  }
+
+  
+  .ui-button--ghost {
+    @media (max-width: 767px) {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: white;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+  }
+
+  /* ---------- Hamburger ---------- */
+
+  &__profile-trigger {
+    cursor: pointer;
+    font-size: 22px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-sm;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all .25s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: scale(1.05);
+    }
   }
 }

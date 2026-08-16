@@ -1,3 +1,5 @@
+//front\rahnikookari-front\src\components\features\TrustStats\TrustStats.jsx
+
 import Container from "../../ui/Container/Container";
 import { stats } from "../../../data/stats";
 import "./TrustStats.scss";

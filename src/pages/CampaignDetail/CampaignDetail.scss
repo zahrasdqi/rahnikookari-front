@@ -1,0 +1,437 @@
+@import "../../styles/variables";
+
+.campaign-detail {
+  direction: rtl;
+  background-color: $color-bg;
+  padding: 40px 0 80px;
+  min-height: 100vh;
+
+  &--loading,
+  &--empty {
+    text-align: center;
+    padding: 100px;
+    font-size: 1.2rem;
+    color: $color-muted;
+  }
+}
+
+/* ---------------- CARD STYLE ---------------- */
+
+.card-style {
+  background: linear-gradient(180deg,#ffffff 0%,#f9fbff 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(180,210,255,0.35);
+  box-shadow:
+    0 12px 30px rgba(31,71,136,0.06),
+    0 4px 12px rgba(31,71,136,0.05);
+  padding: 26px;
+}
+
+/* ---------------- HERO ---------------- */
+
+.campaign-detail__hero {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: stretch;
+
+  .hero-content {
+    background: linear-gradient(
+        135deg,
+        #ffd8cc,
+        #dceeff,
+        #8fb7e8
+      );
+    border-radius: 28px;
+    padding: 42px;
+    color: #244d62;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(30,70,130,0.15);
+
+    .hero-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+
+      span {
+        padding: 4px 14px;
+        border-radius: 99px;
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(255,255,255,0.22);
+      }
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      opacity: .9;
+      margin-bottom: 22px;
+      line-height: 1.8;
+    }
+
+    .hero-dates {
+      font-size: 14px;
+      font-weight: 600;
+      opacity: .85;
+    }
+  }
+
+  .hero-raised-card {
+    background:
+    radial-gradient(circle at 8% 8%, rgba(255, 255, 255, 0.36), transparent 18%),
+    linear-gradient(105deg, #a8dfd5 0%, #8cc7d3 46%, #4f819f 100%);
+    border-radius: 28px;
+    padding: 32px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    .label {
+      font-size: 15px;
+      opacity: .9;
+    }
+
+    .value-box {
+      margin: 16px 0;
+
+      .amount {
+        font-size: 44px;
+        font-weight: 900;
+      }
+
+      .currency {
+        font-size: 16px;
+        margin-right: 8px;
+      }
+    }
+
+    .goal-info {
+      font-size: 14px;
+      background: rgba(0,0,0,0.15);
+      padding: 6px 10px;
+      border-radius: 10px;
+    }
+  }
+}
+
+/* ---------------- LAYOUT ---------------- */
+
+.campaign-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+
+/* ---------------- DETAIL SECTION ---------------- */
+
+.detail-section {
+  margin-bottom: 24px;
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: $color-dark;
+    position: relative;
+    padding-right: 16px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: $mid-blue;
+      border-radius: 3px;
+    }
+  }
+
+  .description-text {
+    line-height: 2.1;
+    color: $color-text;
+    text-align: justify;
+    white-space: pre-line;
+    font-size: 15px;
+  }
+}
+
+/* ---------------- STATS ---------------- */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+
+  .stat-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 120px;
+
+    .stat-label {
+      display: block;
+      color: $color-muted;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 900;
+      color: $mid-blue;
+    }
+  }
+}
+
+/* ---------------- DONATION CARD ---------------- */
+
+.layout-sidebar {
+
+  .donation-card {
+    position: sticky;
+    top: 20px;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .title {
+        font-weight: 800;
+        color: $color-dark;
+      }
+
+      .percent {
+        color: $mid-blue;
+        font-weight: 900;
+        font-size: 20px;
+      }
+    }
+
+    /* progress */
+
+    /* این بخش را داخل .donation-card پیدا کن و جایگزین کن */
+
+.progress-bar {
+  position: relative;
+  height: 12px; // یه کم ظریف‌تر
+  background: #eef2f7; // رنگ پس‌زمینه نوار که تو عکس سفیده، اینجا یه کم خاکستری ملایم دادم
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 26px;
+  border: 1px solid rgba(0, 0, 0, 0.03); // یه لبه خیلی محو
+
+  .progress-fill {
+    height: 100%;
+    display: block; // مطمئن شو که بلاک هست
+    border-radius: inherit;
+    
+    /* یک گرادیان زنده و مشخص که در عکس کاملا دیده شود */
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); 
+    
+    /* اضافه کردن سایه داخلی برای عمق دادن */
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    
+    /* انیمیشن برای وقتی که صفحه لود می‌شود */
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* یک نکته کنکوری: اگر مقدار خیلی کم بود، حداقل 5 پیکسل نمایش بده */
+    min-width: 4px; 
+  }
+}
+
+
+    /* input */
+
+    .donation-input-group {
+
+      margin-bottom: 18px;
+
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: $color-text;
+      }
+
+      .input-wrapper {
+
+        input {
+          width: 100%;
+          padding: 12px;
+          border: 2px solid $color-border;
+          border-radius: $radius-md;
+          font-family: inherit;
+          font-size: 20px;
+          font-weight: 800;
+          text-align: center;
+          color: $color-dark;
+          transition: .25s;
+
+          &:hover {
+            border-color: #9fd1ff;
+          }
+
+          &:focus {
+            border-color: $mid-blue;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(77,168,255,.15);
+          }
+        }
+
+      }
+
+    }
+
+    /* quick amounts */
+
+    .quick-select {
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+
+      button {
+
+        padding: 9px;
+        border: 1px solid $color-border;
+        background: #f8fbff;
+        border-radius: $radius-sm;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .25s;
+
+        &:hover,
+        &.active {
+          background: linear-gradient(135deg,#dff1ff,#cde7ff);
+          border-color: #69b6ff;
+          color: #1565c0;
+          transform: translateY(-1px);
+        }
+
+      }
+
+    }
+
+    /* donate button */
+
+    .btn-donate {
+
+      width: 100%;
+      padding: 16px;
+      background: $auth-btn-bg;
+      color: $auth-btn-txt;
+      border: 1px solid $auth-btn-brd;
+      border-radius: $radius-md;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: .3s;
+      box-shadow: 0 6px 16px rgba(242,184,162,0.4);
+
+      &:hover {
+        transform: translateY(-2px);
+        filter: brightness(.95);
+      }
+
+      &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+      }
+    }
+
+  }
+
+}
+
+/* ---------------- REPORTS FIX ---------------- */
+
+.detail-section {
+
+  .campaign-reports {
+    margin-top: 10px;
+  }
+
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 992px) {
+
+  .campaign-detail__hero,
+  .campaign-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .layout-sidebar .donation-card {
+    position: static;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .hero-title {
+    font-size: 30px !important;
+  }
+
+  .hero-subtitle {
+    font-size: 16px !important;
+  }
+
+  .stat-value {
+    font-size: 18px !important;
+  }
+
+  .description-text {
+    font-size: 14px !important;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .campaign-detail {
+    padding: 20px 0 60px;
+  }
+
+  .hero-title {
+    font-size: 24px !important;
+  }
+
+  .hero-subtitle {
+    font-size: 14px !important;
+  }
+
+  .hero-raised-card .amount {
+    font-size: 34px !important;
+  }
+
+  .btn-donate {
+    font-size: 16px !important;
+  }
+
+}

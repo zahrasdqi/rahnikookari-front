@@ -1,0 +1,177 @@
+// src/components/features/DonorDashboard/ProfileTab/ProfileTab.scss
+@import "../../../../styles/variables";
+
+.profile-tab {
+  width: 100%;
+  max-width: 980px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 1)),
+    radial-gradient(circle at top left, rgba($mid-blue, 0.16), transparent 34%);
+  border: 1px solid rgba($blue-border, 0.9);
+  border-radius: 28px;
+  padding: 34px;
+  box-shadow: 0 20px 55px rgba(53, 95, 124, 0.12);
+  direction: rtl;
+
+  &__header {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba($color-border, 0.9);
+
+    h3 {
+      margin: 8px 0 10px;
+      color: $dark-blue;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $color-muted;
+      font-size: 14px;
+      line-height: 1.9;
+      font-weight: 400;
+    }
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba($light-green, 0.2);
+    color: darken($light-green, 28%);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .profile-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .profile-info-card {
+    position: relative;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, $color-surface, $light-blue);
+    border: 1px solid rgba($blue-border, 0.9);
+
+    &__label {
+      display: block;
+      margin-bottom: 8px;
+      color: $Lblue-txt;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    &__value {
+      display: block;
+      color: $color-dark;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.7;
+      word-break: break-word;
+
+      &--ltr {
+        direction: ltr;
+        text-align: right;
+        font-family: Tahoma, Arial, sans-serif;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba($color-border, 0.9);
+    flex-wrap: wrap;
+  }
+
+  &__security-btn,
+  &__logout {
+    min-width: 180px;
+    height: 48px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  &__security-btn {
+    border: 1px solid rgba($dark-blue, 0.14);
+    background: rgba($dark-blue, 0.06);
+    color: $dark-blue;
+
+    &:hover {
+      background: $dark-blue;
+      color: $color-surface;
+      transform: translateY(-2px);
+    }
+  }
+
+  &__logout {
+    border: 1px solid rgba(220, 38, 38, 0.18);
+    background: #fff1f2;
+    color: #dc2626;
+
+    &:hover {
+      background: #dc2626;
+      color: $color-surface;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.profile-loading {
+  width: 100%;
+  max-width: 980px;
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  background: $color-surface;
+  border-radius: 28px;
+  box-shadow: $shadow-sm;
+  color: $color-muted;
+
+  .loader-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: $mid-blue;
+    animation: pulse 0.9s infinite alternate;
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-tab {
+    padding: 24px;
+
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__security-btn,
+    &__logout {
+      width: 100%;
+    }
+  }
+}

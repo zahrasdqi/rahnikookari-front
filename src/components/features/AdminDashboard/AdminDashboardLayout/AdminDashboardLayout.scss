@@ -1,0 +1,54 @@
+//src/components/features/AdminDashboard/AdminDashboardLayout/AdminDashboardLayout.scss
+
+@import "../../../../styles/variables";
+
+.admin-dashboard {
+  width: min(100%, 1440px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 32px 56px;
+  direction: rtl;
+  background: #f7f5f5;
+
+  &__tabs {
+    margin-top: 36px;
+    display: block;
+  }
+
+  &__tabs .admin-tabs {
+    margin-top: 0 !important;
+  }
+
+  &__empty {
+    margin-top: 20px;
+    padding: 44px 24px;
+    border-radius: 24px;
+    background: $color-surface;
+    border: 1px dashed rgba(168, 132, 255, 0.42);
+    text-align: center;
+
+    h3 {
+      margin: 0 0 10px;
+      color: $dark-blue;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    p {
+      margin: 0;
+      color: $color-muted;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 18px 14px 40px;
+
+    &__tabs {
+      margin-top: 24px;
+    }
+  }
+}

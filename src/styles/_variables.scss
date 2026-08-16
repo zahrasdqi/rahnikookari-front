@@ -1,49 +1,61 @@
-$color-header: #6ea2c8;
-$color-secondary: #17b890;
-$color-dark: #0f172a;
-$color-text: #334155;
-$color-muted: #64748b;
-$color-bg: #f8fafc;
-$color-surface: #ffffff;
-$color-border: #e2e8f0;
+//front\rahnikookari-front\src\styles\_variables.scss
 
-$color-footer: #355f7c;
-$color-txt: #c66f59;
-$color-btn: #f2b8a2;
+// --- رنگ‌های اصلی و پایه‌ی پروژه ---
+$color-header: #6ea2c8;         // رنگ اصلی هدر
+$color-secondary: #17b890;      // رنگ ثانویه، مثلاً برای دکمه‌ها یا وضعیت‌های موفق
+$color-dark: #0f172a;           // رنگ متن تیره، برای کنتراست بالا
+$color-text: #334155;           // رنگ متن اصلی
+$color-muted: #64748b;          // رنگ متن کم‌رنگ‌تر، برای توضیحات یا آیکون‌ها
+$color-bg: #f8fafc;             // رنگ پس‌زمینه اصلی صفحه
+$color-surface: #ffffff;        // رنگ سطوح، مثل کارت‌ها یا مودال‌ها
+$color-border: #e2e8f0;         // رنگ حاشیه‌ی استاندارد
+$primary-color: #3c4b60;        // رنگ اصلی برند، تیره و رسمی‌تر
 
-$mid-blue: #7ba7c7;
-$Lblue-txt: #7a8794;
-$dark-blue: #355f7c;
-$cyan: #00c0e8;
-$txt: #5c93b9;
-$fills: #787878;
+$color-footer: #355f7c;         // رنگ پس‌زمینه فوتر
+$color-txt: #c66f59;            // رنگ متن دکمه اصلی (احتمالاً)
+$color-btn: #f2b8a2;            // رنگ پس‌زمینه دکمه اصلی (هلویی)
 
-$light-blue: #eef7fc;
-$light-gray: #d9d9d9;
-$blue-border: #e6edf2;
+// --- رنگ‌های کمکی و تم‌های خاص ---
+$mid-blue: #7ba7c7;            // آبی متوسط
+$Lblue-txt: #7a8794;           // متن آبی روشن
+$dark-blue: #355f7c;           // آبی تیره (مشابه فوتر)
+$cyan: #00c0e8;                // رنگ فیروزه‌ای
+$txt: #5c93b9;                 // متن آبی (احتمالاً برای لینک‌ها)
+$text-dark: #00040e;           // متن خیلی تیره
+$text-muted: #09090b;          // متن خنثی تیره
+$fills: #787878;               // رنگ پر کردن (مثلاً برای آیکون‌ها)
 
-$carasoul1: #93aaff;
-$carasoul2: #7386cb;
-$light-green: #8bcfb2;
+$light-blue: #eef7fc;          // آبی خیلی روشن، برای پس‌زمینه یا هایلایت
+$light-gray: #d9d9d9;          // خاکستری خیلی روشن
+$blue-border: #e6edf2;         // حاشیه‌ی آبی روشن
 
-// helpers
+// --- رنگ‌های مخصوص بخش‌های خاص (مثل Hero یا Carousel) ---
+$carasoul1: #93aaff;           // رنگ اول کاروسل/هیرو
+$carasoul2: #7386cb;           // رنگ دوم کاروسل/هیرو
+$light-green: #8bcfb2;         // سبز روشن، رنگی دلنشین
+
+// --- کمکی‌ها (Helpers) ---
+// شعاع گوشه‌ها
 $radius-sm: 10px;
 $radius-md: 14px;
 $radius-lg: 20px;
 
+// سایه‌ها
 $shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.08);
 $shadow-md: 0 16px 40px rgba(15, 23, 42, 0.12);
 
+// --- متغیرهای Hero ---
+$hero-bg-start: $carasoul2;    // شروع گرادینت پس‌زمینه هیرو
+$hero-bg-mid: $carasoul1;      // وسط گرادینت پس‌زمینه هیرو
+$hero-bg-end: $mid-blue;       // پایان گرادینت پس‌زمینه هیرو
 
-$hero-bg-start: $carasoul2; 
-$hero-bg-mid: $carasoul1;  
-$hero-bg-end: $mid-blue;   
-
+// رنگ‌های شفاف برای افکت‌ها و لایه‌ها
 $brand-white-45: rgba(255, 255, 255, 0.45);
-$brand-pink-30: rgba(242, 184, 162, 0.30); // هلویی محو
-$brand-sky: rgba(0, 192, 232, 0.14);       // نوارهای آبی
-$brand-white-10: rgba(255, 255, 255, 0.10);
+$brand-pink-30: rgba(242, 184, 162, 0.30);  // هلویی محو
+$brand-sky: rgba(0, 192, 232, 0.14);       // آبی آسمانی شفاف
+$brand-white-10: rgba(255, 255, 255, 0.10); // سفید خیلی شفاف
 
+// گرادینت اصلی هیرو
 $hero-gradient: linear-gradient(
   90deg,
   $hero-bg-start 0%,
@@ -51,7 +63,81 @@ $hero-gradient: linear-gradient(
   $hero-bg-end 100%
 );
 
+// گرادینت‌های شعاعی (Glows) برای هیرو
 $hero-glows:
   radial-gradient(circle at 25% 35%, $brand-white-45, transparent 28%),
   radial-gradient(circle at 75% 35%, $brand-pink-30, transparent 30%);
+
+// --- متغیرهای صفحه احراز هویت (Auth Pages) ---
+$auth-bg:       #fff8ea;          // رنگ پس‌زمینه کارت احراز هویت
+$auth-label:    $dark-blue;       // رنگ لیبل‌ها در فرم احراز هویت
+$auth-border:   $light-gray;      // رنگ حاشیه فیلدها
+$auth-input-bg: $light-gray;      // رنگ پس‌زمینه فیلدهای ورودی
+$auth-focus:    $mid-blue;        // رنگ حاشیه فیلد هنگام فوکوس
+$auth-link:     $mid-blue;        // رنگ لینک‌ها در صفحه احراز هویت
+$auth-btn-bg:   $color-btn;       // رنگ پس‌زمینه دکمه احراز هویت
+$auth-btn-txt:  $color-txt;       // رنگ متن دکمه احراز هویت
+$auth-btn-brd:  $color-txt;       // رنگ حاشیه دکمه احراز هویت
+$auth-error-bg: #fee2e2;          // رنگ پس‌زمینه پیام خطا
+$auth-error-txt: #dc2626;         // رنگ متن پیام خطا
+$auth-hint-bg:  rgba(26, 122, 58, 0.08); // رنگ پس‌زمینه پیام راهنما
+$auth-hint-txt: #1a7a3a;          // رنگ متن پیام راهنما
+
+// گرادینت خاص برای پس‌زمینه صفحه احراز هویت
+$auth-gradient: linear-gradient(
+  to bottom right,
+  #8BCFB2 15%,  // سبز آبی روشن
+  #6FAFC4 49%,  // آبی متوسط
+  #4686B4 88%   // آبی تیره‌تر
+);
+
+// لایه رویی شفاف برای افکت‌های صفحه احراز هویت
+$auth-overlay:
+  radial-gradient(circle at top right,    rgba(255,255,255,0.65), transparent 28%),
+  radial-gradient(circle at bottom left,  rgba(255,255,255,0.40), transparent 24%);
+
+// --- متغیرهای Hero Blobs (دایره‌های رنگی پس‌زمینه هیرو) ---
+$blob-1-bg:   rgba(255, 255, 255, 0.22); // حباب سفید شفاف
+$blob-2-bg:   rgba(242, 184, 162, 0.28); // حباب هلویی شفاف
+$blob-3-bg:   rgba(0, 192, 232, 0.16);  // حباب آبی آسمانی شفاف
+$blob-blur:   72px;                   // میزان محو بودن حباب‌ها
+
+// --- اندازه‌ها و فونت‌های مخصوص هیرو ---
+$hero-white:  #ffffff;
+$hero-title-size:    96px;       // اندازه فونت عنوان اصلی هیرو
+$hero-subtitle-size: 32px;       // اندازه فونت زیرعنوان هیرو
+$hero-cta-w:  280px;            // عرض دکمه Call to Action
+$hero-cta-h:  70px;             // ارتفاع دکمه Call to Action
+$hero-cta-r:  21px;             // شعاع گوشه دکمه Call to Action
+$hero-cta-fs: 24px;             // اندازه فونت دکمه Call to Action
+
+// --- متغیرهای مخصوص ثبت‌نام خیریه (Charity Register Specific) ---
+$color-step-bg: #e6f4f1;          // رنگ پس‌زمینه مراحل ثبت‌نام
+$color-step-active: #17b890;      // رنگ مرحله فعال
+$color-form-label: #374151;       // رنگ لیبل فرم‌ها
+$color-input-border: #d1d5db;     // رنگ حاشیه فیلدهای ورودی
+$color-status-bg: #fff7ed;        // رنگ پس‌زمینه وضعیت‌ها (مثلاً تأیید یا رد)
+$color-status-text: #c2410c;      // رنگ متن وضعیت‌ها
+
+// --- متغیرهای جدید اضافه شده بر اساس نیاز صفحه Campaigns ---
+$brand-pink-light: #f2b8a2;      // صورتی هلویی روشن (برای حاشیه، دکمه‌ها)
+$brand-blue-light: #a0d2eb;      // آبی آسمانی روشن (برای گرادینت‌ها و پس‌زمینه)
+
+// --- متغیرهای مربوط به دکمه‌ها (Btn Variables) ---
+// ممکن است بخواهید برای انواع مختلف دکمه متغیرهای جداگانه تعریف کنید
+// مثال:
+$btn-primary-bg-pink: $brand-pink-light; // رنگ صورتی برای دکمه اصلی
+$btn-primary-text: white;              // رنگ متن دکمه اصلی
+$btn-secondary-bg: $color-secondary;    // رنگ پس‌زمینه دکمه ثانویه
+$btn-secondary-text: white;           // رنگ متن دکمه ثانویه
+$btn-radius: $radius-md;              // شعاع گوشه دکمه‌ها
+$btn-transition-time: 0.2s;           // زمان transition دکمه‌ها
+
+
+// --- Shadow Definitions (Optional: Refined Shadows) ---
+// shadows more specific to elements
+$card-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+$modal-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+$button-hover-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+
 

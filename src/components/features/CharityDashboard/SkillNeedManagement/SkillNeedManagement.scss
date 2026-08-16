@@ -1,0 +1,77 @@
+// src/components/features/CharityDashboard/SkillNeedManagement/SkillNeedManagement.scss
+
+@import "../../../../styles/variables";
+@import "../../../../styles/mixins";
+
+.skill-need-management {
+  padding: 2rem 0;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+
+    @include respond-to(mobile) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  &__title-section {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+
+  &__subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  &__create-btn {
+    @include button-base;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    @include respond-to(mobile) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  &__create-icon {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  &__error {
+    background: #fee;
+    border: 1px solid #fcc;
+    border-radius: 8px;
+    padding: 1rem;
+    color: #c33;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+}

@@ -1,0 +1,116 @@
+// src/components/features/CharityRegister/DocumentsInfo/DocumentsInfo.scss
+@use "../../../../styles/variables" as *;
+
+.file-upload {
+  border: 2px dashed $color-border;
+  border-radius: $radius-sm;
+  background: $color-bg;
+  transition: all 0.2s ease;
+  overflow: hidden;
+
+  &--selected {
+    border-color: $color-secondary;
+    background: rgba($color-secondary, 0.04);
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    font-size: 13px;
+    color: $color-text;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__status {
+    display: block;
+    padding: 4px 14px 8px;
+    font-size: 11px;
+    color: $color-muted;
+  }
+
+  &:hover {
+    border-color: $mid-blue;
+  }
+}
+
+.agreement-box {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  box-shadow: $shadow-sm;
+
+  &__label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: $color-text;
+    line-height: 1.7;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: $dark-blue;
+    cursor: pointer;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: #dc2626;
+    margin: 8px 0 0 30px;
+  }
+}
+
+.submit-status {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  box-shadow: $shadow-sm;
+  padding: 48px 32px;
+  text-align: center;
+
+  &__icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: $dark-blue;
+    margin: 0 0 12px;
+  }
+
+  p {
+    font-size: 14px;
+    color: $color-muted;
+    line-height: 1.8;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

@@ -5,63 +5,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 24px;
   position: relative;
   overflow: hidden;
   padding: 24px;
   direction: rtl;
-  background: $hero-glows, $hero-gradient;
+  background: $auth-gradient;
 
   &__overlay {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-      radial-gradient(circle at top right, rgba(255, 255, 255, 0.65), transparent 28%),
-      radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.4), transparent 24%);
+    background: $auth-overlay;
   }
+
   &__brand {
-   position: absolute; // از جریان فلکس خارج می‌شود
-    top: 70px;        // فاصله از بالای کارت (باید بر اساس نیاز تنظیم کنی)
-    left: 50%;         // انتقال به وسط افقی والد
-    transform: translateX(-50%); // اصلاح مرکزیت (چون نقطه ثقل از چپ است)
-    
-    margin: 0;
-    font-size: 24px;   // کمی بزرگتر برای جلوه بیشتر
+    color: $color-surface;         // #fff
+    font-size: 40px;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 8px 30px rgba(2, 10, 28, 0.28);
-    white-space: nowrap; // جلوگیری از شکستن خط
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1;
   }
 }
 
 .login-card {
-  width: 100%;
-  max-width: 440px;
-  padding: 60px 41px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 24px 60px rgba(99, 102, 241, 0.18);
+  width: 424px;
+  height: 628px;
+  padding: 41px;
+  border-radius: 35px;
+  background: $auth-bg;
+  box-shadow: $shadow-md;
   position: relative;
   z-index: 1;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 
   &__header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 
     h1 {
       margin: 0 0 8px;
       font-size: 28px;
       font-weight: 800;
-      color: #1e293b;
+      color: $auth-label;
     }
 
     p {
       margin: 0;
       font-size: 14px;
-      color: #64748b;
+      color: $color-muted;
       line-height: 1.8;
     }
   }
@@ -70,11 +66,15 @@
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
-    color: #475569;
+    color: $auth-link;
+
+    span {
+      color: $color-text;
+    }
 
     a {
       margin-right: 6px;
-      color: #4f46e5;
+      color: $auth-link;
       text-decoration: none;
       font-weight: 700;
 
@@ -86,129 +86,205 @@
 }
 
 .login-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
 
   &__group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 4px;
 
     label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #334155;
-
+      font-size: 20px;
+      font-weight: 700;
+      color: $auth-label;
+      text-align: center;
+      width: 342px;
     }
 
-    
-
     input {
-      height: 48px;
-      border-radius: 14px;
-      border: 1px solid #dbe3f0;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 0 14px;
-      font-size: 14px;
+      width: 342px;
+      height: 58px;
+      border-radius: $radius-md;
+      border: 1.5px solid $auth-border;
+      background: $auth-input-bg;
+      padding: 0 16px;
+      font-size: 15px;
+      font-family: inherit;
       outline: none;
-      transition: all 0.2s ease;
+      transition: border-color 0.25s, box-shadow 0.25s;
+
+      &::placeholder {
+        color: $fills;
+      }
 
       &:focus {
-        border-color: #818cf8;
-        box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.15);
+        box-shadow: 0 0 0 2px $auth-focus;
       }
     }
   }
 
-  &__actions {
-    display: flex;
-    justify-content: flex-start;
+  .password-field {
+    position: relative;
+    width: 342px;
+
+    input {
+      width: 100%;
+      height: 58px;
+      padding-left: 46px;
+      border-radius: $radius-md;
+      border: 1.5px solid $auth-border;
+      background: $auth-input-bg;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+
+      &:focus {
+        box-shadow: 0 0 0 2px $auth-focus;
+      }
+    }
+
+    &__toggle {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: transparent;
+      border-radius: $radius-sm;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: $color-muted;
+
+      &:hover {
+        background: rgba($auth-focus, 0.12);
+        color: $auth-focus;
+      }
+    }
   }
 
   &__link {
-    font-size: 13px;
-    color: #6366f1;
+    font-size: 18px;
+    font-weight: 700;
+    color: $auth-link;
     text-decoration: none;
-    font-weight: 600;
+    transition: color 0.2s ease;
 
     &:hover {
-      text-decoration: underline;
+      color: $auth-label;
     }
   }
 
   &__error {
+    width: 342px;
     margin: 0;
     font-size: 13px;
-    color: #dc2626;
-    background: #fee2e2;
-    border: 1px solid #fecaca;
+    color: $auth-error-txt;
+    background: $auth-error-bg;
+    border: 1px solid lighten(#dc2626, 30%);
     padding: 10px 12px;
-    border-radius: 12px;
+    border-radius: $radius-sm;
+    text-align: center;
   }
 
   &__submit {
-    height: 50px;
-    border: none;
-    border-radius: 14px;
-    background: $color-btn;
-    color: $color-txt;
-    font-size: 15px;
+    width: 176px;
+    height: 57px;
+    border: 2px solid $auth-btn-brd;
+    border-radius: 21px;
+    background: $auth-btn-bg;
+    color: $auth-btn-txt;
+    font-size: 20px;
     font-weight: 700;
+    font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s ease;
+    margin-top: 4px;
+    transition: opacity 0.2s, transform 0.1s;
 
-    &:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(99, 102, 241, 0.25);
-    }
-
+    &:hover:not(:disabled) { opacity: 0.85; }
+    &:active:not(:disabled) { transform: scale(0.98); }
     &:disabled {
-      opacity: 0.7;
+      opacity: 0.6;
       cursor: not-allowed;
-    }
-  }
-
- .password-field {
-  position: relative;
-
-  input {
-    width: 100%;
-    height: 48px; // با استایل خودت هماهنگ
-    padding-left: 46px; // جا برای آیکون
-  }
-
-  &__toggle {
-    position: absolute;
-    left: 10px; // آیکون سمت چپ
-
-    top: 50%;
-    transform: translateY(-50%);
-
-    width: 36px;
-    height: 36px;
-
-    border: 0;
-    background: transparent;
-    border-radius: 10px;
-
-    display: grid;
-    place-items: center;
-
-    cursor: pointer;
-    color: #64748b;
-
-    &:hover {
-      background: rgba(99, 102, 241, 0.12);
-      color: #4f46e5;
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.18);
     }
   }
 }
 
+// ── Responsive ──────────────────────────────────────────
+@media (max-width: 460px) {
+  .login-page {
+    align-items: flex-end;
+    padding: 24px 16px 60px;
 
+    &__brand {
+      align-self: center;
+    }
+  }
+
+  .login-card {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    padding: 28px 20px;
+  }
+
+  .login-form {
+    gap: 20px;
+
+    &__group {
+      label {
+        font-size: 17px;
+        width: 100%;
+      }
+      input {
+        width: 100%;
+        height: 52px;
+        border-radius: 14px;
+      }
+    }
+
+    .password-field { width: 100%; }
+    &__error { width: 100%; }
+
+    &__submit {
+      width: 150px;
+      height: 50px;
+      font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .login-page { padding-bottom: 48px; }
+
+  .login-form {
+    &__group input {
+      height: 48px;
+      font-size: 14px;
+    }
+
+    &__submit {
+      width: 135px;
+      height: 46px;
+      font-size: 16px;
+    }
+  }
+}
+.login-form__success {
+  color: #69db7c;
+  font-size: 0.875rem;
+  text-align: center;
+  background: rgba(105, 219, 124, 0.1);
+  border: 1px solid rgba(105, 219, 124, 0.3);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin: 0;
 }

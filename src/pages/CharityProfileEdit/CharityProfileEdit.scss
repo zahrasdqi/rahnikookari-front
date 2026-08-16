@@ -1,0 +1,278 @@
+//src/pages/CharityProfileEdit/CharityProfileEdit.scss
+
+@use "../../styles/variables" as *;
+
+.charity-profile-edit {
+  direction: rtl;
+  min-height: 100vh;
+  padding: 32px 7%;
+  background:
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 32%),
+    #f8fafc;
+  color: #0f172a;
+
+  &__hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 28px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(14px);
+
+    h1 {
+      margin: 8px 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 950;
+      color: #064e3b;
+    }
+
+    p {
+      margin: 0;
+      max-width: 720px;
+      line-height: 2;
+      color: #475569;
+      font-weight: 600;
+    }
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #047857;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  &__back-button,
+  &__secondary-button {
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 11px 16px;
+    background: white;
+    color: #334155;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+      border-color: #94a3b8;
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+  }
+
+  &__alert {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    font-weight: 800;
+    line-height: 1.9;
+
+    &--error {
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    &--success {
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      color: #15803d;
+    }
+  }
+
+  &__state {
+    padding: 32px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 24px;
+    background: white;
+    color: #475569;
+    font-weight: 800;
+    line-height: 2;
+    text-align: center;
+
+    h2 {
+      margin: 0 0 10px;
+      color: #0f172a;
+      font-size: 24px;
+      font-weight: 950;
+    }
+
+    p {
+      margin: 0 auto 20px;
+      max-width: 620px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      background: #10b981;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  &__card {
+    padding: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 24px;
+    background: white;
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.045);
+  }
+
+  &__card-header {
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0 0 8px;
+      color: #0f172a;
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    p {
+      margin: 0;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.9;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    span {
+      color: #334155;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #dbe3ef;
+      border-radius: 16px;
+      padding: 13px 14px;
+      background: #f8fafc;
+      color: #0f172a;
+      font: inherit;
+      font-weight: 650;
+      line-height: 1.8;
+      outline: none;
+      transition: 0.2s ease;
+      resize: vertical;
+
+      &::placeholder {
+        color: #94a3b8;
+      }
+
+      &:focus {
+        border-color: #10b981;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.14);
+      }
+    }
+  }
+
+  &__actions {
+    position: sticky;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(16px);
+
+    > div {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  &__primary-button,
+  &__submit-button {
+    border: 0;
+    border-radius: 14px;
+    padding: 12px 18px;
+    color: white;
+    font-weight: 950;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__primary-button {
+    background: #0f766e;
+  }
+
+  &__submit-button {
+    background: #10b981;
+  }
+}
+
+@media (max-width: 820px) {
+  .charity-profile-edit {
+    padding: 20px 16px 96px;
+
+    &__hero {
+      flex-direction: column;
+      padding: 22px;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__actions {
+      left: 16px;
+      right: 16px;
+      flex-direction: column-reverse;
+      align-items: stretch;
+
+      > div {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

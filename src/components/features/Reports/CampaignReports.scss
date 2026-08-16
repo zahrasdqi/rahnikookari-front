@@ -1,0 +1,176 @@
+@import "../../../styles/variables";
+
+.campaign-reports {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); // کارت‌ها بزرگتر و خواناتر
+  gap: 24px;
+  direction: rtl;
+  padding: 20px 0;
+
+  &__loading, &__error, &__empty {
+    text-align: center;
+    padding: 60px;
+    background: #f8fafc;
+    border-radius: 20px;
+    border: 2px dashed #e2e8f0;
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  // استایل کارت اصلی
+  .campaign-report-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 26px;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(31, 71, 136, 0.1);
+      border-color: rgba($mid-blue, 0.2);
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed #f1f5f9;
+
+      .report-title {
+        font-size: 18px;
+        font-weight: 900;
+        color: #1e293b;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      .report-date {
+        font-size: 12px;
+        font-weight: 700;
+        color: #94a3b8;
+        background: #f8fafc;
+        padding: 4px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        margin-right: 10px;
+      }
+    }
+
+    .report-content {
+      font-size: 14.5px;
+      line-height: 2;
+      color: #475569;
+      text-align: justify;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    /* بخش پیوست‌ها */
+    &__attachments {
+      margin-top: auto;
+      background: #fcfdfe;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #f1f5f9;
+
+      &-title {
+        font-size: 13px;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      &-list {
+        display: flex;
+        flex-direction: column; // پیوست‌ها زیر هم برای خوانایی بیشتر
+        gap: 8px;
+      }
+    }
+
+    /* دکمه دانلود (حل مشکل چسبیدگی متن) */
+    &__attachment-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px 14px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: right;
+      gap: 12px;
+
+      &:hover:not(:disabled) {
+        border-color: $mid-blue;
+        background: #f0f7ff;
+        
+        .campaign-report-card__download-text {
+          color: $mid-blue;
+        }
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .campaign-report-card__attachment-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .campaign-report-card__attachment-info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+
+        .campaig-report-card__attachment-name {
+          font-size: 13px;
+          font-weight: 700;
+          color: #334155;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .campaign-report-card__attachment-size {
+          font-size: 11px;
+          color: #94a3b8;
+          font-weight: 600;
+          margin-top: 2px;
+        }
+      }
+
+      .campaign-report-card__download-text {
+        font-size: 12px;
+        font-weight: 800;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 4px 12px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+/* موبایل */
+@media (max-width: 768px) {
+  .campaign-reports {
+    grid-template-columns: 1fr;
+    
+    .campaign-report-card {
+      padding: 20px;
+    }
+  }
+}

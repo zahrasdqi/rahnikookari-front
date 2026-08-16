@@ -1,0 +1,31 @@
+// src/components/features/CharityDashboard/SkillNeedManagement/SkillNeedStatusBadge/SkillNeedStatusBadge.scss
+
+.skill-need-status-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+
+  &--draft {
+    background: #e0e0e0;
+    color: #666;
+  }
+
+  &--published,
+  &--active {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &--closed {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &--completed {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+}

@@ -1,0 +1,12 @@
+//front\rahnikookari-front\src\pages\Home\Home.scss
+@use "../../styles/variables" as *;
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  main {
+    flex: 1;
+  }
+}

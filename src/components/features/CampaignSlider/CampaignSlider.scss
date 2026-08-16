@@ -1,0 +1,126 @@
+@use "../../../styles/variables" as *;
+
+.campaign-slider {
+  padding: 60px 0 48px;
+  background: $color-surface;
+  overflow: hidden;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 24px 0;
+  }
+
+  &__track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    direction: rtl;
+
+    .campaign-card {
+      opacity: 0.75;
+      transform: scale(0.92);
+    }
+
+    .campaign-card--active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &__arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid $auth-border;
+    background: $color-surface;
+    font-size: 26px;
+    line-height: 1;
+    color: $color-dark;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    z-index: 2;
+    position: relative;
+
+    &:hover {
+      background: $auth-label;
+      color: $color-surface;
+      border-color: $auth-label;
+    }
+
+    &--prev {
+      margin-left: 8px;
+    }
+
+    &--next {
+      margin-right: 8px;
+    }
+  }
+
+  &__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+
+  &__more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 40px;
+    border-radius: 999px;
+    border: none;
+    background: $auth-btn-bg;
+    color: $auth-btn-txt;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .campaign-slider__track {
+    gap: 16px;
+  }
+
+  .campaign-slider__track .campaign-card {
+    width: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .campaign-slider__track {
+    .campaign-card:not(.campaign-card--active) {
+      display: none;
+    }
+
+    .campaign-card {
+      width: min(90vw, 360px);
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .campaign-slider {
+    padding: 40px 0 32px;
+  }
+
+  .campaign-slider__arrow {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+  }
+}

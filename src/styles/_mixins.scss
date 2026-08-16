@@ -1,0 +1,62 @@
+//src\styles\_mixins.scss
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (min-width: 769px) and (max-width: 1024px) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: 1025px) {
+      @content;
+    }
+  }
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+}

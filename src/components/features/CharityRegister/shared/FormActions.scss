@@ -1,0 +1,68 @@
+// src/components/features/CharityRegister/shared/FormActions.scss
+@use "../../../../styles/variables" as *;
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0 8px;
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &__btn {
+    padding: 12px 28px;
+    border-radius: $radius-md;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+
+    &--prev {
+      background: transparent;
+      border: 1.5px solid $color-border;
+      color: $color-muted;
+
+      &:hover {
+        border-color: $mid-blue;
+        color: $mid-blue;
+      }
+    }
+
+    &--next {
+      background: $dark-blue;
+      color: white;
+      box-shadow: 0 4px 16px rgba($dark-blue, 0.3);
+
+      &:hover {
+        background: darken(#355f7c, 8%);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba($dark-blue, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    &--submit {
+      background: $color-secondary;
+      color: white;
+      padding: 12px 36px;
+      box-shadow: 0 4px 16px rgba($color-secondary, 0.3);
+
+      &:hover:not(:disabled) {
+        background: darken(#17b890, 8%);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
